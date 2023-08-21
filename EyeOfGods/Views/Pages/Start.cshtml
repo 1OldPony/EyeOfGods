@@ -1,0 +1,90 @@
+﻿@model EyeOfGods.Models.ViewModels.StatisticsViewModel
+@{
+    ViewBag.Title = "";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+
+<div id="pageBlock" style="display:flex;flex-direction:row;margin:auto;max-width:1250px;">
+    <div id="leftMenu" style="display:flex;flex-direction:column;align-items:center;width:250px;">
+        <div id="menuButton" style="display: flex; justify-content: center; align-items: center; border-radius: 5px; background-color: black; width: 100%; padding: 10px 0 10px 0; margin: 1px;"><div id="menuButtonText" style="color: white;">Привязать типы стрелкового</div></div>
+        <div id="menuButton" style="display: flex; justify-content: center; align-items: center; border-radius: 5px; background-color: black; width: 100%; padding: 10px 0 10px 0; margin: 1px;"><div id="menuButtonText" style="color: white;">Привязать приказы родам войск</div></div>
+        <div id="menuButton" style="display: flex; justify-content: center; align-items: center; border-radius: 5px; background-color: black; width: 100%; padding: 10px 0 10px 0; margin: 1px;"><div id="menuButtonText" style="color: white;">Привязать все к отрядам</div></div>
+
+
+    </div>
+
+
+
+
+
+    <div id="content" style="display:flex;flex-direction:column;margin-left:10px;">
+        <div>
+            <div id="bigHeader" style="font-size:1.4rem;font-weight:bold;margin-bottom:10px;">Статистика по базе данных:</div>
+            <div id="allStatistics" style="display:flex;justify-content:space-between;flex-wrap:wrap;">
+                <div id="statisticsBlock" style="display:flex;flex-direction:column;width:49%;margin-bottom:10px;">
+                    <div id="minorHeader" style="font-weight:bold;font-size:1.2rem;margin-bottom:5px;">Количество отрядов - @Model.UnitsCount</div>
+                    <div id="statisticsData" style="display:flex;flex-direction:column;margin-bottom:5px;line-grid:create">
+                        <div id="statisticsDataHeader" style="font-weight:bold;margin-bottom:2px;">Рода войск:</div>
+                        <div id="statisticsDataRow" style="margin-bottom:2px;">Пехота - @Model.InfantryCount</div>
+                        <div style="margin-bottom:2px;">Кавалерия - @Model.CavaleryCount</div>
+                        <div style="margin-bottom:2px;">Монстры - @Model.MonsterCount</div>
+                        <div style="margin-bottom:2px;">Артиллерия - @Model.ArtilleryCount</div>
+                        <div style="margin-bottom:2px;">Гиганты - @Model.GiantsCount</div>
+                        <div style="margin-bottom:2px;">Техника - @Model.VenicleCount</div>
+                        <div style="margin-bottom:2px;">Авиация - @Model.AviationCount</div>
+                    </div>
+                    <div style="display:flex;flex-direction:column;">
+                        <div style="font-weight:bold;margin-bottom:2px;">Защитные характеристики:</div>
+                        @*//////Тут нужен форыч по 3 видам характеристик и вью модель/////*@
+                        <div style="margin-bottom:2px;">1 - </div>
+                        <div style="margin-bottom:2px;">2 - </div>
+                        <div style="margin-bottom:2px;">1 - </div>
+                        <div style="margin-bottom:2px;">2 - </div>
+                        <div style="margin-bottom:2px;">1 - </div>
+                        <div style="margin-bottom:2px;">2 - </div>
+                        <div style="margin-bottom:2px;">1 - </div>
+                        <div style="margin-bottom:2px;">2 - </div>
+                        <div style="margin-bottom:2px;">1 - </div>
+                        <div style="margin-bottom:2px;">2 - </div>
+                        <div style="margin-bottom:2px;">1 - </div>
+                        <div style="margin-bottom:2px;">2 - </div>
+                        <div style="margin-bottom:2px;">1 - </div>
+                        <div style="margin-bottom:2px;">2 - </div>
+                        <div style="margin-bottom:2px;">1 - </div>
+                        <div style="margin-bottom:2px;">2 - </div>
+                        <div style="margin-bottom:2px;">1 - </div>
+                        <div style="margin-bottom:2px;">2 - </div>
+                    </div>
+                </div>
+                <div id="statisticsBlock" style="display: flex; flex-direction: column; width: 49%;">
+                    <div style="font-weight:bold;margin-bottom:2px;">Количество оружия ближнего боя - </div>
+                    <div style="display:flex;flex-direction:column;">
+                        <div style="font-weight:bold;margin-bottom:2px;">Типы оружия:</div>
+                        <div style="margin-bottom:2px;">Копье - </div>
+                        <div style="margin-bottom:2px;">Пика - </div>
+                        <div style="margin-bottom:2px;">Одноручное - </div>
+                        <div style="margin-bottom:2px;">Парное - </div>
+                        <div style="margin-bottom:2px;">Двуручное - </div>
+                        <div style="margin-bottom:2px;">Алебарда - </div>
+                    </div>
+                </div>
+                <div id="statisticsBlock" style="display: flex; flex-direction: column; width: 49%;">
+                    <div style="font-weight:bold;margin-bottom:2px;">Количество оружия дальнего боя - </div>
+                    <div style="display:flex;flex-direction:column;">
+                        <div style="font-weight:bold;margin-bottom:2px;">Типы оружия:</div>
+                        <div style="margin-bottom:2px;">Легкое - </div>
+                        <div style="margin-bottom:2px;">Тяжелое - </div>
+                        <div style="margin-bottom:2px;">Артиллерийское - </div>
+                    </div>
+                </div>
+                <div id="statisticsBlock" style="display: flex; flex-direction: column; width: 49%;">
+                    <div style="font-weight:bold;margin-bottom:2px;">Количество щитов - </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
