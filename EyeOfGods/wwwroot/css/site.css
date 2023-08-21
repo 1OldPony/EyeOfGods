@@ -1,10 +1,106 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+﻿.pageBlock {
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    max-width: 1250px;
+}
+.content {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+.leftMenu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 250px;
+}
+.menuButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    background-color: black;
+    width: 100%;
+    padding: 10px 0 10px 0;
+    margin: 1px;
+}
+.menuButtonText {
+    color: white;
+}
+.bigHeader {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.allStatistics {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.statisticsBlock {
+    display: flex;
+    flex-direction: column;
+    width: 49%;
+    margin-bottom: 10px;
+}
+.minorHeader {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+.statisticsData {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+    line-grid: create;
+}
+.statisticsDataHeader {
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+.statisticsDataRow {
+    margin-bottom: 2px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
 }
 
 /* Provide sufficient contrast against white background */
