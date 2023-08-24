@@ -9,9 +9,13 @@ namespace EyeOfGods.Models
     {
         public int Id { get; set; }
         public string UnitName { get; set; } = "Название отряда";
-        public int Speed { get; set; }
+        public int Speed { get; set; } = 1;
+        public int Defense { get; set; } = 1;
+        public int Endurance { get; set; } = 1;
+        public int Mental { get; set; } = 1;
 
-        public List<MeleeWeapon> MeleeWeapons { get; set; } /*= new List<MeleeWeapon>();*/
+
+        public List<MeleeWeapon> MeleeWeapons { get; set; } = new ();
         public RangeWeapon RangeWeapon { get; set; }/* = new RangeWeapon();*/
         public Shield Shield { get; set; }/* = new Shield();*/
         public DefensiveAbilities DefensiveAbilities { get; set; }/* = new DefensiveAbilities();*/

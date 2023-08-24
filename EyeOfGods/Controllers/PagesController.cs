@@ -20,7 +20,8 @@ namespace EyeOfGods.Controllers
 
 
 
-        public IActionResult DbCheck ()
+        //public IActionResult DbCheck ()
+        public void DbCheck()
         {
             /////////////////////////////////////////////////////////////
             ///ТУТ НУЖНЫ ИМЕННО ГЕНЕРАТОРЫ СТРЕЛКОВОГО И ЮНИТОВ
@@ -52,80 +53,149 @@ namespace EyeOfGods.Controllers
                 }
             };
 
-
             foreach (var rangeWeapon in allRangeWeapons)
             {
                 if (rangeWeapon.RangeWeaponsType == null)
                 {
                     rangeWeapon.RangeWeaponsType = allRangeWeaponTypes.ElementAt(randomNumber.Next(0, allRangeWeaponTypes.Count - 1));
-                    _context.RangeWeapons.Update(rangeWeapon);
+                    rangeWeapon.RWName = rangeWeapon.RangeWeaponsType.RWTypeName;
                 }
+
+                if (rangeWeapon.RangeOfShooting == 0)
+                {
+                    while (rangeWeapon.RangeOfShooting % rangeWeapon.RangeWeaponsType.DistanceStep !=0)
+                    {
+                        rangeWeapon.RangeOfShooting = randomNumber.Next(rangeWeapon.RangeWeaponsType.MinDistance, rangeWeapon.RangeWeaponsType.MaxDistance);
+                    }
+                }
+                _context.RangeWeapons.Update(rangeWeapon);
             };
 
 
-
-            foreach (var unit in allUnits)
+            if (allUnits.Count == 0)
             {
-                if (unit.MeleeWeapons == null)
+                //int speed = 0;
+                //int defense = 0;
+                //int endurance = 0;
+                //int mental = 0;
+                for (int i = 0; i < 5; i++)
                 {
-                    unit.MeleeWeapons.Add(allMeleeWeapons.ElementAt(randomNumber.Next(0, allMeleeWeapons.Count - 1)));
-                }
+                    Unit unit = new ();
 
-                if (unit.RangeWeapon == null)
-                {
-                    if (LittleHelper.UnitEquipRandomAssigment(unit, "RangeWeapon", 30.0))
+                    unit.MentalAbilities = allMental.ElementAt(randomNumber.Next(0, allMental.Count));
+                    unit.DefensiveAbilities = allDefense.ElementAt(randomNumber.Next(0, allDefense.Count));
+                    unit.EnduranceAbilities = allEndurance.ElementAt(randomNumber.Next(0, allEndurance.Count));
+                    unit.MeleeWeapons.Add(allMeleeWeapons.ElementAt(randomNumber.Next(0, allMeleeWeapons.Count)));
+                    unit.RangeWeapon = allRangeWeapons.ElementAt(randomNumber.Next(0, allRangeWeapons.Count));
+                    unit.Shield = allShields.ElementAt(randomNumber.Next(0, allShields.Count));
+                    unit.UnitType = allTypes.ElementAt(randomNumber.Next(0, allTypes.Count));
+
+
+                    while (unit.Speed % 2 != 0 && unit.Speed != 0)
                     {
-                        unit.RangeWeapon = allRangeWeapons.ElementAt(randomNumber.Next(0, allRangeWeapons.Count - 1));
+                        unit.Speed = randomNumber.Next(unit.UnitType.MinSpeed, unit.UnitType.MaxSpeed);
                     }
-                }
+                    //unit.Speed = speed;
 
-                if (unit.MentalAbilities == null)
-                {
-                    unit.MentalAbilities = allMental.ElementAt(randomNumber.Next(0, allMental.Count - 1));
-                }
-
-                if (unit.DefensiveAbilities == null)
-                {
-                    unit.DefensiveAbilities = allDefense.ElementAt(randomNumber.Next(0, allDefense.Count - 1));
-                }
-
-                if (unit.EnduranceAbilities == null)
-                {
-                    unit.EnduranceAbilities = allEndurance.ElementAt(randomNumber.Next(0, allEndurance.Count - 1));
-                }
-
-                if (unit.Shield == null)
-                {
-                    if (LittleHelper.UnitEquipRandomAssigment(unit, "Shield", 50.0))
+                    while (unit.Defense % unit.DefensiveAbilities.Step !=0 && unit.Defense != 0)
                     {
-                        unit.Shield = allShields.ElementAt(randomNumber.Next(0, allShields.Count - 1));
+                        unit.Defense = randomNumber.Next(unit.DefensiveAbilities.MinValue, unit.DefensiveAbilities.MaxValue);
                     }
-                }
+                    //unit.Defense = defense;
 
-                if (unit.UnitType == null)
+                    while (unit.Endurance % unit.EnduranceAbilities.Step != 0 && unit.Endurance != 0)
+                    {
+                        unit.Endurance = randomNumber.Next(unit.EnduranceAbilities.MinValue, unit.EnduranceAbilities.MaxValue);
+                    }
+                    //unit.Endurance = endurance;
+
+                    while (unit.Mental % unit.MentalAbilities.Step != 0 && unit.Mental != 0)
+                    {
+                        unit.Mental = randomNumber.Next(unit.MentalAbilities.MinValue, unit.MentalAbilities.MaxValue);
+                    }
+                    //unit.Mental = mental;
+
+
+                    /////////ГЕНЕРАТОР НАЗВАНИЯ ОТРЯДА
+                    if (unit.Defense < unit.DefensiveAbilities.NoDoubleActionAt)
+                        unit.UnitName = "Легк.";
+                    else
+                        unit.UnitName = "Тяж.";
+
+                    unit.UnitName = string.Concat(unit.UnitName, " ", unit.UnitType.UnitTypeName);
+
+                    int unitMeleeWeapon = 1;
+                    foreach (var item in unit.MeleeWeapons)
+                    {
+                        if (unitMeleeWeapon == 1)
+                            unit.UnitName = string.Concat(unit.UnitName, " c ", item.MWName);
+                        else
+                            unit.UnitName = string.Concat(unit.UnitName, " и ", item.MWName);
+                    }
+
+                    allUnits.Add(unit);
+                }
+                foreach (var item in allUnits)
                 {
-                    unit.UnitType = allTypes.ElementAt(randomNumber.Next(0, allTypes.Count - 1));
+                    _context.Units.Add(item);
                 }
-
-                _context.Units.Update(unit);
             }
+            else
+            {
+                foreach (var unit in allUnits)
+                {
+                    if (unit.MeleeWeapons.Count == 0)
+                    {
+                        unit.MeleeWeapons.Add(allMeleeWeapons.ElementAt(randomNumber.Next(0, allMeleeWeapons.Count - 1)));
+                    }
 
+                    if (unit.RangeWeapon == null)
+                    {
+                        if (LittleHelper.UnitEquipRandomAssigment(unit, "RangeWeapon", 30.0))
+                        {
+                            unit.RangeWeapon = allRangeWeapons.ElementAt(randomNumber.Next(0, allRangeWeapons.Count - 1));
+                        }
+                    }
 
+                    if (unit.MentalAbilities == null)
+                    {
+                        unit.MentalAbilities = allMental.ElementAt(randomNumber.Next(0, allMental.Count - 1));
+                    }
+
+                    if (unit.DefensiveAbilities == null)
+                    {
+                        unit.DefensiveAbilities = allDefense.ElementAt(randomNumber.Next(0, allDefense.Count - 1));
+                    }
+
+                    if (unit.EnduranceAbilities == null)
+                    {
+                        unit.EnduranceAbilities = allEndurance.ElementAt(randomNumber.Next(0, allEndurance.Count - 1));
+                    }
+
+                    if (unit.Shield == null)
+                    {
+                        if (LittleHelper.UnitEquipRandomAssigment(unit, "Shield", 50.0))
+                        {
+                            unit.Shield = allShields.ElementAt(randomNumber.Next(0, allShields.Count - 1));
+                        }
+                    }
+
+                    if (unit.UnitType == null)
+                    {
+                        unit.UnitType = allTypes.ElementAt(randomNumber.Next(0, allTypes.Count - 1));
+                    }
+
+                    _context.Units.Update(unit);
+                }
+            }
             _context.SaveChanges();
 
-
-
-
-
-
-            //LittleHelper.DbInitialisationFix(allUnits, allRangeWeaponTypes, allRangeWeapons, allOrders, allTypes);
-
-
-            return RedirectToAction("Start");
+            //return RedirectToAction("Start", allUnits);
+            Start(allUnits);
         }
 
 
-        public IActionResult Start()
+        public IActionResult Start(List<Unit> units)
         {
 
 
@@ -166,87 +236,30 @@ namespace EyeOfGods.Controllers
             ///В ТАКОМ ВИДЕ - МОЙ "ФИКС ИНИЦИАЛИЗАЦИИ" - ЭТО И ЕСТЬ ИЗНАЧАЛЬНАЯ ГЕНЕРАЦИЯ ДАННЫХ
 
 
-
-
-
-            //List<UnitType> allTypes = _context.UnitTypes.ToList();
-            //List<UnitOrder> allOrders = _context.UnitOrders.ToList();
-            //List<RangeWeapon> allRangeWeapons = _context.RangeWeapons.ToList();
-            //List<RangeWeaponsType> allRangeWeaponTypes = _context.RangeWeaponsTypes.ToList();
-            //Random randomNumber = new();
-
-            //foreach (var unitType in db.UnitTypes.ToList())
-            //{
-            //    if (unitType.UnitTypeOrders == null)
-            //    {
-            //        for (int i = 0; i < 2; i++)
-            //        {
-            //            unitType.UnitTypeOrders.Add(allOrders.ElementAt(randomNumber.Next(0, allOrders.Count() - 1)));
-            //        };
-            //        _context.UnitTypes.Update(unitType);
-            //    }
-            //};
-
-
-            //foreach (var rangeWeapon in db.RangeWeapons.ToList())
-            //{
-            //    if (rangeWeapon.RangeWeaponsType == null)
-            //    {
-            //        rangeWeapon.RangeWeaponsType = allRangeWeaponTypes.ElementAt(randomNumber.Next(0, allRangeWeaponTypes.Count() - 1));
-            //        _context.RangeWeapons.Update(rangeWeapon);
-            //    }
-            //};
-
-
-
-
-
-
-
-
-
-
-            //List<UnitType> allTypes = _context.UnitTypes.ToList();
-            //List<UnitOrder> allOrders = _context.UnitOrders.ToList();
-            //List<RangeWeapon> allRangeWeapons = _context.RangeWeapons.ToList();
-            //List<RangeWeaponsType> allRangeWeaponTypes = _context.RangeWeaponsTypes.ToList();
-            //Random randomNumber = new();
-            
-            //foreach (var unitType in allTypes)
-            //{
-            //    if (unitType.UnitTypeOrders == null)
-            //    {
-            //        for (int i = 0; i < 2; i++)
-            //        {
-            //            unitType.UnitTypeOrders.Add(allOrders.ElementAt(randomNumber.Next(0, allOrders.Count() -1)));
-            //        };
-            //        _context.UnitTypes.Update(unitType);
-            //    }
-            //};
-
-
-            //foreach (var rangeWeapon in allRangeWeapons)
-            //{
-            //    if (rangeWeapon.RangeWeaponsType == null)
-            //    {
-            //        rangeWeapon.RangeWeaponsType = allRangeWeaponTypes.ElementAt(randomNumber.Next(0, allRangeWeaponTypes.Count() -1));
-            //        _context.RangeWeapons.Update(rangeWeapon);
-            //    }
-            //};
-
-
-
-
-
-
-
-
-            //_context.SaveChanges();
-
-
-
             ////СОБИРАЕМ СТАТИСТИКУ
+            //List<Unit> allUnits = _context.Units.ToList();
+
+
+
+            List<UnitType> allTypes = _context.UnitTypes.ToList();
+            List<UnitOrder> allOrders = _context.UnitOrders.ToList();
+            List<RangeWeapon> allRangeWeapons = _context.RangeWeapons.ToList();
+            List<MeleeWeapon> allMeleeWeapons = _context.MeleeWeapons.ToList();
+            List<Shield> allShields = _context.Shields.ToList();
+            List<RangeWeaponsType> allRangeWeaponTypes = _context.RangeWeaponsTypes.ToList();
             List<Unit> allUnits = _context.Units.ToList();
+            List<MentalAbilities> allMental = _context.MentalAbilities.ToList();
+            List<DefensiveAbilities> allDefense = _context.DefensiveAbilities.ToList();
+            List<EnduranceAbilities> allEndurance = _context.EnduranceAbilities.ToList();
+
+
+
+
+
+            //var allUnits = _context.Units;
+
+
+
 
             StatisticsViewModel statistics = new();
 

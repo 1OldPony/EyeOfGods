@@ -36,15 +36,15 @@ namespace EyeOfGods.Models
                 new MentalAbilities { Id = 2, CharacteristicName = "Ярость", MinValue = 1, MaxValue = 3, Step = 1 }
                 );
             modelBuilder.Entity<MeleeWeapon>().HasData(
-                new MeleeWeapon { Id = 1, MWName = "Мечь", WeaponType = MeleeWeaponTypes.Одноручное},
+                new MeleeWeapon { Id = 1, MWName = "Меч", WeaponType = MeleeWeaponTypes.Одноручное},
                 new MeleeWeapon { Id = 2, MWName = "Пика", WeaponType = MeleeWeaponTypes.Пика },
                 new MeleeWeapon { Id = 3, MWName = "Алебарда", WeaponType = MeleeWeaponTypes.Алебарда }
                 );
-            //modelBuilder.Entity<RangeWeapon>().HasData(
-            //    new RangeWeapon { Id = 1, RWName = "Лук"},
-            //    new RangeWeapon { Id = 2, RWName = "Аркебуза"},
-            //    new RangeWeapon { Id = 3, RWName = "Пухандрий"}
-            //    );
+            modelBuilder.Entity<RangeWeapon>().HasData(
+                new RangeWeapon { Id = 1, RWName = "Лук" },
+                new RangeWeapon { Id = 2, RWName = "Аркебуза" },
+                new RangeWeapon { Id = 3, RWName = "Пухандрий" }
+                );
             modelBuilder.Entity<RangeWeaponsType>().HasData(
                 new RangeWeaponsType{Id = 1,RWTypeName = "Легкое стрелковое вооружение",MinDistance = 8,MaxDistance = 14,DistanceStep = 2,
                     FirstRWTypeProperty = "Стреляет без лоса",SecondRWTypeProperty = ""},

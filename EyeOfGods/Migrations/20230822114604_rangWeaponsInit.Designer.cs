@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EyeOfGods.Migrations
 {
     [DbContext(typeof(MyWargameContext))]
-    [Migration("20230815125327_experiment")]
-    partial class experiment
+    [Migration("20230822114604_rangWeaponsInit")]
+    partial class rangWeaponsInit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -236,6 +236,9 @@ namespace EyeOfGods.Migrations
                     b.Property<string>("RWName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("RangeOfShooting")
+                        .HasColumnType("int");
+
                     b.Property<int?>("RangeWeaponsTypeId")
                         .HasColumnType("int");
 
@@ -249,17 +252,20 @@ namespace EyeOfGods.Migrations
                         new
                         {
                             Id = 1,
-                            RWName = "Лук"
+                            RWName = "Лук",
+                            RangeOfShooting = 0
                         },
                         new
                         {
                             Id = 2,
-                            RWName = "Аркебуза"
+                            RWName = "Аркебуза",
+                            RangeOfShooting = 0
                         },
                         new
                         {
                             Id = 3,
-                            RWName = "Пухандрий"
+                            RWName = "Пухандрий",
+                            RangeOfShooting = 0
                         });
                 });
 
@@ -354,10 +360,19 @@ namespace EyeOfGods.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Defense")
+                        .HasColumnType("int");
+
                     b.Property<int?>("DefensiveAbilitiesId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Endurance")
+                        .HasColumnType("int");
+
                     b.Property<int?>("EnduranceAbilitiesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Mental")
                         .HasColumnType("int");
 
                     b.Property<int?>("MentalAbilitiesId")
@@ -393,26 +408,6 @@ namespace EyeOfGods.Migrations
                     b.HasIndex("UnitTypeId");
 
                     b.ToTable("Units");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Speed = 6,
-                            UnitName = "Копейщик"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Speed = 6,
-                            UnitName = "Алебардист"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Speed = 12,
-                            UnitName = "Кавалерист"
-                        });
                 });
 
             modelBuilder.Entity("EyeOfGods.Models.UnitOrder", b =>

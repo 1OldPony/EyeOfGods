@@ -12,6 +12,10 @@ namespace EyeOfGods.Models
         public int MinDistance { get; set; }
         public int MaxDistance { get; set; }
         public int DistanceStep { get; set; }
+        /// <summary>
+        /// ////////////////////////////////////
+        /// ПО СВОЙСТВАМ - НУЖНА КОЛЛЕКЦИЯ СВОЙСТВ, ИХ МОЖЕТ БЫТЬ БОЛЬШЕ 2(НЕТ РЕАКЦИИ - 3-Е ДЛЯ АРТЫ)
+        /// </summary>
         public string FirstRWTypeProperty { get; set; } = "Первое свойство";
         public string SecondRWTypeProperty { get; set; } = "Второе свойство";
 

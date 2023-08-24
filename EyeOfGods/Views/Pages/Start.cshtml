@@ -38,44 +38,30 @@
                         <div class="statisticsDataHeader">Защитные характеристики:</div>
                         @foreach (var item in Model.DefenceChars)
                         {
-                            <div class="statisticsDataRow"></div>
-
-
-
-
-                            item.CharacteristicName
+                            <div class="statisticsDataRow">@item.CharacteristicName - @item.UsageCount</div>
                         }
-                        @*//////Тут нужен форыч по 3 видам характеристик и вью модель/////*@
-                        <div style="margin-bottom:2px;">1 - </div>
-                        <div style="margin-bottom:2px;">2 - </div>
-                        <div style="margin-bottom:2px;">1 - </div>
-                        <div style="margin-bottom:2px;">2 - </div>
-                        <div style="margin-bottom:2px;">1 - </div>
-                        <div style="margin-bottom:2px;">2 - </div>
-                        <div style="margin-bottom:2px;">1 - </div>
-                        <div style="margin-bottom:2px;">2 - </div>
-                        <div style="margin-bottom:2px;">1 - </div>
-                        <div style="margin-bottom:2px;">2 - </div>
-                        <div style="margin-bottom:2px;">1 - </div>
-                        <div style="margin-bottom:2px;">2 - </div>
-                        <div style="margin-bottom:2px;">1 - </div>
-                        <div style="margin-bottom:2px;">2 - </div>
-                        <div style="margin-bottom:2px;">1 - </div>
-                        <div style="margin-bottom:2px;">2 - </div>
-                        <div style="margin-bottom:2px;">1 - </div>
-                        <div style="margin-bottom:2px;">2 - </div>
+                        <div class="statisticsDataHeader">Характеристики выносливости:</div>
+                        @foreach (var item in Model.EnduranceChars)
+                        {
+                            <div class="statisticsDataRow">@item.CharacteristicName - @item.UsageCount</div>
+                        }
+                        <div class="statisticsDataHeader">Ментальные характеристики:</div>
+                        @foreach (var item in Model.MentalChars)
+                        {
+                            <div class="statisticsDataRow">@item.CharacteristicName - @item.UsageCount</div>
+                        }
                     </div>
                 </div>
-                <div id="statisticsBlock" style="display: flex; flex-direction: column; width: 49%;">
-                    <div style="font-weight:bold;margin-bottom:2px;">Количество оружия ближнего боя - </div>
-                    <div style="display:flex;flex-direction:column;">
-                        <div style="font-weight:bold;margin-bottom:2px;">Типы оружия:</div>
-                        <div style="margin-bottom:2px;">Копье - </div>
-                        <div style="margin-bottom:2px;">Пика - </div>
-                        <div style="margin-bottom:2px;">Одноручное - </div>
-                        <div style="margin-bottom:2px;">Парное - </div>
-                        <div style="margin-bottom:2px;">Двуручное - </div>
-                        <div style="margin-bottom:2px;">Алебарда - </div>
+                <div class="statisticsBlock">
+                    <div class="minorHeader">Количество оружия ближнего боя - </div>
+                    <div class="statisticsData">
+                        <div class="statisticsDataHeader">Типы оружия:</div>
+                        <div class="statisticsDataRow">Копье - </div>
+                        <div class="statisticsDataRow">Пика - </div>
+                        <div class="statisticsDataRow">Одноручное - </div>
+                        <div class="statisticsDataRow">Парное - </div>
+                        <div class="statisticsDataRow">Двуручное - </div>
+                        <div class="statisticsDataRow">Алебарда - </div>
                     </div>
                 </div>
                 <div id="statisticsBlock" style="display: flex; flex-direction: column; width: 49%;">
