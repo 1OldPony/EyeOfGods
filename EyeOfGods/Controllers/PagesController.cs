@@ -21,22 +21,24 @@ namespace EyeOfGods.Controllers
 
 
         //public IActionResult DbCheck ()
-        public void DbCheck()
+        public List<Unit> DbCheck(List<UnitType> allTypes, List<UnitOrder> allOrders, List<RangeWeapon> allRangeWeapons,
+            List<MeleeWeapon> allMeleeWeapons, List<Shield> allShields, List<RangeWeaponsType> allRangeWeaponTypes,
+            List<Unit> allUnits, List<MentalAbilities> allMental, List<DefensiveAbilities> allDefense, List<EnduranceAbilities> allEndurance)
         {
             /////////////////////////////////////////////////////////////
             ///ТУТ НУЖНЫ ИМЕННО ГЕНЕРАТОРЫ СТРЕЛКОВОГО И ЮНИТОВ
             /////////////////////////////////////////////////////////////
 
-            List<UnitType> allTypes = _context.UnitTypes.ToList();
-            List<UnitOrder> allOrders = _context.UnitOrders.ToList();
-            List<RangeWeapon> allRangeWeapons = _context.RangeWeapons.ToList();
-            List<MeleeWeapon> allMeleeWeapons = _context.MeleeWeapons.ToList();
-            List<Shield> allShields = _context.Shields.ToList();
-            List<RangeWeaponsType> allRangeWeaponTypes = _context.RangeWeaponsTypes.ToList();
-            List<Unit> allUnits = _context.Units.ToList();
-            List<MentalAbilities> allMental = _context.MentalAbilities.ToList();
-            List<DefensiveAbilities> allDefense = _context.DefensiveAbilities.ToList();
-            List<EnduranceAbilities> allEndurance = _context.EnduranceAbilities.ToList();
+            //List<UnitType> allTypes = _context.UnitTypes.ToList();
+            //List<UnitOrder> allOrders = _context.UnitOrders.ToList();
+            //List<RangeWeapon> allRangeWeapons = _context.RangeWeapons.ToList();
+            //List<MeleeWeapon> allMeleeWeapons = _context.MeleeWeapons.ToList();
+            //List<Shield> allShields = _context.Shields.ToList();
+            //List<RangeWeaponsType> allRangeWeaponTypes = _context.RangeWeaponsTypes.ToList();
+            //List<Unit> allUnits = _context.Units.ToList();
+            //List<MentalAbilities> allMental = _context.MentalAbilities.ToList();
+            //List<DefensiveAbilities> allDefense = _context.DefensiveAbilities.ToList();
+            //List<EnduranceAbilities> allEndurance = _context.EnduranceAbilities.ToList();
 
             Random randomNumber = new();
 
@@ -191,11 +193,12 @@ namespace EyeOfGods.Controllers
             _context.SaveChanges();
 
             //return RedirectToAction("Start", allUnits);
-            Start(allUnits);
+            //Start(allUnits);
+            return allUnits;
         }
 
 
-        public IActionResult Start(List<Unit> units)
+        public IActionResult Start()
         {
 
 
@@ -251,15 +254,9 @@ namespace EyeOfGods.Controllers
             List<MentalAbilities> allMental = _context.MentalAbilities.ToList();
             List<DefensiveAbilities> allDefense = _context.DefensiveAbilities.ToList();
             List<EnduranceAbilities> allEndurance = _context.EnduranceAbilities.ToList();
-
-
-
-
-
-            //var allUnits = _context.Units;
-
-
-
+            
+            allUnits = DbCheck(allTypes, allOrders, allRangeWeapons, allMeleeWeapons, allShields,
+                allRangeWeaponTypes, allUnits, allMental, allDefense, allEndurance);
 
             StatisticsViewModel statistics = new();
 
@@ -294,49 +291,65 @@ namespace EyeOfGods.Controllers
                         break;
                 }
 
-                ////////////////////////////////////////////
-                ///ПОМЕНЯТЬ ЛИСТЫ КЛАССОВ В МОДЕЛИ НА СЛОВАРИ???
-                ////////////////////////////////////////////
-
-
 
                 //учитываем защитные характеристики
-                if (!statistics.DefenceChars.Any(x => x.CharacteristicName == unit.DefensiveAbilities.CharacteristicName ))
+                if (statistics.DefenceChars.Count == 0)
                 {
                     statistics.DefenceChars.Add(new DefenceChars() { CharacteristicName = unit.DefensiveAbilities.CharacteristicName, UsageCount = 1 });
+
                 }
                 else
                 {
-                    statistics.DefenceChars.First(x => x.CharacteristicName == unit.DefensiveAbilities.CharacteristicName).UsageCount++;
+                    if (!statistics.DefenceChars.Any(x => x.CharacteristicName == unit.DefensiveAbilities.CharacteristicName))
+                    {
+                        statistics.DefenceChars.Add(new DefenceChars() { CharacteristicName = unit.DefensiveAbilities.CharacteristicName, UsageCount = 1 });
+                    }
+                    else
+                    {
+                        statistics.DefenceChars.First(x => x.CharacteristicName == unit.DefensiveAbilities.CharacteristicName).UsageCount++;
+                    }
                 }
 
                 //учитываем характеристики выносливости
-                if (!statistics.EnduranceChars.Any(x => x.CharacteristicName == unit.DefensiveAbilities.CharacteristicName))
+                if (statistics.EnduranceChars.Count == 0)
                 {
                     statistics.EnduranceChars.Add(new EnduranceChars() { CharacteristicName = unit.EnduranceAbilities.CharacteristicName, UsageCount = 1 });
                 }
                 else
                 {
-                    statistics.EnduranceChars.First(x => x.CharacteristicName == unit.EnduranceAbilities.CharacteristicName).UsageCount++;
+                    if (!statistics.EnduranceChars.Any(x => x.CharacteristicName == unit.DefensiveAbilities.CharacteristicName))
+                    {
+                        statistics.EnduranceChars.Add(new EnduranceChars() { CharacteristicName = unit.EnduranceAbilities.CharacteristicName, UsageCount = 1 });
+                    }
+                    else
+                    {
+                        statistics.EnduranceChars.First(x => x.CharacteristicName == unit.EnduranceAbilities.CharacteristicName).UsageCount++;
+                    }
                 }
 
                 //учитываем ментальные характеристики
-                if (!statistics.MentalChars.Any(x => x.CharacteristicName == unit.MentalAbilities.CharacteristicName))
+                if (statistics.MentalChars.Count == 0)
                 {
                     statistics.MentalChars.Add(new MentalChars() { CharacteristicName = unit.MentalAbilities.CharacteristicName, UsageCount = 1 });
                 }
                 else
                 {
-                    statistics.MentalChars.First(x => x.CharacteristicName == unit.MentalAbilities.CharacteristicName).UsageCount++;
+                    if (!statistics.MentalChars.Any(x => x.CharacteristicName == unit.MentalAbilities.CharacteristicName))
+                    {
+                        statistics.MentalChars.Add(new MentalChars() { CharacteristicName = unit.MentalAbilities.CharacteristicName, UsageCount = 1 });
+                    }
+                    else
+                    {
+                        statistics.MentalChars.First(x => x.CharacteristicName == unit.MentalAbilities.CharacteristicName).UsageCount++;
+                    }
                 }
 
                 //учитываем оружие ближнего боя
-                if (unit.MeleeWeapons != null)
-                {
+                //if (unit.MeleeWeapons != null)
+                //{
                     foreach (var weapon in unit.MeleeWeapons)
                     {
                         statistics.MeleeWeaponsCount++;
-
                         if (!statistics.MeleeWeaponsTypes.Any(x => x.WeaponStatName == weapon.WeaponType.ToString()))
                         {
                             statistics.MeleeWeaponsTypes.Add(new MeleeWeaponsStat() { WeaponStatName = weapon.WeaponType.ToString(), UsageCount = 1 });
@@ -346,13 +359,12 @@ namespace EyeOfGods.Controllers
                             statistics.MeleeWeaponsTypes.First(x => x.WeaponStatName == weapon.WeaponType.ToString()).UsageCount++;
                         }
                     }
-                }
+                //}
 
                 //учитываем оружие дальнего боя
                 if (unit.RangeWeapon!= null)
                 {
                     statistics.RangeWeaponsCount++;
-
                     if (!statistics.RangeWeaponsTypes.Any(x => x.WeaponStatName == unit.RangeWeapon.RangeWeaponsType.RWTypeName))
                     {
                         statistics.RangeWeaponsTypes.Add(new RangeWeaponsStat() { WeaponStatName = unit.RangeWeapon.RangeWeaponsType.RWTypeName, UsageCount = 1 });
