@@ -386,6 +386,12 @@ namespace EyeOfGods.Controllers
             return View(statistics);
         }
 
+        public IActionResult Units()
+        {
+            List<Unit> units = _context.Units.ToList();
+
+            return View();
+        }
         public IActionResult MapGenerator()
         {
             return View();

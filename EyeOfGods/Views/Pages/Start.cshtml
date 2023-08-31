@@ -53,28 +53,27 @@
                     </div>
                 </div>
                 <div class="statisticsBlock">
-                    <div class="minorHeader">Количество оружия ближнего боя - </div>
+                    <div class="minorHeader">Количество оружия ближнего боя - @Model.MeleeWeaponsCount</div>
                     <div class="statisticsData">
                         <div class="statisticsDataHeader">Типы оружия:</div>
-                        <div class="statisticsDataRow">Копье - </div>
-                        <div class="statisticsDataRow">Пика - </div>
-                        <div class="statisticsDataRow">Одноручное - </div>
-                        <div class="statisticsDataRow">Парное - </div>
-                        <div class="statisticsDataRow">Двуручное - </div>
-                        <div class="statisticsDataRow">Алебарда - </div>
+                        @foreach (var item in Model.MeleeWeaponsTypes)
+                        {
+                            <div class="statisticsDataRow">@item.WeaponStatName - @item.UsageCount</div>
+                        }
+                    </div>
+                </div>
+                <div class="statisticsBlock">
+                    <div class="minorHeader">Количество оружия дальнего боя - @Model.RangeWeaponsCount</div>
+                    <div class="statisticsData">
+                        <div class="statisticsDataHeader">Типы оружия:</div>
+                        @foreach (var item in Model.RangeWeaponsTypes)
+                        {
+                            <div class="statisticsDataRow">@item.WeaponStatName - @item.UsageCount</div>
+                        }>
                     </div>
                 </div>
                 <div id="statisticsBlock" style="display: flex; flex-direction: column; width: 49%;">
-                    <div style="font-weight:bold;margin-bottom:2px;">Количество оружия дальнего боя - </div>
-                    <div style="display:flex;flex-direction:column;">
-                        <div style="font-weight:bold;margin-bottom:2px;">Типы оружия:</div>
-                        <div style="margin-bottom:2px;">Легкое - </div>
-                        <div style="margin-bottom:2px;">Тяжелое - </div>
-                        <div style="margin-bottom:2px;">Артиллерийское - </div>
-                    </div>
-                </div>
-                <div id="statisticsBlock" style="display: flex; flex-direction: column; width: 49%;">
-                    <div style="font-weight:bold;margin-bottom:2px;">Количество щитов - </div>
+                    <div style="font-weight:bold;margin-bottom:2px;">Количество щитов - @Model.ShieldsCount</div>
                 </div>
             </div>
         </div>

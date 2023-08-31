@@ -28,4 +28,34 @@ namespace EyeOfGods.Models.ViewModels
         //List<ShieldsStat> Shieldes { get; set; }
 
     }
+    public class DefenceChars
+    {
+        public string CharacteristicName { get; set; }
+        public int UsageCount { get; set; }
+    }
+    public class EnduranceChars
+    {
+        public string CharacteristicName { get; set; }
+        public int UsageCount { get; set; }
+    }
+    public class MentalChars
+    {
+        public string CharacteristicName { get; set; }
+        public int UsageCount { get; set; }
+    }
+    public class MeleeWeaponsStat
+    {
+        public string WeaponStatName { get; set; }
+        public int UsageCount { get; set; }
+    }
+    public class RangeWeaponsStat
+    {
+        public string WeaponStatName { get; set; }
+        public int UsageCount { get; set; }
+    }
+    public class ShieldsStat
+    {
+        public string ShieldtName { get; set; }
+        public int UsageCount { get; set; }
+    }
 }
