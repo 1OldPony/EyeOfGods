@@ -14,15 +14,15 @@ namespace EyeOfGods.Models.ViewModels
         public int AviationCount { get; set; }
 
 
-        public List<DefenceChars> DefenceChars { get; set; }
-        public List<EnduranceChars> EnduranceChars { get; set; }
-        public List<MentalChars> MentalChars { get; set; }
+        public List<DefenceChars> DefenceChars { get; set; } = new();
+        public List<EnduranceChars> EnduranceChars { get; set; } = new();
+        public List<MentalChars> MentalChars { get; set; } = new();
 
         public int MeleeWeaponsCount { get; set; }
-        public List<MeleeWeaponsStat> MeleeWeaponsTypes { get; set; }
+        public List<MeleeWeaponsStat> MeleeWeaponsTypes { get; set; } = new();
 
         public int RangeWeaponsCount { get; set; }
-        public List<RangeWeaponsStat> RangeWeaponsTypes { get; set; }
+        public List<RangeWeaponsStat> RangeWeaponsTypes { get; set; } = new();
 
         public int ShieldsCount { get; set; }
         //List<ShieldsStat> Shieldes { get; set; }
