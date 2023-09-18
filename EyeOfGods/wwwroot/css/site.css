@@ -4,10 +4,20 @@
     margin: auto;
     max-width: 1250px;
 }
+
+.loneBlock {
+    display: flex;
+    padding: 7px;
+    border-radius: 5px;
+    background-color: white;
+    margin-bottom: 10px;
+}
+
 .content {
     display: flex;
     flex-direction: column;
     margin-left: 10px;
+    max-width:1000px;
 }
 .leftMenu {
     display: flex;
@@ -34,15 +44,24 @@
     margin-bottom: 10px;
 }
 .allStatistics {
-    display: flex;
+    /*display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
+    flex-wrap: wrap;*/
+    display:inline-block;
+
 }
 .statisticsBlock {
-    display: flex;
+    /*display: flex;*/
     flex-direction: column;
-    width: 49%;
-    margin-bottom: 10px;
+    width: 48%;
+    /*margin-bottom: 10px;*/
+    /*padding:7px;*/
+    float:left;
+    /*border-radius:5px;
+    background-color:white;*/
+}
+#first.statisticsBlock {
+    margin-right: 10px;
 }
 .minorHeader {
     font-weight: bold;

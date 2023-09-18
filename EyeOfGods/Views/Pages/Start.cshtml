@@ -4,12 +4,9 @@
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-
 <div class="pageBlock">
     <div class="leftMenu">
-        <div class="menuButton"><div class="menuButtonText">Привязать типы стрелкового</div></div>
-        <div class="menuButton"><div class="menuButtonText">Привязать приказы родам войск</div></div>
-        <div class="menuButton"><div class="menuButtonText">Привязать все к отрядам</div></div>
+        <div class="menuButton" onclick="generateUnits()"><div class="menuButtonText">Добавить <span><span>-</span><input type="number" id="count" value="3" /></span><span>+</span> отряда(-ов)</div></div>
 
 
     </div>
@@ -19,66 +16,85 @@
 
 
     <div class="content">
-        <div>
-            <div class="bigHeader">Статистика по базе данных:</div>
-            <div class="allStatistics">
-                <div class="statisticsBlock">
-                    <div class="minorHeader">Количество отрядов - @Model.UnitsCount</div>
-                    <div class="statisticsData">
-                        <div class="statisticsDataHeader">Рода войск:</div>
-                        <div class="statisticsDataRow">Пехота - @Model.InfantryCount</div>
-                        <div class="statisticsDataRow">Кавалерия - @Model.CavaleryCount</div>
-                        <div class="statisticsDataRow">Монстры - @Model.MonsterCount</div>
-                        <div class="statisticsDataRow">Артиллерия - @Model.ArtilleryCount</div>
-                        <div class="statisticsDataRow">Гиганты - @Model.GiantsCount</div>
-                        <div class="statisticsDataRow">Техника - @Model.VenicleCount</div>
-                        <div class="statisticsDataRow">Авиация - @Model.AviationCount</div>
-                    </div>
-                    <div style="display:flex;flex-direction:column;">
-                        <div class="statisticsDataHeader">Защитные характеристики:</div>
-                        @foreach (var item in Model.DefenceChars)
-                        {
-                            <div class="statisticsDataRow">@item.CharacteristicName - @item.UsageCount</div>
-                        }
-                        <div class="statisticsDataHeader">Характеристики выносливости:</div>
-                        @foreach (var item in Model.EnduranceChars)
-                        {
-                            <div class="statisticsDataRow">@item.CharacteristicName - @item.UsageCount</div>
-                        }
-                        <div class="statisticsDataHeader">Ментальные характеристики:</div>
-                        @foreach (var item in Model.MentalChars)
-                        {
-                            <div class="statisticsDataRow">@item.CharacteristicName - @item.UsageCount</div>
-                        }
-                    </div>
+        <div class="loneBlock bigHeader">Статистика по базе данных:</div>
+        <div class="allStatistics">
+            <div id="first" class="loneBlock statisticsBlock">
+                <div class="minorHeader">Количество отрядов - @Model.UnitsCount</div>
+                <div class="statisticsData">
+                    <div class="statisticsDataHeader">Рода войск:</div>
+                    <div class="statisticsDataRow">Пехота - @Model.InfantryCount</div>
+                    <div class="statisticsDataRow">Кавалерия - @Model.CavaleryCount</div>
+                    <div class="statisticsDataRow">Монстры - @Model.MonsterCount</div>
+                    <div class="statisticsDataRow">Артиллерия - @Model.ArtilleryCount</div>
+                    <div class="statisticsDataRow">Гиганты - @Model.GiantsCount</div>
+                    <div class="statisticsDataRow">Техника - @Model.VenicleCount</div>
+                    <div class="statisticsDataRow">Авиация - @Model.AviationCount</div>
                 </div>
-                <div class="statisticsBlock">
-                    <div class="minorHeader">Количество оружия ближнего боя - @Model.MeleeWeaponsCount</div>
-                    <div class="statisticsData">
-                        <div class="statisticsDataHeader">Типы оружия:</div>
-                        @foreach (var item in Model.MeleeWeaponsTypes)
-                        {
-                            <div class="statisticsDataRow">@item.WeaponStatName - @item.UsageCount</div>
-                        }
-                    </div>
-                </div>
-                <div class="statisticsBlock">
-                    <div class="minorHeader">Количество оружия дальнего боя - @Model.RangeWeaponsCount</div>
-                    <div class="statisticsData">
-                        <div class="statisticsDataHeader">Типы оружия:</div>
-                        @foreach (var item in Model.RangeWeaponsTypes)
-                        {
-                            <div class="statisticsDataRow">@item.WeaponStatName - @item.UsageCount</div>
-                        }
-                    </div>
-                </div>
-                <div id="statisticsBlock" style="display: flex; flex-direction: column; width: 49%;">
-                    <div style="font-weight:bold;margin-bottom:2px;">Количество щитов - @Model.ShieldsCount</div>
+                <div style="display:flex;flex-direction:column;">
+                    <div class="statisticsDataHeader">Защитные характеристики:</div>
+                    @foreach (var item in Model.DefenceChars)
+                    {
+                        <div class="statisticsDataRow">@item.CharacteristicName - @item.UsageCount</div>
+                    }
+                    <div class="statisticsDataHeader">Характеристики выносливости:</div>
+                    @foreach (var item in Model.EnduranceChars)
+                    {
+                        <div class="statisticsDataRow">@item.CharacteristicName - @item.UsageCount</div>
+                    }
+                    <div class="statisticsDataHeader">Ментальные характеристики:</div>
+                    @foreach (var item in Model.MentalChars)
+                    {
+                        <div class="statisticsDataRow">@item.CharacteristicName - @item.UsageCount</div>
+                    }
                 </div>
             </div>
+            <div class="loneBlock statisticsBlock">
+                <div class="minorHeader">Количество оружия ближнего боя - @Model.MeleeWeaponsCount</div>
+                <div class="statisticsData">
+                    <div class="statisticsDataHeader">Типы оружия:</div>
+                    @foreach (var item in Model.MeleeWeaponsTypes)
+                    {
+                        <div class="statisticsDataRow">@item.WeaponStatName - @item.UsageCount</div>
+                    }
+                </div>
+            </div>
+            <div class="loneBlock statisticsBlock">
+                <div class="minorHeader">Количество оружия дальнего боя - @Model.RangeWeaponsCount</div>
+                <div class="statisticsData">
+                    <div class="statisticsDataHeader">Типы оружия:</div>
+                    @foreach (var item in Model.RangeWeaponsTypes)
+                    {
+                        <div class="statisticsDataRow">@item.WeaponStatName - @item.UsageCount</div>
+                    }
+                </div>
+            </div>
+            <div class="loneBlock statisticsBlock">
+                <div class="statisticsDataHeader">Количество щитов - @Model.ShieldsCount</div>
+            </div>
         </div>
-
-
-
     </div>
+
+
+
 </div>
+
+
+<script>
+    async function generateUnits() {
+        let count = document.getElementById("count").value;
+        
+        // отправляет запрос и получаем ответ
+        const response = await fetch('/api/ApiFunctions/3', {
+            method: "POST",
+            headers: { "Accept": "application/json" }
+        });
+        //// если запрос прошел нормально
+        //if (response.ok === true) {
+        //    // получаем данные
+        //    const users = await response.json();
+        //    const rows = document.querySelector("tbody");
+        //    // добавляем полученные элементы в таблицу
+        //    users.forEach(user => rows.append(row(user)));
+        //}
+    }
+</script>

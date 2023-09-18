@@ -12,6 +12,7 @@ namespace EyeOfGods.SupportClasses
         public static bool UnitEquipRandomAssigment(Unit unit, string equipType, double percent)
         {
             bool basicValue = false;
+            bool basicAbility = false;
 
             switch (equipType.ToLower())
             {
@@ -22,10 +23,14 @@ namespace EyeOfGods.SupportClasses
                     {
                         if (item.WeaponType == MeleeWeaponTypes.Копье || item.WeaponType == MeleeWeaponTypes.Одноручное)
                         {
-                            return BoolRandom(percent);
+                            basicAbility = true;
                         }
                     }
-                    return basicValue;
+
+                    if (basicAbility)
+                        return BoolRandom(percent);
+                    else
+                        return basicValue;
                 default:
                     return basicValue;
             }
@@ -54,6 +59,29 @@ namespace EyeOfGods.SupportClasses
 
             return results.ElementAt(random.Next(0, results.Count-1));
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         //public static bool DbInitialisationFix (List<Unit> allUnits, List<RangeWeaponsType> allRangeWeaponTypes, List<RangeWeapon> allRangeWeapons,
