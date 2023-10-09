@@ -40,6 +40,7 @@ namespace EyeOfGods.Models
                 new MeleeWeapon { Id = 2, MWName = "Пика", WeaponType = MeleeWeaponTypes.Пика },
                 new MeleeWeapon { Id = 3, MWName = "Алебарда", WeaponType = MeleeWeaponTypes.Алебарда }
                 );
+            modelBuilder.Entity<RangeWeapon>().Navigation(r => r.RangeWeaponsType).AutoInclude();
             modelBuilder.Entity<RangeWeapon>().HasData(
                 new RangeWeapon { Id = 1, RWName = "Лук" },
                 new RangeWeapon { Id = 2, RWName = "Аркебуза" },
@@ -51,10 +52,12 @@ namespace EyeOfGods.Models
                 new RangeWeaponsType{Id = 2,RWTypeName = "Тяжелое стрелковое вооружение",MinDistance = 14,MaxDistance = 20,DistanceStep = 2,
                     FirstRWTypeProperty = "-2 к броне",SecondRWTypeProperty = "Только прямая стрельба"},
                 new RangeWeaponsType{Id = 3,RWTypeName = "Артиллерийское вооружение",MinDistance = 24,MaxDistance = 30,DistanceStep = 2,
-                    FirstRWTypeProperty = "Всегда 4+",SecondRWTypeProperty = "Каждый успех-усталость"});
+                    FirstRWTypeProperty = "Всегда 4+",SecondRWTypeProperty = "Каждый успех-усталость"}
+                );
             modelBuilder.Entity<Shield>().HasData(
                 new Shield { Id=1, ShieldName = "Баклер"}
                 );
+            modelBuilder.Entity<UnitType>().Navigation(uT => uT.UnitTypeOrders).AutoInclude();
             modelBuilder.Entity<UnitType>().HasData(
                 new UnitType { Id = 1, UnitTypeName = "Пехота", BarricadeAssault="+2", BarricadeForcedMove="3", BarricadeGoThrough="2",
                  CliffAssault="+2", CliffForcedMove="4", CliffGoThrough="2", ForestAssault="0", ForestForcedMove="1", ForestGoThrough="0",
@@ -79,7 +82,14 @@ namespace EyeOfGods.Models
                     SituationBonus = "Если ваша скорость выше, чем у противника - добавьте 1 к своей броне", DoubleWeaponsBonus = "0", GreatWeaponBonus = "-1 к броне противника",
                     HalberdBonus = "0", OneHandBonus = "0", PikeBonus = "0", SpearBonus = "0" }
                 );
-            //modelBuilder.Entity<Unit>().HasData(
+            modelBuilder.Entity<Unit>().Navigation(u => u.DefensiveAbilities).AutoInclude();
+            modelBuilder.Entity<Unit>().Navigation(u => u.EnduranceAbilities).AutoInclude();
+            modelBuilder.Entity<Unit>().Navigation(u => u.MeleeWeapons).AutoInclude();
+            modelBuilder.Entity<Unit>().Navigation(u => u.MentalAbilities).AutoInclude();
+            modelBuilder.Entity<Unit>().Navigation(u => u.RangeWeapon).AutoInclude();
+            modelBuilder.Entity<Unit>().Navigation(u => u.Shield).AutoInclude();
+            modelBuilder.Entity<Unit>().Navigation(u => u.UnitType).AutoInclude();
+            //.HasData(
             //    new Unit { Id = 1, UnitName = "Копейщик", Speed = 6 },
             //    new Unit { Id = 2, UnitName = "Алебардист", Speed = 6 },
             //    new Unit { Id = 3, UnitName = "Кавалерист", Speed = 12 }

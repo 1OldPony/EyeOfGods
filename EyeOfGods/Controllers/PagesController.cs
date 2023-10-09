@@ -228,29 +228,43 @@ namespace EyeOfGods.Controllers
                           endurance.DurabilityAddProperty,
                           EnduranceMaxValue = endurance.MaxValue,
                       };
-
-            var x = 0;
         }
+
+
+        public void test2()
+        {
+            var allUnits = _context.Units.Include(u => u.DefensiveAbilities)
+                .Include(u => u.EnduranceAbilities)
+                .Include(u => u.MeleeWeapons)
+                .Include(u => u.MentalAbilities)
+                .Include(u => u.RangeWeapon).ThenInclude(r => r.RangeWeaponsType)
+                .Include(u => u.Shield)
+                .Include(u => u.UnitType).ThenInclude(t => t.UnitTypeOrders).ToList();
+        }
+
+
+
+
 
 
         public async Task<IActionResult> StartAsync()
         {
-            await DbCheck();
+            //await DbCheck();
 
 
 
 
 
-            List<UnitType> allTypes = await _context.UnitTypes.ToListAsync();
-            List<UnitOrder> allOrders = await _context.UnitOrders.ToListAsync();
-            List<RangeWeapon> allRangeWeapons = await _context.RangeWeapons.ToListAsync();
-            List<MeleeWeapon> allMeleeWeapons = await _context.MeleeWeapons.ToListAsync();
-            List<Shield> allShields = await _context.Shields.ToListAsync();
-            List<RangeWeaponsType> allRangeWeaponTypes = await _context.RangeWeaponsTypes.ToListAsync();
+            //List<UnitType> allTypes = await _context.UnitTypes.ToListAsync();
+            //List<UnitOrder> allOrders = await _context.UnitOrders.ToListAsync();
+            //List<RangeWeapon> allRangeWeapons = await _context.RangeWeapons.ToListAsync();
+            //List<MeleeWeapon> allMeleeWeapons = await _context.MeleeWeapons.ToListAsync();
+            //List<Shield> allShields = await _context.Shields.ToListAsync();
+            //List<RangeWeaponsType> allRangeWeaponTypes = await _context.RangeWeaponsTypes.ToListAsync();
             List<Unit> allUnits = await _context.Units.ToListAsync();
-            List<MentalAbilities> allMental = await _context.MentalAbilities.ToListAsync();
-            List<DefensiveAbilities> allDefense = await _context.DefensiveAbilities.ToListAsync();
-            List<EnduranceAbilities> allEndurance = await _context.EnduranceAbilities.ToListAsync();
+            //List<MentalAbilities> allMental = await _context.MentalAbilities.ToListAsync();
+            //List<DefensiveAbilities> allDefense = await _context.DefensiveAbilities.ToListAsync();
+            //List<EnduranceAbilities> allEndurance = await _context.EnduranceAbilities.ToListAsync();
 
             //allUnits = await DbCheck(allTypes, allOrders, allRangeWeapons, allMeleeWeapons, allShields,
             //    allRangeWeaponTypes, allUnits, allMental, allDefense, allEndurance);

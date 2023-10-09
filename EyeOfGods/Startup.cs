@@ -29,7 +29,7 @@ namespace EyeOfGods
             services.AddDbContext<MyWargameContext>(options =>
             {
                 //options.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=MyWargame;Trusted_Connection=True;MultipleActiveResultSets=true");
-                options.UseSqlServer(@"Server=DESKTOP-EIT9M1T;Database=MyWargame;Trusted_Connection=True;MultipleActiveResultSets=true");
+                options.UseSqlServer(@"Server=DESKTOP-EIT9M1T;Database=MyWargame;Trusted_Connection=true;TrustServerCertificate=True;MultipleActiveResultSets=true");
             });
         }
 

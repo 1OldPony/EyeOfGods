@@ -214,7 +214,7 @@ namespace EyeOfGods.Controllers
                 }
                 newUnit.UnitType = allTypes.ElementAt(randomNumber.Next(0, allTypes.Count));
 
-                //НАЗНАЧАЕМ ЦЫФЕРНЫЕ ХАРАКТЕРИСТИКИ - СКОРОСТЬ И 3 ОСНОВНЫЕ
+                //НАЗНАЧАЕМ ЦИФЕРНЫЕ ХАРАКТЕРИСТИКИ - СКОРОСТЬ И 3 ОСНОВНЫЕ
                 while (newUnit.Speed % 2 != 0 && newUnit.Speed != 0)
                 {
                     newUnit.Speed = randomNumber.Next(newUnit.UnitType.MinSpeed, newUnit.UnitType.MaxSpeed+1);
