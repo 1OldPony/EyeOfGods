@@ -1,29 +1,17 @@
 ﻿using EyeOfGods.Models;
 using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Moq;
+using Moq.EntityFrameworkCore;
 
 namespace NUnitTests.FakeDb
 {
     public static class Db_Moq
     {
-        public interface IContext
+        public static Mock<MyWargameContext> Context()
         {
-            public abstract DbSet<DefensiveAbilities> DefensiveAbilities { get; set; }
-            public abstract DbSet<EnduranceAbilities> EnduranceAbilities { get; set; }
-            public abstract DbSet<MentalAbilities> MentalAbilities { get; set; }
-            public abstract DbSet<MeleeWeapon> MeleeWeapons { get; set; }
-            public abstract DbSet<RangeWeapon> RangeWeapons { get; set; }
-            public abstract DbSet<RangeWeaponsType> RangeWeaponsTypes { get; set; }
-            public abstract DbSet<Shield> Shields { get; set; }
-            public abstract DbSet<Unit> Units { get; set; }
-            public abstract DbSet<UnitOrder> UnitOrders { get; set; }
-            public abstract DbSet<UnitType> UnitTypes { get; set; }
-        }
-        public static Mock<IContext> Context()
-        {
-            //var mockContext = new Mock<MyWargameContext>();
-            var mockContext = new Mock<IContext>();
+            var mockContext = new Mock<MyWargameContext>();
             mockContext.Setup(m => m.DefensiveAbilities).Returns(DefensiveAbilitiesList().Object);
             mockContext.Setup(m => m.EnduranceAbilities).Returns(EnduranceAbilitiesList().Object);
             mockContext.Setup(m => m.MentalAbilities).Returns(MentalAbilitiesList().Object);

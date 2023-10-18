@@ -201,52 +201,6 @@ namespace EyeOfGods.Controllers
             //return allUnits;
         }
 
-
-        public void test()
-        {
-            var all = from unit in _context.Units
-                      join defense in _context.DefensiveAbilities on unit.DefensiveAbilities equals defense
-                      join endurance in _context.EnduranceAbilities on unit.EnduranceAbilities equals endurance
-                      select new
-                      {
-                          UnitId = unit.Id,
-                          unit.UnitName,
-                          unit.Speed,
-                          unit.Defense,
-                          unit.Endurance,
-                          unit.Mental,
-                          DefenseId = defense.Id,
-                          defense.BlocksArmorPierce,
-                          defense.CharacteristicName,
-                          defense.DefenseAddProperty,
-                          defense.MaxValue,
-                          defense.MinValue,
-                          defense.NoDoubleActionAt,
-                          defense.Step,
-                          EnduranceId = endurance.Id,
-                          EnduranceName = endurance.CharacteristicName,
-                          endurance.DurabilityAddProperty,
-                          EnduranceMaxValue = endurance.MaxValue,
-                      };
-        }
-
-
-        public void test2()
-        {
-            var allUnits = _context.Units.Include(u => u.DefensiveAbilities)
-                .Include(u => u.EnduranceAbilities)
-                .Include(u => u.MeleeWeapons)
-                .Include(u => u.MentalAbilities)
-                .Include(u => u.RangeWeapon).ThenInclude(r => r.RangeWeaponsType)
-                .Include(u => u.Shield)
-                .Include(u => u.UnitType).ThenInclude(t => t.UnitTypeOrders).ToList();
-        }
-
-
-
-
-
-
         public async Task<IActionResult> StartAsync()
         {
             //await DbCheck();

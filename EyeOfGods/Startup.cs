@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EyeOfGods.SupportClasses;
 
 namespace EyeOfGods
 {
@@ -31,6 +32,7 @@ namespace EyeOfGods
                 //options.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=MyWargame;Trusted_Connection=True;MultipleActiveResultSets=true");
                 options.UseSqlServer(@"Server=DESKTOP-EIT9M1T;Database=MyWargame;Trusted_Connection=true;TrustServerCertificate=True;MultipleActiveResultSets=true");
             });
+            services.AddScoped<IUnitGenerator, UnitGenerator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

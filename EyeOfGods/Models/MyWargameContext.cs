@@ -8,17 +8,15 @@ namespace EyeOfGods.Models
 {
     public class MyWargameContext : DbContext
     {
+        public MyWargameContext()
+        {
+                
+        }
         public MyWargameContext(DbContextOptions<MyWargameContext> options)
             : base(options)
         {
             
         }
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer();
-        //}
-
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -103,17 +101,17 @@ namespace EyeOfGods.Models
 
 
         //public DbSet<AdditionalProperty> AdditionalProperties { get; set; }
-        public DbSet<DefensiveAbilities> DefensiveAbilities { get; set; }
-        public DbSet<EnduranceAbilities> EnduranceAbilities { get; set; }
-        public DbSet<MentalAbilities> MentalAbilities { get; set; }
-        public DbSet<MeleeWeapon> MeleeWeapons { get; set; }
+        public virtual DbSet<DefensiveAbilities> DefensiveAbilities { get; set; }
+        public virtual DbSet<EnduranceAbilities> EnduranceAbilities { get; set; }
+        public virtual DbSet<MentalAbilities> MentalAbilities { get; set; }
+        public virtual DbSet<MeleeWeapon> MeleeWeapons { get; set; }
         //public DbSet<MeleeWeaponType> MeleeWeaponTypes { get; set; }
         //public DbSet<Price> Prices { get; set; }
-        public DbSet<RangeWeapon> RangeWeapons { get; set; }
-        public DbSet<RangeWeaponsType> RangeWeaponsTypes { get; set; }
-        public DbSet<Shield> Shields { get; set; }
-        public DbSet<Unit> Units { get; set; }
-        public DbSet<UnitOrder> UnitOrders { get; set; }
-        public DbSet<UnitType> UnitTypes { get; set; }
+        public virtual DbSet<RangeWeapon> RangeWeapons { get; set; }
+        public virtual DbSet<RangeWeaponsType> RangeWeaponsTypes { get; set; }
+        public virtual DbSet<Shield> Shields { get; set; }
+        public virtual DbSet<Unit> Units { get; set; }
+        public virtual DbSet<UnitOrder> UnitOrders { get; set; }
+        public virtual DbSet<UnitType> UnitTypes { get; set; }
     }
 }

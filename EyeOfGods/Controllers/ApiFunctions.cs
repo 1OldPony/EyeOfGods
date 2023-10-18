@@ -1,9 +1,9 @@
 ﻿using EyeOfGods.Models;
-using EyeOfGods.Models.ViewModels;
+//using EyeOfGods.Models.Testing;
 using EyeOfGods.SupportClasses;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +16,68 @@ namespace EyeOfGods.Controllers
     public class ApiFunctions : ControllerBase
     {
         private readonly MyWargameContext _context;
-
-        public ApiFunctions(MyWargameContext context)
+        private readonly IUnitGenerator _unitGen;
+        public ApiFunctions(MyWargameContext context, IUnitGenerator unitGen)
         {
             _context = context;
+            _unitGen = unitGen;
         }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> GenerateUnitAsync(int count)
+        {
+            List<UnitType> allTypes = await _context.UnitTypes.ToListAsync();
+            List<RangeWeapon> allRangeWeapons = await _context.RangeWeapons.ToListAsync();
+            List<MeleeWeapon> allMeleeWeapons = await _context.MeleeWeapons.ToListAsync();
+            List<Shield> allShields = await _context.Shields.ToListAsync();
+            List<MentalAbilities> allMental = await _context.MentalAbilities.ToListAsync();
+            List<DefensiveAbilities> allDefense = await _context.DefensiveAbilities.ToListAsync();
+            List<EnduranceAbilities> allEndurance = await _context.EnduranceAbilities.ToListAsync();
+
+            List<Unit> allUnits = await _unitGen.GenUnits(count, allTypes, allRangeWeapons, allMeleeWeapons, allShields, allMental, allDefense, allEndurance);
+
+            await _context.Units.AddRangeAsync(allUnits);
+            await _context.SaveChangesAsync();
+            
+            return RedirectToAction("StartAsync", "Pages");
+            //return await Getstatistics();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         //[HttpGet]
@@ -164,103 +221,161 @@ namespace EyeOfGods.Controllers
         //    return Ok(statistics);
         //}
 
-        [HttpPost]
-        public async Task<IActionResult> GenerateUnit(int count) 
-        {
-
-            ///////////////////////////////////////////
-            ///РАЗБИРАЕМСЯ В АСИНХРОНЕ И ДОБАВЛЯЕМ ЕГО
-            ///////////////////////////////////////////
-
-
-            ///////////////////////////////////////////
-            ///БАЗОВЫЙ ПОДСЧЕТ СТАТИСТИКИ ТОЖЕ ДОЛЖЕН БЫТЬ АПИШКОЙ
-            ///С АЯКС ВЫЗОВОМ GET СТАТИСТИКИ И РАССОВЫВАНИЕМ ЕЕ ПО МЕСТАМ, КАК В МЕТАНИТЕ(СМ. В ИЗБРАННОМ, ПАПКА ВАРЯГ)
-            ///
-            /// ЕЩЕ НАДО ПОСМОТРЕТЬ, ПОЛУЧИТЬСЯ ЛИ ИСПОЛЬЗОВАТЬ ОБЩУЮ HTML ФОРМУ СТРАНИЦЫ ИЛИ ПРИДЕТСЯ В ЛЮБОМ СЛУЧАЕ ГЕНЕРИТЬ РАЗМЕТКУ JS-ОМ
-            /// КАК ОТФОРЫЧИТЬ ЛИСТ КЛАССОВ, ПЕРЕДАННЫЙ JSON-ОМ?
-            /// РАЗВЕ ЧТО .HTML() БАЗОВЫЙ КОНТЕЙНЕР В ПЕРЕМЕННУЮ И ВСТАВЛЯТЬ ЕЕ С USERID В АТРИБУТАХ, И ПОТОМ ИСКАТЬ ДОЧЕРНИЕ ЭЛЕМЕНТЫ ДЛЯ ХАР-К...
-            ///////////////////////////////////////////
 
 
 
-            List<UnitType> allTypes = await _context.UnitTypes.ToListAsync();
-            List<RangeWeapon> allRangeWeapons = await _context.RangeWeapons.ToListAsync();
-            List<MeleeWeapon> allMeleeWeapons = await _context.MeleeWeapons.ToListAsync();
-            List<Shield> allShields = await _context.Shields.ToListAsync();
-            List<MentalAbilities> allMental = await _context.MentalAbilities.ToListAsync();
-            List<DefensiveAbilities> allDefense = await _context.DefensiveAbilities.ToListAsync();
-            List<EnduranceAbilities> allEndurance = await _context.EnduranceAbilities.ToListAsync();
 
-            Random randomNumber = new();
-            List<Unit> allUnits = new();
 
-            for (int i = 0; i <= count; i++)
-            {
-                Unit newUnit = new();
 
-                //НАЗНАЧАЕМ ОРУЖИЕ, ЩИТЫ, ТЫПЫ ОСНОВНЫХ ХАРАКТЕРИСТИК И РОД ВОЙСК
-                newUnit.MentalAbilities = allMental.ElementAt(randomNumber.Next(0, allMental.Count));
-                newUnit.DefensiveAbilities = allDefense.ElementAt(randomNumber.Next(0, allDefense.Count));
-                newUnit.EnduranceAbilities = allEndurance.ElementAt(randomNumber.Next(0, allEndurance.Count));
-                newUnit.MeleeWeapons.Add(allMeleeWeapons.ElementAt(randomNumber.Next(0, allMeleeWeapons.Count)));
-                if (LittleHelper.UnitEquipRandomAssigment(newUnit, "RangeWeapon", 30.0))
-                {
-                    newUnit.RangeWeapon = allRangeWeapons.ElementAt(randomNumber.Next(0, allRangeWeapons.Count));
-                }
-                if (LittleHelper.UnitEquipRandomAssigment(newUnit, "Shield", 50.0))
-                {
-                    newUnit.Shield = allShields.ElementAt(randomNumber.Next(0, allShields.Count));
-                }
-                newUnit.UnitType = allTypes.ElementAt(randomNumber.Next(0, allTypes.Count));
 
-                //НАЗНАЧАЕМ ЦИФЕРНЫЕ ХАРАКТЕРИСТИКИ - СКОРОСТЬ И 3 ОСНОВНЫЕ
-                while (newUnit.Speed % 2 != 0 && newUnit.Speed != 0)
-                {
-                    newUnit.Speed = randomNumber.Next(newUnit.UnitType.MinSpeed, newUnit.UnitType.MaxSpeed+1);
-                }
 
-                while (newUnit.Defense % newUnit.DefensiveAbilities.Step != 0 && newUnit.Defense != 0)
-                {
-                    newUnit.Defense = randomNumber.Next(newUnit.DefensiveAbilities.MinValue, newUnit.DefensiveAbilities.MaxValue + 1);
-                }
 
-                while (newUnit.Endurance % newUnit.EnduranceAbilities.Step != 0 && newUnit.Endurance != 0)
-                {
-                    newUnit.Endurance = randomNumber.Next(newUnit.EnduranceAbilities.MinValue, newUnit.EnduranceAbilities.MaxValue + 1);
-                }
 
-                while (newUnit.Mental % newUnit.MentalAbilities.Step != 0 && newUnit.Mental != 0)
-                {
-                    newUnit.Mental = randomNumber.Next(newUnit.MentalAbilities.MinValue, newUnit.MentalAbilities.MaxValue + 1);
-                }
 
-                /////////ГЕНЕРАТОР НАЗВАНИЯ ОТРЯДА
-                if (newUnit.Defense < newUnit.DefensiveAbilities.NoDoubleActionAt)
-                    newUnit.UnitName = "Легк.";
-                else
-                    newUnit.UnitName = "Тяж.";
 
-                newUnit.UnitName = string.Concat(newUnit.UnitName, " ", newUnit.UnitType.UnitTypeName);
+        //public async void GenUnits(int count)
+        //{
+        //    Random randomNumber = new();
+        //    List<Unit> allUnits = new();
 
-                int unitMeleeWeapon = 1;
-                foreach (var item in newUnit.MeleeWeapons)
-                {
-                    if (unitMeleeWeapon == 1)
-                        newUnit.UnitName = string.Concat(newUnit.UnitName, " c ", item.MWName);
-                    else
-                        newUnit.UnitName = string.Concat(newUnit.UnitName, " и ", item.MWName);
-                }
+        //    for (int i = 0; i <= count; i++)
+        //    {
+        //        Unit newUnit = new();
 
-                allUnits.Add(newUnit);
-            }
+        //        //НАЗНАЧАЕМ ОРУЖИЕ, ЩИТЫ, ТИПЫ ОСНОВНЫХ ХАРАКТЕРИСТИК И РОД ВОЙСК
+        //        newUnit.MentalAbilities = await GenMentalAbil(randomNumber);
+        //        newUnit.DefensiveAbilities = await GenDefensiveAbil(randomNumber);
+        //        newUnit.EnduranceAbilities = await GenEnduranceAbil(randomNumber);
+        //        newUnit.MeleeWeapons.Add(await GenMeleeWeap(randomNumber));
+        //        if (LittleHelper.UnitEquipRandomAssigment(newUnit, "RangeWeapon", 30.0))
+        //        {
+        //            newUnit.RangeWeapon = await GenRangeWeap(randomNumber);
+        //        }
+        //        if (LittleHelper.UnitEquipRandomAssigment(newUnit, "Shield", 50.0))
+        //        {
+        //            newUnit.Shield = await GenShield(randomNumber);
+        //        }
+        //        newUnit.UnitType = await GenUnitType(randomNumber);
 
-            await _context.Units.AddRangeAsync(allUnits);
-            await _context.SaveChangesAsync();
+        //        //НАЗНАЧАЕМ ЦИФЕРНЫЕ ХАРАКТЕРИСТИКИ - СКОРОСТЬ И 3 ОСНОВНЫЕ
+        //        while (newUnit.Speed % 2 != 0 && newUnit.Speed != 0)
+        //        {
+        //            newUnit.Speed = await GetSpeed(randomNumber, newUnit.UnitType);
+        //        }
 
-            return RedirectToAction("StartAsync", "Pages");
-            //return await Getstatistics();
-        }
+        //        while (newUnit.Defense % newUnit.DefensiveAbilities.Step != 0 && newUnit.Defense != 0)
+        //        {
+        //            newUnit.Defense = await GetDefense(randomNumber, newUnit.DefensiveAbilities);
+        //        }
+
+        //        while (newUnit.Endurance % newUnit.EnduranceAbilities.Step != 0 && newUnit.Endurance != 0)
+        //        {
+        //            newUnit.Endurance = await GetEndurance(randomNumber, newUnit.EnduranceAbilities);
+        //        }
+
+        //        while (newUnit.Mental % newUnit.MentalAbilities.Step != 0 && newUnit.Mental != 0)
+        //        {
+        //            newUnit.Mental = await GetMental(randomNumber, newUnit.MentalAbilities);
+        //        }
+
+        //        newUnit.UnitName = await GenUnitName(newUnit);
+
+        //        allUnits.Add(newUnit);
+        //    }
+
+        //    await _context.Units.AddRangeAsync(allUnits);
+        //    await _context.SaveChangesAsync();
+        //}
+
+        //public async Task<MentalAbilities> GenMentalAbil(Random randomNumber)
+        //{
+        //    List<MentalAbilities> allMental = await _context.MentalAbilities.ToListAsync();
+
+        //    MentalAbilities newAbility = allMental.ElementAt(randomNumber.Next(0, allMental.Count));
+
+        //    return newAbility;
+        //}
+        //public async Task<DefensiveAbilities> GenDefensiveAbil(Random randomNumber)
+        //{
+        //    List<DefensiveAbilities> allDefense = await _context.DefensiveAbilities.ToListAsync();
+
+        //    DefensiveAbilities newAbility = allDefense.ElementAt(randomNumber.Next(0, allDefense.Count));
+
+        //    return newAbility;
+        //}
+        //public async Task<EnduranceAbilities> GenEnduranceAbil(Random randomNumber)
+        //{
+        //    List<EnduranceAbilities> allEndurance = await _context.EnduranceAbilities.ToListAsync();
+
+        //    EnduranceAbilities newAbility = allEndurance.ElementAt(randomNumber.Next(0, allEndurance.Count));
+
+        //    return newAbility;
+        //}
+        //public async Task<MeleeWeapon> GenMeleeWeap(Random randomNumber)
+        //{
+        //    List<MeleeWeapon> allMeleeWeapons = await _context.MeleeWeapons.ToListAsync();
+
+        //    MeleeWeapon newWeapon = allMeleeWeapons.ElementAt(randomNumber.Next(0, allMeleeWeapons.Count));
+
+        //    return newWeapon;
+        //}
+        //public async Task<RangeWeapon> GenRangeWeap(Random randomNumber)
+        //{
+        //    List<RangeWeapon> allRangeWeapons = await _context.RangeWeapons.ToListAsync();
+
+        //    RangeWeapon newWeapon = allRangeWeapons.ElementAt(randomNumber.Next(0, allRangeWeapons.Count));
+
+        //    return newWeapon;
+        //}
+        //public async Task<Shield> GenShield(Random randomNumber)
+        //{
+        //    List<Shield> allShields = await _context.Shields.ToListAsync();
+
+        //    Shield newShield = allShields.ElementAt(randomNumber.Next(0, allShields.Count));
+
+        //    return newShield;
+        //}
+        //public async Task<UnitType> GenUnitType(Random randomNumber)
+        //{
+        //    List<UnitType> allTypes = await _context.UnitTypes.ToListAsync();
+
+        //    UnitType newType = allTypes.ElementAt(randomNumber.Next(0, allTypes.Count));
+
+        //    return newType;
+        //}
+        //public Task<string> GenUnitName(Unit newUnit)
+        //{
+        //    string unitName;
+        //    if (newUnit.Defense < newUnit.DefensiveAbilities.NoDoubleActionAt)
+        //        unitName = "Легк.";
+        //    else
+        //        unitName = "Тяж.";
+
+        //    unitName = string.Concat(unitName, " ", newUnit.UnitType.UnitTypeName);
+
+        //    int unitMeleeWeapon = 1;
+        //    foreach (var item in newUnit.MeleeWeapons)
+        //    {
+        //        if (unitMeleeWeapon == 1)
+        //        {
+        //            unitName = string.Concat(unitName, " c ", item.MWName);
+        //            unitMeleeWeapon++;
+        //        }
+        //        else
+        //            unitName = string.Concat(unitName, " и ", item.MWName);
+        //    }
+
+        //    return Task.FromResult(unitName);
+        //}
+        //public Task<int> GetSpeed(Random randomNumber, UnitType typeOfUnit) => Task.FromResult(randomNumber.Next(typeOfUnit.MinSpeed, typeOfUnit.MaxSpeed + 1));
+        //public Task<int> GetDefense(Random randomNumber, DefensiveAbilities defOfUnit) => Task.FromResult(randomNumber.Next(defOfUnit.MinValue, defOfUnit.MaxValue + 1));
+        //public Task<int> GetEndurance(Random randomNumber, EnduranceAbilities endOfUnit) => Task.FromResult(randomNumber.Next(endOfUnit.MinValue, endOfUnit.MaxValue + 1));
+        //public Task<int> GetMental(Random randomNumber, MentalAbilities mentOfUnit) => Task.FromResult(randomNumber.Next(mentOfUnit.MinValue, mentOfUnit.MaxValue + 1));
+
+
+
+
+
 
 
         //public async Task<List<Unit>> DbCheck(List<UnitType> allTypes, List<UnitOrder> allOrders, List<RangeWeapon> allRangeWeapons,

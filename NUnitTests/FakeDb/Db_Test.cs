@@ -1,22 +1,18 @@
+using EyeOfGods.Models;
 using Moq;
-using NUnitTests.FakeDb;
 using static NUnitTests.FakeDb.Db_Moq;
 
-namespace NUnitTests
+namespace NUnitTests.FakeDb
 {
     [TestFixture]
     public class FakeDb_Test
     {
-        private Mock<IContext> _fakeDb = new();
+        private Mock<MyWargameContext> _fakeDb = new();
 
         [SetUp]
         public void Setup()
         {
             _fakeDb = Context();
-
-            //public MyWargameContext context;
-
-            //PagesController Pages = new(context);
         }
 
         //[Test]
@@ -41,6 +37,12 @@ namespace NUnitTests
         public void DOES_unitType_HAS_Its_orders(int elementNumber)
         {
             Assert.IsTrue(_fakeDb.Object.UnitTypes.ElementAt(elementNumber).UnitTypeOrders.Count != 0);
+        }
+
+        [Test]
+        public void DOES_unit_HAS_RIGHT_name()
+        {
+            Assert.IsTrue(_fakeDb.Object.Units.FirstOrDefault().UnitName == "Test_Halberdier_NoShield_NoRange_NoFuture");
         }
     }
 }
