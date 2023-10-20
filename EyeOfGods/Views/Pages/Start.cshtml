@@ -12,9 +12,6 @@
     </div>
 
 
-
-
-
     <div class="content">
         <div class="loneBlock bigHeader">Статистика по базе данных:</div>
         <div class="allStatistics">
@@ -84,17 +81,19 @@
         let count = document.getElementById("count").value;
         
         // отправляет запрос и получаем ответ
-        const response = await fetch('/api/ApiFunctions/3', {
+        const response = await fetch('/api/functions/GenUnit?count=3', {
             method: "POST",
             headers: { "Accept": "application/json" }
         });
         //// если запрос прошел нормально
-        //if (response.ok === true) {
-        //    // получаем данные
-        //    const users = await response.json();
-        //    const rows = document.querySelector("tbody");
-        //    // добавляем полученные элементы в таблицу
-        //    users.forEach(user => rows.append(row(user)));
-        //}
+        // if (response.ok === true) {
+        //     // получаем данные
+        //     alert("Урааа!!!");
+        //     // добавляем полученные элементы в таблицу
+        //     // users.forEach(user => rows.append(row(user)));
+        // }
+        // else {
+        //     alert("Фуууу!!!");
+        // }
     }
 </script>

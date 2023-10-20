@@ -15,7 +15,7 @@ namespace EyeOfGods.Models
         public int RangeOfShooting { get; set; } = 1;
 
         //[ForeignKey(nameof(RangeWeaponsType))]
-        //public int RangeWeaponsTypeId { get; set; }
+        //public int RWtypeId { get; set; }
         public RangeWeaponsType RangeWeaponsType { get; set; }/* = new RangeWeaponsType();*/
     }
 }

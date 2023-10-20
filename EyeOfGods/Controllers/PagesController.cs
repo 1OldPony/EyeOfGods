@@ -201,27 +201,13 @@ namespace EyeOfGods.Controllers
             //return allUnits;
         }
 
-        public async Task<IActionResult> StartAsync()
+        public async Task<IActionResult> Start()
         {
             //await DbCheck();
 
 
 
-
-
-            //List<UnitType> allTypes = await _context.UnitTypes.ToListAsync();
-            //List<UnitOrder> allOrders = await _context.UnitOrders.ToListAsync();
-            //List<RangeWeapon> allRangeWeapons = await _context.RangeWeapons.ToListAsync();
-            //List<MeleeWeapon> allMeleeWeapons = await _context.MeleeWeapons.ToListAsync();
-            //List<Shield> allShields = await _context.Shields.ToListAsync();
-            //List<RangeWeaponsType> allRangeWeaponTypes = await _context.RangeWeaponsTypes.ToListAsync();
             List<Unit> allUnits = await _context.Units.ToListAsync();
-            //List<MentalAbilities> allMental = await _context.MentalAbilities.ToListAsync();
-            //List<DefensiveAbilities> allDefense = await _context.DefensiveAbilities.ToListAsync();
-            //List<EnduranceAbilities> allEndurance = await _context.EnduranceAbilities.ToListAsync();
-
-            //allUnits = await DbCheck(allTypes, allOrders, allRangeWeapons, allMeleeWeapons, allShields,
-            //    allRangeWeaponTypes, allUnits, allMental, allDefense, allEndurance);
 
             StatisticsViewModel statistics = new();
 

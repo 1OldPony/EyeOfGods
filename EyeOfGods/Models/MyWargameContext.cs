@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EyeOfGods.Migrations;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,9 +41,9 @@ namespace EyeOfGods.Models
                 );
             modelBuilder.Entity<RangeWeapon>().Navigation(r => r.RangeWeaponsType).AutoInclude();
             modelBuilder.Entity<RangeWeapon>().HasData(
-                new RangeWeapon { Id = 1, RWName = "Лук" },
-                new RangeWeapon { Id = 2, RWName = "Аркебуза" },
-                new RangeWeapon { Id = 3, RWName = "Пухандрий" }
+                new RangeWeapon { Id = 1, RWName = "Лук", RangeOfShooting = 12/*, RangeWeaponsType = new() { RWTypeId = 1 } *//*, RangeWeaponsType = RangeWeaponsTypes.ElementAt(0)*/ },
+                new RangeWeapon { Id = 2, RWName = "Аркебуза", RangeOfShooting = 18/*, RangeWeaponsType = new() { RWTypeId = 2 }*//*, RangeWeaponsType = RangeWeaponsTypes.ElementAt(1) */},
+                new RangeWeapon { Id = 3, RWName = "Пухандрий", RangeOfShooting = 18/*, RangeWeaponsType = new() { RWTypeId = 3 }*//*, RangeWeaponsType = RangeWeaponsTypes.ElementAt(2)*/ }
                 );
             modelBuilder.Entity<RangeWeaponsType>().HasData(
                 new RangeWeaponsType{Id = 1,RWTypeName = "Легкое стрелковое вооружение",MinDistance = 8,MaxDistance = 14,DistanceStep = 2,
@@ -60,11 +61,11 @@ namespace EyeOfGods.Models
                 new UnitType { Id = 1, UnitTypeName = "Пехота", BarricadeAssault="+2", BarricadeForcedMove="3", BarricadeGoThrough="2",
                  CliffAssault="+2", CliffForcedMove="4", CliffGoThrough="2", ForestAssault="0", ForestForcedMove="1", ForestGoThrough="0",
                  SettelmentAssault="0", SettelmentForcedMove="2", SettelmentGoThrough="0", SwampAssault="0", SwampForcedMove="1", SwampGoThrough="0",
-                 WaterAssault="+2", WaterForcedMove="3", WaterGoThrough="2", MinSpeed = 4, MaxSpeed = 8 },
+                 WaterAssault="+2", WaterForcedMove="3", WaterGoThrough="2", MinSpeed = 4, MaxSpeed = 8/*, UnitTypeOrders = new() { new() { Id = 3  } }*//*, UnitTypeOrders = { UnitOrders.ElementAt(2) }*/ },
                 new UnitType { Id = 2, UnitTypeName = "Кавалерия", BarricadeAssault="+2", BarricadeForcedMove="3", BarricadeGoThrough="2",
                  CliffAssault="Х", CliffForcedMove="6", CliffGoThrough="Х", ForestAssault="+2", ForestForcedMove="3", ForestGoThrough="2",
                  SettelmentAssault="0", SettelmentForcedMove="2", SettelmentGoThrough="0", SwampAssault="+2", SwampForcedMove="3", SwampGoThrough="2",
-                 WaterAssault="+2", WaterForcedMove="3", WaterGoThrough="1", MinSpeed = 8, MaxSpeed = 14 }
+                 WaterAssault="+2", WaterForcedMove="3", WaterGoThrough="1", MinSpeed = 8, MaxSpeed = 14/*, UnitTypeOrders = new() { new() { Id = 1  }, new() { Id = 2 } }*//*, UnitTypeOrders = { UnitOrders.ElementAt(0), UnitOrders.ElementAt(1) }*/ }
                 );
             modelBuilder.Entity<UnitOrder>().HasData(
                 new UnitOrder { Id = 1, OrderName = "Прорыв", OrderType = "Атака", OrderDescrption = "Совершите обычное движение от любой точки побежденного отряда",
@@ -87,25 +88,29 @@ namespace EyeOfGods.Models
             modelBuilder.Entity<Unit>().Navigation(u => u.RangeWeapon).AutoInclude();
             modelBuilder.Entity<Unit>().Navigation(u => u.Shield).AutoInclude();
             modelBuilder.Entity<Unit>().Navigation(u => u.UnitType).AutoInclude();
-            //.HasData(
-            //    new Unit { Id = 1, UnitName = "Копейщик", Speed = 6 },
-            //    new Unit { Id = 2, UnitName = "Алебардист", Speed = 6 },
-            //    new Unit { Id = 3, UnitName = "Кавалерист", Speed = 12 }
-            //    );
-
-
-
+            //modelBuilder.Entity<Unit>().HasData(
+            //    new Unit
+            //    {
+            //        Id = 1,
+            //        DefensiveAbilities = DefensiveAbilities.ElementAt(0),
+            //        EnduranceAbilities = EnduranceAbilities.ElementAt(0),
+            //        MentalAbilities = MentalAbilities.ElementAt(1),
+            //        MeleeWeapons = { MeleeWeapons.ElementAt(2) },
+            //        UnitType = UnitTypes.ElementAt(0),
+            //        UnitName = "Test_Halberdier_NoShield_NoRange_NoFuture",
+            //        Speed = 8,
+            //        Defense = 4,
+            //        Endurance = 8,
+            //        Mental = 2
+            //    }
+            //);
         }
-
-
-
 
         //public DbSet<AdditionalProperty> AdditionalProperties { get; set; }
         public virtual DbSet<DefensiveAbilities> DefensiveAbilities { get; set; }
         public virtual DbSet<EnduranceAbilities> EnduranceAbilities { get; set; }
         public virtual DbSet<MentalAbilities> MentalAbilities { get; set; }
         public virtual DbSet<MeleeWeapon> MeleeWeapons { get; set; }
-        //public DbSet<MeleeWeaponType> MeleeWeaponTypes { get; set; }
         //public DbSet<Price> Prices { get; set; }
         public virtual DbSet<RangeWeapon> RangeWeapons { get; set; }
         public virtual DbSet<RangeWeaponsType> RangeWeaponsTypes { get; set; }

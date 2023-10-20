@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace EyeOfGods.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/functions")]
     [ApiController]
-    public class ApiFunctions : ControllerBase
+    public class GensAndStat : ControllerBase
     {
         private readonly MyWargameContext _context;
         private readonly IUnitGenerator _unitGen;
-        public ApiFunctions(MyWargameContext context, IUnitGenerator unitGen)
+        public GensAndStat(MyWargameContext context, IUnitGenerator unitGen)
         {
             _context = context;
             _unitGen = unitGen;
@@ -25,7 +25,7 @@ namespace EyeOfGods.Controllers
 
 
 
-        [HttpPost]
+        [HttpPost("GenUnit")]
         public async Task<IActionResult> GenerateUnitAsync(int count)
         {
             List<UnitType> allTypes = await _context.UnitTypes.ToListAsync();
@@ -40,8 +40,9 @@ namespace EyeOfGods.Controllers
 
             await _context.Units.AddRangeAsync(allUnits);
             await _context.SaveChangesAsync();
-            
-            return RedirectToAction("StartAsync", "Pages");
+
+            //return Ok();
+            return RedirectToAction("Start", "Pages");
             //return await Getstatistics();
         }
 
