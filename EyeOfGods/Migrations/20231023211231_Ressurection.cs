@@ -1,9 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace EyeOfGods.Migrations
 {
-    public partial class First : Migration
+    /// <inheritdoc />
+    public partial class Ressurection : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -91,28 +97,6 @@ namespace EyeOfGods.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UnitOrders",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OrderDescrption = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SituationBonus = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OrderType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SpearBonus = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PikeBonus = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OneHandBonus = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DoubleWeaponsBonus = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GreatWeaponBonus = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HalberdBonus = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UnitOrders", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "UnitTypes",
                 columns: table => new
                 {
@@ -152,6 +136,7 @@ namespace EyeOfGods.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RWName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RangeOfShooting = table.Column<int>(type: "int", nullable: false),
                     RangeWeaponsTypeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -161,32 +146,35 @@ namespace EyeOfGods.Migrations
                         name: "FK_RangeWeapons_RangeWeaponsTypes_RangeWeaponsTypeId",
                         column: x => x.RangeWeaponsTypeId,
                         principalTable: "RangeWeaponsTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "UnitOrderUnitType",
+                name: "UnitOrders",
                 columns: table => new
                 {
-                    UnitTypeOrdersId = table.Column<int>(type: "int", nullable: false),
-                    UnitTypesId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrderDescrption = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SituationBonus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrderType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SpearBonus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PikeBonus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OneHandBonus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DoubleWeaponsBonus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GreatWeaponBonus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HalberdBonus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UnitTypeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UnitOrderUnitType", x => new { x.UnitTypeOrdersId, x.UnitTypesId });
+                    table.PrimaryKey("PK_UnitOrders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UnitOrderUnitType_UnitOrders_UnitTypeOrdersId",
-                        column: x => x.UnitTypeOrdersId,
-                        principalTable: "UnitOrders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UnitOrderUnitType_UnitTypes_UnitTypesId",
-                        column: x => x.UnitTypesId,
+                        name: "FK_UnitOrders_UnitTypes_UnitTypeId",
+                        column: x => x.UnitTypeId,
                         principalTable: "UnitTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -197,8 +185,11 @@ namespace EyeOfGods.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UnitName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Speed = table.Column<int>(type: "int", nullable: false),
+                    Defense = table.Column<int>(type: "int", nullable: false),
+                    Endurance = table.Column<int>(type: "int", nullable: false),
+                    Mental = table.Column<int>(type: "int", nullable: false),
                     RangeWeaponId = table.Column<int>(type: "int", nullable: true),
-                    ShiedId = table.Column<int>(type: "int", nullable: true),
+                    ShieldId = table.Column<int>(type: "int", nullable: true),
                     DefensiveAbilitiesId = table.Column<int>(type: "int", nullable: true),
                     EnduranceAbilitiesId = table.Column<int>(type: "int", nullable: true),
                     MentalAbilitiesId = table.Column<int>(type: "int", nullable: true),
@@ -211,38 +202,32 @@ namespace EyeOfGods.Migrations
                         name: "FK_Units_DefensiveAbilities_DefensiveAbilitiesId",
                         column: x => x.DefensiveAbilitiesId,
                         principalTable: "DefensiveAbilities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Units_EnduranceAbilities_EnduranceAbilitiesId",
                         column: x => x.EnduranceAbilitiesId,
                         principalTable: "EnduranceAbilities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Units_MentalAbilities_MentalAbilitiesId",
                         column: x => x.MentalAbilitiesId,
                         principalTable: "MentalAbilities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Units_RangeWeapons_RangeWeaponId",
                         column: x => x.RangeWeaponId,
                         principalTable: "RangeWeapons",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Units_Shields_ShiedId",
-                        column: x => x.ShiedId,
+                        name: "FK_Units_Shields_ShieldId",
+                        column: x => x.ShieldId,
                         principalTable: "Shields",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Units_UnitTypes_UnitTypeId",
                         column: x => x.UnitTypeId,
                         principalTable: "UnitTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -262,8 +247,7 @@ namespace EyeOfGods.Migrations
                         name: "FK_MeleeWeapons_Units_UnitId",
                         column: x => x.UnitId,
                         principalTable: "Units",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.InsertData(
@@ -290,7 +274,7 @@ namespace EyeOfGods.Migrations
                 columns: new[] { "Id", "MWName", "UnitId", "WeaponType" },
                 values: new object[,]
                 {
-                    { 1, "Мечь", null, 2 },
+                    { 1, "Меч", null, 2 },
                     { 2, "Пика", null, 1 },
                     { 3, "Алебарда", null, 5 }
                 });
@@ -306,12 +290,12 @@ namespace EyeOfGods.Migrations
 
             migrationBuilder.InsertData(
                 table: "RangeWeapons",
-                columns: new[] { "Id", "RWName", "RangeWeaponsTypeId" },
+                columns: new[] { "Id", "RWName", "RangeOfShooting", "RangeWeaponsTypeId" },
                 values: new object[,]
                 {
-                    { 2, "Аркебуза", null },
-                    { 3, "Пухандрий", null },
-                    { 1, "Лук", null }
+                    { 1, "Лук", 12, null },
+                    { 2, "Аркебуза", 18, null },
+                    { 3, "Пухандрий", 18, null }
                 });
 
             migrationBuilder.InsertData(
@@ -331,12 +315,12 @@ namespace EyeOfGods.Migrations
 
             migrationBuilder.InsertData(
                 table: "UnitOrders",
-                columns: new[] { "Id", "DoubleWeaponsBonus", "GreatWeaponBonus", "HalberdBonus", "OneHandBonus", "OrderDescrption", "OrderName", "OrderType", "PikeBonus", "SituationBonus", "SpearBonus" },
+                columns: new[] { "Id", "DoubleWeaponsBonus", "GreatWeaponBonus", "HalberdBonus", "OneHandBonus", "OrderDescrption", "OrderName", "OrderType", "PikeBonus", "SituationBonus", "SpearBonus", "UnitTypeId" },
                 values: new object[,]
                 {
-                    { 1, "+4 к боеспособности", "-1 к броне противника", "-1 к броне противника", "+2 к боеспособности", "Совершите обычное движение от любой точки побежденного отряда", "Прорыв", "Атака", "0", "Если в эту фазу активаций отряд проводил чардж - отнимите 2 от брони противника", "0" },
-                    { 2, "0", "-1 к броне противника", "+2 к боеспособности", "0", "Отойдите на 4\" от побежденного отряда", "Наскок", "Атака", "+4 к боеспособности", "Если в эту фазу активаций отряд проводил чардж - добавьте 1 к своей броне", "+2 к боеспособности" },
-                    { 3, "0", "-1 к броне противника", "0", "0", "+2 брони каждому отряду, после этого отступающий отступает на свое движение. Противник может преследовать", "Отступление", "Оборона", "0", "Если ваша скорость выше, чем у противника - добавьте 1 к своей броне", "0" }
+                    { 1, "+4 к боеспособности", "-1 к броне противника", "-1 к броне противника", "+2 к боеспособности", "Совершите обычное движение от любой точки побежденного отряда", "Прорыв", "Атака", "0", "Если в эту фазу активаций отряд проводил чардж - отнимите 2 от брони противника", "0", null },
+                    { 2, "0", "-1 к броне противника", "+2 к боеспособности", "0", "Отойдите на 4\" от побежденного отряда", "Наскок", "Атака", "+4 к боеспособности", "Если в эту фазу активаций отряд проводил чардж - добавьте 1 к своей броне", "+2 к боеспособности", null },
+                    { 3, "0", "-1 к броне противника", "0", "0", "+2 брони каждому отряду, после этого отступающий отступает на свое движение. Противник может преследовать", "Отступление", "Оборона", "0", "Если ваша скорость выше, чем у противника - добавьте 1 к своей броне", "0", null }
                 });
 
             migrationBuilder.InsertData(
@@ -346,16 +330,6 @@ namespace EyeOfGods.Migrations
                 {
                     { 1, "+2", "3", "2", "+2", "4", "2", "0", "1", "0", 8, 4, "0", "2", "0", "0", "1", "0", "Пехота", "+2", "3", "2" },
                     { 2, "+2", "3", "2", "Х", "6", "Х", "+2", "3", "2", 14, 8, "0", "2", "0", "+2", "3", "2", "Кавалерия", "+2", "3", "1" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Units",
-                columns: new[] { "Id", "DefensiveAbilitiesId", "EnduranceAbilitiesId", "MentalAbilitiesId", "RangeWeaponId", "ShiedId", "Speed", "UnitName", "UnitTypeId" },
-                values: new object[,]
-                {
-                    { 1, null, null, null, null, null, 6, "Копейщик", null },
-                    { 2, null, null, null, null, null, 6, "Алебардист", null },
-                    { 3, null, null, null, null, null, 12, "Кавалерист", null }
                 });
 
             migrationBuilder.CreateIndex(
@@ -369,9 +343,9 @@ namespace EyeOfGods.Migrations
                 column: "RangeWeaponsTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UnitOrderUnitType_UnitTypesId",
-                table: "UnitOrderUnitType",
-                column: "UnitTypesId");
+                name: "IX_UnitOrders_UnitTypeId",
+                table: "UnitOrders",
+                column: "UnitTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Units_DefensiveAbilitiesId",
@@ -394,9 +368,9 @@ namespace EyeOfGods.Migrations
                 column: "RangeWeaponId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Units_ShiedId",
+                name: "IX_Units_ShieldId",
                 table: "Units",
-                column: "ShiedId");
+                column: "ShieldId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Units_UnitTypeId",
@@ -404,19 +378,17 @@ namespace EyeOfGods.Migrations
                 column: "UnitTypeId");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "MeleeWeapons");
 
             migrationBuilder.DropTable(
-                name: "UnitOrderUnitType");
+                name: "UnitOrders");
 
             migrationBuilder.DropTable(
                 name: "Units");
-
-            migrationBuilder.DropTable(
-                name: "UnitOrders");
 
             migrationBuilder.DropTable(
                 name: "DefensiveAbilities");

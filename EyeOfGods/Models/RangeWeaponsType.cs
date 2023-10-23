@@ -14,7 +14,6 @@ namespace EyeOfGods.Models
         public int DistanceStep { get; set; }
         public string FirstRWTypeProperty { get; set; } = "Первое свойство";
         public string SecondRWTypeProperty { get; set; } = "Второе свойство";
-
         public List<RangeWeapon> RangeWeapons { get; set; }
     }
 }

@@ -1,16 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using EyeOfGods.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using EyeOfGods.SupportClasses;
+using EyeOfGods.Models;
 
 namespace EyeOfGods
 {
@@ -59,7 +54,7 @@ namespace EyeOfGods
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Pages}/{action=Start}/{id?}");
+                    pattern: "{controller=Pages}/{action=Seed}/{id?}");
             });
         }
     }

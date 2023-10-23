@@ -1,5 +1,4 @@
-﻿using EyeOfGods.Controllers;
-using EyeOfGods.Models;
+﻿using EyeOfGods.Models;
 using EyeOfGods.SupportClasses;
 using Moq;
 using static NUnitTests.FakeDb.Db_Moq;
@@ -37,7 +36,7 @@ namespace NUnitTests.UnitsGen
         [Test]
         public void DOES_GetUnitRangeWeap_generate_RangeWeapType_for_it()
         {
-            var newWeapon = uGenerator.GetUnitRangeWeap(rnd, _fakeDb.Object.RangeWeapons.ToList()).Result;
+            var newWeapon = uGenerator.GetRndUnitRangeWeap(rnd, _fakeDb.Object.RangeWeapons.ToList()).Result;
 
             Assert.That(newWeapon.RangeWeaponsType, Is.Not.Null);
         }
@@ -49,7 +48,7 @@ namespace NUnitTests.UnitsGen
 
             for (int i = 0; i < 200; i++)
             {
-                statsValue.Add(uGenerator.GetMentalValue(rnd, unitMental).Result);
+                statsValue.Add(uGenerator.GetRndMentalValue(rnd, unitMental).Result);
             }
 
             Assert.That(statsValue.Contains(unitMental.MinValue), Is.True);
@@ -60,7 +59,7 @@ namespace NUnitTests.UnitsGen
         [Test]
         public void DOES_GetMentalValue_generate_Abil()
         {
-            var newAbil = uGenerator.GetUnitMentalAbil(rnd, _fakeDb.Object.MentalAbilities.ToList()).Result;
+            var newAbil = uGenerator.GetRndUnitMentalAbil(rnd, _fakeDb.Object.MentalAbilities.ToList()).Result;
 
             Assert.That(newAbil, Is.Not.Null);
         }
@@ -72,7 +71,7 @@ namespace NUnitTests.UnitsGen
 
             for (int i = 0; i < 200; i++)
             {
-                statsValue.Add(uGenerator.GetEnduranceValue(rnd, unitEndu).Result);
+                statsValue.Add(uGenerator.GetRndEnduranceValue(rnd, unitEndu).Result);
             }
 
             Assert.That(statsValue.Contains(unitEndu.MinValue), Is.True);
@@ -83,7 +82,7 @@ namespace NUnitTests.UnitsGen
         [Test]
         public void DOES_GetUnitEnduranceAbil_generate_Abil()
         {
-            var newAbil = uGenerator.GetUnitEnduranceAbil(rnd, _fakeDb.Object.EnduranceAbilities.ToList()).Result;
+            var newAbil = uGenerator.GetRndUnitEnduranceAbil(rnd, _fakeDb.Object.EnduranceAbilities.ToList()).Result;
 
             Assert.That(newAbil, Is.Not.Null);
         }
@@ -95,7 +94,7 @@ namespace NUnitTests.UnitsGen
 
             for (int i = 0; i < 200; i++)
             {
-                statsValue.Add(uGenerator.GetDefenseValue(rnd, unitDef).Result);
+                statsValue.Add(uGenerator.GetRndDefenseValue(rnd, unitDef).Result);
             }
 
             Assert.That(statsValue.Contains(unitDef.MinValue), Is.True);
@@ -106,7 +105,7 @@ namespace NUnitTests.UnitsGen
         [Test]
         public void DOES_GetUnitDefensiveAbil_generate_Abil()
         {
-            var newAbil = uGenerator.GetUnitDefensiveAbil(rnd, _fakeDb.Object.DefensiveAbilities.ToList()).Result;
+            var newAbil = uGenerator.GetRndUnitDefensiveAbil(rnd, _fakeDb.Object.DefensiveAbilities.ToList()).Result;
 
             Assert.That(newAbil, Is.Not.Null);
         }
@@ -118,7 +117,7 @@ namespace NUnitTests.UnitsGen
 
             for (int i = 0; i < 200; i++)
             {
-                statsValue.Add(uGenerator.GetSpeedValue(rnd, unitType).Result);
+                statsValue.Add(uGenerator.GetRndSpeedValue(rnd, unitType).Result);
             }
 
             Assert.That(statsValue.Contains(unitType.MinSpeed), Is.True);
@@ -129,21 +128,21 @@ namespace NUnitTests.UnitsGen
         [Test]
         public void DOES_GetUnitType_generate_Orders_for_it()
         {
-            var newType = uGenerator.GetUnitType(rnd, _fakeDb.Object.UnitTypes.ToList()).Result;
+            var newType = uGenerator.GetRndUnitType(rnd, _fakeDb.Object.UnitTypes.ToList()).Result;
 
             Assert.That(newType.UnitTypeOrders, Is.Not.Null);
         }
         [Test]
         public void DOES_GetUnitShield_generate_Shield()
         {
-            var newShield = uGenerator.GetUnitShield(rnd, _fakeDb.Object.Shields.ToList()).Result;
+            var newShield = uGenerator.GetRndUnitShield(rnd, _fakeDb.Object.Shields.ToList()).Result;
 
             Assert.That(newShield, Is.Not.Null);
         }
         [Test]
         public void DOES_GenUnits_generate_ALL_stats()
         {
-            var newUnit = uGenerator.GenUnits(1, _fakeDb.Object.UnitTypes.ToList(), _fakeDb.Object.RangeWeapons.ToList(),
+            var newUnit = uGenerator.GenRndUnits(1, _fakeDb.Object.UnitTypes.ToList(), _fakeDb.Object.RangeWeapons.ToList(),
                 _fakeDb.Object.MeleeWeapons.ToList(), _fakeDb.Object.Shields.ToList(), _fakeDb.Object.MentalAbilities.ToList(),
                 _fakeDb.Object.DefensiveAbilities.ToList(), _fakeDb.Object.EnduranceAbilities.ToList()).Result.FirstOrDefault();
 
@@ -164,7 +163,7 @@ namespace NUnitTests.UnitsGen
         [TestCase(1)]
         public void DOES_GenUnits_generate_RIGHT_number_of_Units(int count)
         {
-            var newUnit = uGenerator.GenUnits(count, _fakeDb.Object.UnitTypes.ToList(), _fakeDb.Object.RangeWeapons.ToList(),
+            var newUnit = uGenerator.GenRndUnits(count, _fakeDb.Object.UnitTypes.ToList(), _fakeDb.Object.RangeWeapons.ToList(),
                 _fakeDb.Object.MeleeWeapons.ToList(), _fakeDb.Object.Shields.ToList(), _fakeDb.Object.MentalAbilities.ToList(),
                 _fakeDb.Object.DefensiveAbilities.ToList(), _fakeDb.Object.EnduranceAbilities.ToList()).Result;
 

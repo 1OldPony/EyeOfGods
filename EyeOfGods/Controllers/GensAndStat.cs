@@ -1,4 +1,5 @@
-﻿using EyeOfGods.Models;
+﻿using EyeOfGods.Context;
+using EyeOfGods.Models;
 //using EyeOfGods.Models.Testing;
 using EyeOfGods.SupportClasses;
 using Microsoft.AspNetCore.Mvc;
@@ -36,7 +37,7 @@ namespace EyeOfGods.Controllers
             List<DefensiveAbilities> allDefense = await _context.DefensiveAbilities.ToListAsync();
             List<EnduranceAbilities> allEndurance = await _context.EnduranceAbilities.ToListAsync();
 
-            List<Unit> allUnits = await _unitGen.GenUnits(count, allTypes, allRangeWeapons, allMeleeWeapons, allShields, allMental, allDefense, allEndurance);
+            List<Unit> allUnits = await _unitGen.GenRndUnits(count, allTypes, allRangeWeapons, allMeleeWeapons, allShields, allMental, allDefense, allEndurance);
 
             await _context.Units.AddRangeAsync(allUnits);
             await _context.SaveChangesAsync();

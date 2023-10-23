@@ -7,26 +7,31 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace EyeOfGods.Migrations
 {
     [DbContext(typeof(MyWargameContext))]
-    [Migration("20230814204452_ShieldRename")]
-    partial class ShieldRename
+    [Migration("20231023211231_Ressurection")]
+    partial class Ressurection
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.17")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "7.0.11")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("EyeOfGods.Models.DefensiveAbilities", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("BlocksArmorPierce")
                         .HasColumnType("bit");
@@ -93,8 +98,9 @@ namespace EyeOfGods.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CharacteristicName")
                         .HasColumnType("nvarchar(max)");
@@ -140,8 +146,9 @@ namespace EyeOfGods.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("MWName")
                         .HasColumnType("nvarchar(max)");
@@ -162,7 +169,7 @@ namespace EyeOfGods.Migrations
                         new
                         {
                             Id = 1,
-                            MWName = "Мечь",
+                            MWName = "Меч",
                             WeaponType = 2
                         },
                         new
@@ -183,8 +190,9 @@ namespace EyeOfGods.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CharacteristicName")
                         .HasColumnType("nvarchar(max)");
@@ -230,11 +238,15 @@ namespace EyeOfGods.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("RWName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RangeOfShooting")
+                        .HasColumnType("int");
 
                     b.Property<int?>("RangeWeaponsTypeId")
                         .HasColumnType("int");
@@ -249,17 +261,20 @@ namespace EyeOfGods.Migrations
                         new
                         {
                             Id = 1,
-                            RWName = "Лук"
+                            RWName = "Лук",
+                            RangeOfShooting = 12
                         },
                         new
                         {
                             Id = 2,
-                            RWName = "Аркебуза"
+                            RWName = "Аркебуза",
+                            RangeOfShooting = 18
                         },
                         new
                         {
                             Id = 3,
-                            RWName = "Пухандрий"
+                            RWName = "Пухандрий",
+                            RangeOfShooting = 18
                         });
                 });
 
@@ -267,8 +282,9 @@ namespace EyeOfGods.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("DistanceStep")
                         .HasColumnType("int");
@@ -329,8 +345,9 @@ namespace EyeOfGods.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ShieldName")
                         .HasColumnType("nvarchar(max)");
@@ -351,13 +368,23 @@ namespace EyeOfGods.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Defense")
+                        .HasColumnType("int");
 
                     b.Property<int?>("DefensiveAbilitiesId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Endurance")
+                        .HasColumnType("int");
+
                     b.Property<int?>("EnduranceAbilitiesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Mental")
                         .HasColumnType("int");
 
                     b.Property<int?>("MentalAbilitiesId")
@@ -393,34 +420,15 @@ namespace EyeOfGods.Migrations
                     b.HasIndex("UnitTypeId");
 
                     b.ToTable("Units");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Speed = 6,
-                            UnitName = "Копейщик"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Speed = 6,
-                            UnitName = "Алебардист"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Speed = 12,
-                            UnitName = "Кавалерист"
-                        });
                 });
 
             modelBuilder.Entity("EyeOfGods.Models.UnitOrder", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("DoubleWeaponsBonus")
                         .HasColumnType("nvarchar(max)");
@@ -452,7 +460,12 @@ namespace EyeOfGods.Migrations
                     b.Property<string>("SpearBonus")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UnitTypeId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UnitTypeId");
 
                     b.ToTable("UnitOrders");
 
@@ -505,8 +518,9 @@ namespace EyeOfGods.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("BarricadeAssault")
                         .HasColumnType("nvarchar(max)");
@@ -628,21 +642,6 @@ namespace EyeOfGods.Migrations
                         });
                 });
 
-            modelBuilder.Entity("UnitOrderUnitType", b =>
-                {
-                    b.Property<int>("UnitTypeOrdersId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UnitTypesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UnitTypeOrdersId", "UnitTypesId");
-
-                    b.HasIndex("UnitTypesId");
-
-                    b.ToTable("UnitOrderUnitType");
-                });
-
             modelBuilder.Entity("EyeOfGods.Models.MeleeWeapon", b =>
                 {
                     b.HasOne("EyeOfGods.Models.Unit", null)
@@ -698,19 +697,11 @@ namespace EyeOfGods.Migrations
                     b.Navigation("UnitType");
                 });
 
-            modelBuilder.Entity("UnitOrderUnitType", b =>
+            modelBuilder.Entity("EyeOfGods.Models.UnitOrder", b =>
                 {
-                    b.HasOne("EyeOfGods.Models.UnitOrder", null)
-                        .WithMany()
-                        .HasForeignKey("UnitTypeOrdersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("EyeOfGods.Models.UnitType", null)
-                        .WithMany()
-                        .HasForeignKey("UnitTypesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("UnitTypeOrders")
+                        .HasForeignKey("UnitTypeId");
                 });
 
             modelBuilder.Entity("EyeOfGods.Models.RangeWeaponsType", b =>
@@ -721,6 +712,11 @@ namespace EyeOfGods.Migrations
             modelBuilder.Entity("EyeOfGods.Models.Unit", b =>
                 {
                     b.Navigation("MeleeWeapons");
+                });
+
+            modelBuilder.Entity("EyeOfGods.Models.UnitType", b =>
+                {
+                    b.Navigation("UnitTypeOrders");
                 });
 #pragma warning restore 612, 618
         }
