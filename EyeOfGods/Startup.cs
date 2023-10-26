@@ -55,6 +55,7 @@ namespace EyeOfGods
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Pages}/{action=Seed}/{id?}");
+                //pattern: "{controller=Pages}/{action=start}/{id?}");
             });
         }
     }

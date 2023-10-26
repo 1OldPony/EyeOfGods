@@ -1,5 +1,6 @@
 ﻿using EyeOfGods.Context;
 using EyeOfGods.Models;
+using EyeOfGods.Models.ViewModels;
 //using EyeOfGods.Models.Testing;
 using EyeOfGods.SupportClasses;
 using Microsoft.AspNetCore.Mvc;
@@ -12,22 +13,22 @@ using System.Threading.Tasks;
 
 namespace EyeOfGods.Controllers
 {
-    [Route("api/functions")]
+    [Route("api/GensAndStat")]
     [ApiController]
     public class GensAndStat : ControllerBase
     {
         private readonly MyWargameContext _context;
         private readonly IUnitGenerator _unitGen;
-        public GensAndStat(MyWargameContext context, IUnitGenerator unitGen)
+        private readonly IStatistics _statistics;
+        public GensAndStat(MyWargameContext context, IUnitGenerator unitGen, IStatistics statistics)
         {
             _context = context;
             _unitGen = unitGen;
+            _statistics = statistics;
         }
 
-
-
         [HttpPost("GenUnit")]
-        public async Task<IActionResult> GenerateUnitAsync(int count)
+        public async Task<IActionResult> GenerateUnits(int count)
         {
             List<UnitType> allTypes = await _context.UnitTypes.ToListAsync();
             List<RangeWeapon> allRangeWeapons = await _context.RangeWeapons.ToListAsync();
@@ -42,13 +43,29 @@ namespace EyeOfGods.Controllers
             await _context.Units.AddRangeAsync(allUnits);
             await _context.SaveChangesAsync();
 
-            //return Ok();
-            return RedirectToAction("Start", "Pages");
-            //return await Getstatistics();
+            return Ok();
         }
 
+        [HttpDelete("ClearUnits")]
+        public async Task<IActionResult> DeleteAllUnits()
+        {
+            List<Unit> allUnits = await _context.Units.ToListAsync();
+            
+            _context.Units.RemoveRange(allUnits);
+            await _context.SaveChangesAsync();
 
+            return Ok();
+        }
 
+        [HttpGet("GetUnitsStat")]
+        public async Task<StatisticsViewModel> GetUnitsStat() 
+        {
+            List<Unit> units = await _context.Units.ToListAsync();
+
+            StatisticsViewModel stat = _statistics.GetUnitsStatistics(units).Result;
+
+            return stat;
+        }
 
 
 

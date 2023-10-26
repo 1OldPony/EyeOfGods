@@ -10,7 +10,7 @@ namespace NUnitTests.UnitsGen
     {
         UnitGenerator uGenerator = new();
         Random rnd = new();
-        private Mock<MyWargameContext> _fakeDb;
+        Mock<MyWargameContext> _fakeDb;
 
         [SetUp]
         public void Setup()

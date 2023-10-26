@@ -35,7 +35,7 @@ namespace EyeOfGods.Controllers
                 {
                     for (int i = 0; i < 2; i++)
                     {
-                        unitType.UnitTypeOrders.Add(allOrders.ElementAt(randomNumber.Next(0, allOrders.Count - 1)));
+                        unitType.UnitTypeOrders.Add(allOrders.ElementAt(randomNumber.Next(0, allOrders.Count)));
                     };
                     _context.UnitTypes.Update(unitType);
                 }
@@ -45,8 +45,8 @@ namespace EyeOfGods.Controllers
             {
                 if (rangeWeapon.RangeWeaponsType == null)
                 {
-                    rangeWeapon.RangeWeaponsType = allRangeWeaponTypes.ElementAt(randomNumber.Next(0, allRangeWeaponTypes.Count - 1));
-                    rangeWeapon.RWName = rangeWeapon.RangeWeaponsType.RWTypeName;
+                    rangeWeapon.RangeWeaponsType = allRangeWeaponTypes.ElementAt(randomNumber.Next(0, allRangeWeaponTypes.Count));
+                    //rangeWeapon.RWName = rangeWeapon.RangeWeaponsType.RWTypeName;
                 }
                 _context.RangeWeapons.Update(rangeWeapon);
             };
@@ -62,131 +62,137 @@ namespace EyeOfGods.Controllers
             /////////////////////////////////////////////////////
 
 
-
-            List<Unit> allUnits = await _context.Units.ToListAsync();
-
-            StatisticsViewModel statistics = new();
-
-            foreach (var unit in allUnits)
-            {
-                statistics.UnitsCount++;
-
-                switch (unit.UnitType.UnitTypeName)
-                {
-                    case "Пехота":
-                        statistics.InfantryCount++;
-                        break;
-                    case "Кавалерия":
-                        statistics.CavaleryCount++;
-                        break;
-                    case "Монстры":
-                        statistics.MonsterCount++;
-                        break;
-                    case "Гиганты":
-                        statistics.GiantsCount++;
-                        break;
-                    case "Артиллерия":
-                        statistics.ArtilleryCount++;
-                        break;
-                    case "Техника":
-                        statistics.VenicleCount++;
-                        break;
-                    case "Авиация":
-                        statistics.AviationCount++;
-                        break;
-                    default:
-                        break;
-                }
+            List<Unit> units = await _context.Units.ToListAsync();
+            Statistics x = new();
+            StatisticsViewModel stat = x.GetUnitsStatistics(units).Result;
 
 
-                //учитываем защитные характеристики
-                if (statistics.DefenceChars.Count == 0)
-                {
-                    statistics.DefenceChars.Add(new DefenceChars() { CharacteristicName = unit.DefensiveAbilities.CharacteristicName, UsageCount = 1 });
 
-                }
-                else
-                {
-                    if (!statistics.DefenceChars.Any(x => x.CharacteristicName == unit.DefensiveAbilities.CharacteristicName))
-                    {
-                        statistics.DefenceChars.Add(new DefenceChars() { CharacteristicName = unit.DefensiveAbilities.CharacteristicName, UsageCount = 1 });
-                    }
-                    else
-                    {
-                        statistics.DefenceChars.First(x => x.CharacteristicName == unit.DefensiveAbilities.CharacteristicName).UsageCount++;
-                    }
-                }
 
-                //учитываем характеристики выносливости
-                if (statistics.EnduranceChars.Count == 0)
-                {
-                    statistics.EnduranceChars.Add(new EnduranceChars() { CharacteristicName = unit.EnduranceAbilities.CharacteristicName, UsageCount = 1 });
-                }
-                else
-                {
-                    if (!statistics.EnduranceChars.Any(x => x.CharacteristicName == unit.EnduranceAbilities.CharacteristicName))
-                    {
-                        statistics.EnduranceChars.Add(new EnduranceChars() { CharacteristicName = unit.EnduranceAbilities.CharacteristicName, UsageCount = 1 });
-                    }
-                    else
-                    {
-                        statistics.EnduranceChars.First(x => x.CharacteristicName == unit.EnduranceAbilities.CharacteristicName).UsageCount++;
-                    }
-                }
+            //List<Unit> allUnits = await _context.Units.ToListAsync();
+            
 
-                //учитываем ментальные характеристики
-                if (statistics.MentalChars.Count == 0)
-                {
-                    statistics.MentalChars.Add(new MentalChars() { CharacteristicName = unit.MentalAbilities.CharacteristicName, UsageCount = 1 });
-                }
-                else
-                {
-                    if (!statistics.MentalChars.Any(x => x.CharacteristicName == unit.MentalAbilities.CharacteristicName))
-                    {
-                        statistics.MentalChars.Add(new MentalChars() { CharacteristicName = unit.MentalAbilities.CharacteristicName, UsageCount = 1 });
-                    }
-                    else
-                    {
-                        statistics.MentalChars.First(x => x.CharacteristicName == unit.MentalAbilities.CharacteristicName).UsageCount++;
-                    }
-                }
+            //StatisticsViewModel statistics = new();
 
-                //учитываем оружие ближнего боя
-                foreach (var weapon in unit.MeleeWeapons)
-                {
-                    statistics.MeleeWeaponsCount++;
-                    if (!statistics.MeleeWeaponsTypes.Any(x => x.WeaponStatName == weapon.WeaponType.ToString()))
-                    {
-                        statistics.MeleeWeaponsTypes.Add(new MeleeWeaponsStat() { WeaponStatName = weapon.WeaponType.ToString(), UsageCount = 1 });
-                    }
-                    else
-                    {
-                        statistics.MeleeWeaponsTypes.First(x => x.WeaponStatName == weapon.WeaponType.ToString()).UsageCount++;
-                    }
-                }
+            //foreach (var unit in allUnits)
+            //{
+            //    statistics.UnitsCount++;
 
-                //учитываем оружие дальнего боя
-                if (unit.RangeWeapon != null)
-                {
-                    statistics.RangeWeaponsCount++;
-                    if (!statistics.RangeWeaponsTypes.Any(x => x.WeaponStatName == unit.RangeWeapon.RangeWeaponsType.RWTypeName))
-                    {
-                        statistics.RangeWeaponsTypes.Add(new RangeWeaponsStat() { WeaponStatName = unit.RangeWeapon.RangeWeaponsType.RWTypeName, UsageCount = 1 });
-                    }
-                    else
-                    {
-                        statistics.RangeWeaponsTypes.First(x => x.WeaponStatName == unit.RangeWeapon.RangeWeaponsType.RWTypeName).UsageCount++;
-                    }
-                }
+            //    switch (unit.UnitType.UnitTypeName)
+            //    {
+            //        case "Пехота":
+            //            statistics.InfantryCount++;
+            //            break;
+            //        case "Кавалерия":
+            //            statistics.CavaleryCount++;
+            //            break;
+            //        case "Монстры":
+            //            statistics.MonsterCount++;
+            //            break;
+            //        case "Гиганты":
+            //            statistics.GiantsCount++;
+            //            break;
+            //        case "Артиллерия":
+            //            statistics.ArtilleryCount++;
+            //            break;
+            //        case "Техника":
+            //            statistics.VenicleCount++;
+            //            break;
+            //        case "Авиация":
+            //            statistics.AviationCount++;
+            //            break;
+            //        default:
+            //            break;
+            //    }
 
-                //учитываем щиты
-                if (unit.Shield != null)
-                {
-                    statistics.ShieldsCount++;
-                }
-            }
-            return View(statistics);
-            //return View();
+
+            //    //учитываем защитные характеристики
+            //    if (statistics.DefenceChars.Count == 0)
+            //    {
+            //        statistics.DefenceChars.Add(new DefenceChars() { CharacteristicName = unit.DefensiveAbilities.CharacteristicName, UsageCount = 1 });
+
+            //    }
+            //    else
+            //    {
+            //        if (!statistics.DefenceChars.Any(x => x.CharacteristicName == unit.DefensiveAbilities.CharacteristicName))
+            //        {
+            //            statistics.DefenceChars.Add(new DefenceChars() { CharacteristicName = unit.DefensiveAbilities.CharacteristicName, UsageCount = 1 });
+            //        }
+            //        else
+            //        {
+            //            statistics.DefenceChars.First(x => x.CharacteristicName == unit.DefensiveAbilities.CharacteristicName).UsageCount++;
+            //        }
+            //    }
+
+            //    //учитываем характеристики выносливости
+            //    if (statistics.EnduranceChars.Count == 0)
+            //    {
+            //        statistics.EnduranceChars.Add(new EnduranceChars() { CharacteristicName = unit.EnduranceAbilities.CharacteristicName, UsageCount = 1 });
+            //    }
+            //    else
+            //    {
+            //        if (!statistics.EnduranceChars.Any(x => x.CharacteristicName == unit.EnduranceAbilities.CharacteristicName))
+            //        {
+            //            statistics.EnduranceChars.Add(new EnduranceChars() { CharacteristicName = unit.EnduranceAbilities.CharacteristicName, UsageCount = 1 });
+            //        }
+            //        else
+            //        {
+            //            statistics.EnduranceChars.First(x => x.CharacteristicName == unit.EnduranceAbilities.CharacteristicName).UsageCount++;
+            //        }
+            //    }
+
+            //    //учитываем ментальные характеристики
+            //    if (statistics.MentalChars.Count == 0)
+            //    {
+            //        statistics.MentalChars.Add(new MentalChars() { CharacteristicName = unit.MentalAbilities.CharacteristicName, UsageCount = 1 });
+            //    }
+            //    else
+            //    {
+            //        if (!statistics.MentalChars.Any(x => x.CharacteristicName == unit.MentalAbilities.CharacteristicName))
+            //        {
+            //            statistics.MentalChars.Add(new MentalChars() { CharacteristicName = unit.MentalAbilities.CharacteristicName, UsageCount = 1 });
+            //        }
+            //        else
+            //        {
+            //            statistics.MentalChars.First(x => x.CharacteristicName == unit.MentalAbilities.CharacteristicName).UsageCount++;
+            //        }
+            //    }
+
+            //    //учитываем оружие ближнего боя
+            //    foreach (var weapon in unit.MeleeWeapons)
+            //    {
+            //        statistics.MeleeWeaponsCount++;
+            //        if (!statistics.MeleeWeaponsTypes.Any(x => x.WeaponStatName == weapon.WeaponType.ToString()))
+            //        {
+            //            statistics.MeleeWeaponsTypes.Add(new MeleeWeaponsStat() { WeaponStatName = weapon.WeaponType.ToString(), UsageCount = 1 });
+            //        }
+            //        else
+            //        {
+            //            statistics.MeleeWeaponsTypes.First(x => x.WeaponStatName == weapon.WeaponType.ToString()).UsageCount++;
+            //        }
+            //    }
+
+            //    //учитываем оружие дальнего боя
+            //    if (unit.RangeWeapon != null)
+            //    {
+            //        statistics.RangeWeaponsCount++;
+            //        if (!statistics.RangeWeaponsTypes.Any(x => x.WeaponStatName == unit.RangeWeapon.RangeWeaponsType.RWTypeName))
+            //        {
+            //            statistics.RangeWeaponsTypes.Add(new RangeWeaponsStat() { WeaponStatName = unit.RangeWeapon.RangeWeaponsType.RWTypeName, UsageCount = 1 });
+            //        }
+            //        else
+            //        {
+            //            statistics.RangeWeaponsTypes.First(x => x.WeaponStatName == unit.RangeWeapon.RangeWeaponsType.RWTypeName).UsageCount++;
+            //        }
+            //    }
+
+            //    //учитываем щиты
+            //    if (unit.Shield != null)
+            //    {
+            //        statistics.ShieldsCount++;
+            //    }
+            //}
+            return View(stat);
         }
 
         public IActionResult Units()

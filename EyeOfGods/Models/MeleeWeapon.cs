@@ -16,7 +16,7 @@ namespace EyeOfGods.Models
         public string MWName { get; set; } = "Оружие ближнего боя";
 
         public MeleeWeaponTypes WeaponType { get; set; } = new MeleeWeaponTypes();
+        public List<Unit> Units { get; set; } = new();
 
-        //public MeleeWeaponType MeleeWeaponType { get; set; }
     }
 }
