@@ -36,7 +36,7 @@ namespace NUnitTests.FakeDb
                     Id = 1, DefensiveAbilities = DefensiveAbilitiesList().Object.ElementAt(0), EnduranceAbilities = EnduranceAbilitiesList().Object.ElementAt(0),
                     MentalAbilities = MentalAbilitiesList().Object.ElementAt(1), MeleeWeapons = {MeleeWeaponsList().Object.ElementAt(2),MeleeWeaponsList().Object.ElementAt(0)},
                     UnitType = UnitTypesList().Object.ElementAt(0), UnitName = "Test_Halberdier_NoShield_NoRange_NoFuture",
-                    Speed = 8, Defense = 4, Endurance = 8, Mental = 2
+                    Speed = 8, Defense = 4, Endurance = 8, Mental = 2, RangeWeapon = RangeWeaponsList().Object.ElementAt(0)
                 }
             }.AsQueryable();
 
@@ -91,8 +91,8 @@ namespace NUnitTests.FakeDb
         public static Mock<DbSet<MeleeWeapon>> MeleeWeaponsList()
         {
             SeedData seedData = new();
-            seedData.meleeWeapon[0].Units.Add(UnitsList().Object.ElementAt(0));
-            seedData.meleeWeapon[2].Units.Add(UnitsList().Object.ElementAt(0));
+            seedData.meleeWeapon[0].Units.Add(new Unit { Id = 1 });
+            seedData.meleeWeapon[2].Units.Add(new Unit { Id = 1 });
             var data = new List<MeleeWeapon>{ seedData.meleeWeapon[0], seedData.meleeWeapon[1], seedData.meleeWeapon[2] }.AsQueryable();
 
             var meleeWeapons = new Mock<DbSet<MeleeWeapon>>();

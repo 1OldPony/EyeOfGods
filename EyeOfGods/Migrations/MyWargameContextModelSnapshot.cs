@@ -53,7 +53,7 @@ namespace EyeOfGods.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DefensiveAbilities");
+                    b.ToTable("DefensiveAbilities", (string)null);
 
                     b.HasData(
                         new
@@ -116,7 +116,7 @@ namespace EyeOfGods.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EnduranceAbilities");
+                    b.ToTable("EnduranceAbilities", (string)null);
 
                     b.HasData(
                         new
@@ -155,7 +155,7 @@ namespace EyeOfGods.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MeleeWeapons");
+                    b.ToTable("MeleeWeapons", (string)null);
 
                     b.HasData(
                         new
@@ -203,7 +203,7 @@ namespace EyeOfGods.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MentalAbilities");
+                    b.ToTable("MentalAbilities", (string)null);
 
                     b.HasData(
                         new
@@ -247,7 +247,7 @@ namespace EyeOfGods.Migrations
 
                     b.HasIndex("RangeWeaponsTypeId");
 
-                    b.ToTable("RangeWeapons");
+                    b.ToTable("RangeWeapons", (string)null);
 
                     b.HasData(
                         new
@@ -298,7 +298,7 @@ namespace EyeOfGods.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RangeWeaponsTypes");
+                    b.ToTable("RangeWeaponsTypes", (string)null);
 
                     b.HasData(
                         new
@@ -346,7 +346,7 @@ namespace EyeOfGods.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Shields");
+                    b.ToTable("Shields", (string)null);
 
                     b.HasData(
                         new
@@ -411,7 +411,7 @@ namespace EyeOfGods.Migrations
 
                     b.HasIndex("UnitTypeId");
 
-                    b.ToTable("Units");
+                    b.ToTable("Units", (string)null);
                 });
 
             modelBuilder.Entity("EyeOfGods.Models.UnitOrder", b =>
@@ -454,7 +454,7 @@ namespace EyeOfGods.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UnitOrders");
+                    b.ToTable("UnitOrders", (string)null);
 
                     b.HasData(
                         new
@@ -574,7 +574,7 @@ namespace EyeOfGods.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UnitTypes");
+                    b.ToTable("UnitTypes", (string)null);
 
                     b.HasData(
                         new
@@ -641,7 +641,7 @@ namespace EyeOfGods.Migrations
 
                     b.HasIndex("UnitsId");
 
-                    b.ToTable("MeleeWeaponUnit");
+                    b.ToTable("MeleeWeaponUnit", (string)null);
                 });
 
             modelBuilder.Entity("UnitOrderUnitType", b =>
@@ -656,7 +656,7 @@ namespace EyeOfGods.Migrations
 
                     b.HasIndex("UnitTypesId");
 
-                    b.ToTable("UnitOrderUnitType");
+                    b.ToTable("UnitOrderUnitType", (string)null);
                 });
 
             modelBuilder.Entity("EyeOfGods.Models.RangeWeapon", b =>

@@ -20,7 +20,7 @@ namespace NUnitTests.Statistic
         }
 
         [Test]
-        public void DOES_UnitsCount_count_Units_RIGHT()
+        public void UnitsCount_count_Units_RIGHT()
         {
             var unitsInDb = _fakeDb.Object.Units.ToList().Count;
             var statData = _stat.UnitsCount(_fakeDb.Object.Units.Where(u=>u.UnitName!="").ToList()).Result.unitsCount;
@@ -29,7 +29,7 @@ namespace NUnitTests.Statistic
         }
 
         [Test]
-        public void DOES_UnitsCount_count_infantry_RIGHT()
+        public void UnitsCount_count_infantry_RIGHT()
         {
             var infntryInDb = _fakeDb.Object.Units.Where(u => u.UnitType.UnitTypeName == "Пехота").ToList().Count;
             var statData = _stat.UnitsCount(_fakeDb.Object.Units.ToList()).Result.infantryCount;
@@ -38,7 +38,7 @@ namespace NUnitTests.Statistic
         }
 
         [Test]
-        public void DOES_UnitsCount_count_cavalery_RIGHT()
+        public void UnitsCount_count_cavalery_RIGHT()
         {
             var cavaleryInDb = _fakeDb.Object.Units.Where(u => u.UnitType.UnitTypeName == "Кавалерия").ToList().Count;
             var statData = _stat.UnitsCount(_fakeDb.Object.Units.ToList()).Result.cavaleryCount;
@@ -47,47 +47,133 @@ namespace NUnitTests.Statistic
         }
 
         [Test]
-        public void DefenceChars_Characteristics_RIGHT()
+        public void UnitsDefenceCharsCount_count_Characteristics_RIGHT()
         {
             int allArmor = _fakeDb.Object.Units.Where(a => a.DefensiveAbilities.CharacteristicName == "Броня").ToList().Count;
 
             var result = _stat.UnitsDefenceCharsCount(_fakeDb.Object.Units.ToList()).Result;
-            int statArmor = result.Where(a => a.CharacteristicName == "Броня").FirstOrDefault().UsageCount;
+            int statArmorCount = result.Where(a => a.CharacteristicName == "Броня").FirstOrDefault().UsageCount;
 
-            Assume.That(statArmor, Is.EqualTo(allArmor));
+            Assume.That(statArmorCount, Is.EqualTo(allArmor));
         }
 
         [Test]
-        public void DOES_EnduranceCharsCount_count_Characteristics_RIGHT()
+        public void UnitsEnduranceCharsCount_count_Characteristics_RIGHT()
         {
             int allEndur = _fakeDb.Object.Units.Where(a => a.EnduranceAbilities.CharacteristicName == "Выносливость").ToList().Count;
+            int allCel = _fakeDb.Object.Units.Where(a => a.EnduranceAbilities.CharacteristicName == "Целостность").ToList().Count;
 
             var result = _stat.UnitsEnduranceCharsCount(_fakeDb.Object.Units.ToList()).Result;
-            int statEndur = result.Where(a => a.CharacteristicName == "Выносливость").FirstOrDefault().UsageCount;
+            int statEndurCount = result.Where(a => a.CharacteristicName == "Выносливость").FirstOrDefault(new EnduranceChars { UsageCount = 0 }).UsageCount;
+            int statCelCount = result.Where(a => a.CharacteristicName == "Целостность").FirstOrDefault(new EnduranceChars { UsageCount = 0 }).UsageCount;
 
-            Assume.That(statEndur, Is.EqualTo(allEndur));
+            Assume.That(statEndurCount, Is.EqualTo(allEndur));
+            Assume.That(statCelCount, Is.EqualTo(allCel));
         }
 
         [Test]
-        public void DOES_MentalCharsCount_count_Characteristics_RIGHT()
+        public void UnitsMentalCharsCount_count_Characteristics_RIGHT()
         {
             int allRage = _fakeDb.Object.Units.Where(a => a.MentalAbilities.CharacteristicName == "Ярость").ToList().Count;
-            
-            var result = _stat.UnitsMentalCharsCount(_fakeDb.Object.Units.ToList()).Result;
-            int statRage = result.Where(a => a.CharacteristicName == "Ярость").FirstOrDefault().UsageCount;
+            int allBrave = _fakeDb.Object.Units.Where(a => a.MentalAbilities.CharacteristicName == "Отвага").ToList().Count;
 
-            Assume.That(statRage, Is.EqualTo(allRage));
+            var result = _stat.UnitsMentalCharsCount(_fakeDb.Object.Units.ToList()).Result;
+            int statRageCount = result.Where(a => a.CharacteristicName == "Ярость").FirstOrDefault(new MentalChars { UsageCount = 0 }).UsageCount;
+            int statBraveCount = result.Where(a => a.CharacteristicName == "Отвага").FirstOrDefault(new MentalChars { UsageCount = 0 }).UsageCount;
+
+            Assume.That(statRageCount, Is.EqualTo(allRage));
+            Assume.That(statBraveCount, Is.EqualTo(allBrave));
         }
 
-        //[Test]
-        //public void DOES_MeleeWeaponsCount_count_Weapons_RIGHT()
-        //{
-        //    int allRage = _fakeDb.Object.Units.Where(a => a..CharacteristicName == "Ярость").ToList().Count;
+        [Test]
+        public void UnitsMeleeWeaponsCount_count_Weapons_RIGHT()
+        {
+            int allMelWeap = _fakeDb.Object.MeleeWeapons.Where(m => m.Units.Count != 0).ToList().Count;
 
-        //    var result = _stat.UnitsMentalCharsCount(_fakeDb.Object.Units.ToList()).Result;
-        //    int statRage = result.Where(a => a.CharacteristicName == "Ярость").FirstOrDefault().UsageCount;
+            var result = _stat.UnitsMeleeWeaponsCount(_fakeDb.Object.Units.ToList()).Result;
+            int statMelWeapCount = result.meleeWeaponsCount;
 
-        //    Assume.That(statRage, Is.EqualTo(allRage));
-        //}
+            Assume.That(statMelWeapCount, Is.EqualTo(allMelWeap));
+        }
+
+        [Test]
+        public void UnitsMeleeWeaponsCount_count_All_Its_Types_RIGHT()
+        {
+            int allOneHand = _fakeDb.Object.MeleeWeapons.Where(m => m.Units.Count != 0 && m.WeaponType == MeleeWeaponTypes.Одноручное).ToList().Count;
+            int allTwoHand = _fakeDb.Object.MeleeWeapons.Where(m => m.Units.Count != 0 && m.WeaponType == MeleeWeaponTypes.Двуручное).ToList().Count;
+            int allSpear = _fakeDb.Object.MeleeWeapons.Where(m => m.Units.Count != 0 && m.WeaponType == MeleeWeaponTypes.Копье).ToList().Count;
+            int allHalb = _fakeDb.Object.MeleeWeapons.Where(m => m.Units.Count != 0 && m.WeaponType == MeleeWeaponTypes.Алебарда).ToList().Count;
+            int allDouble = _fakeDb.Object.MeleeWeapons.Where(m => m.Units.Count != 0 && m.WeaponType == MeleeWeaponTypes.Парное).ToList().Count;
+            int allPike = _fakeDb.Object.MeleeWeapons.Where(m => m.Units.Count != 0 && m.WeaponType == MeleeWeaponTypes.Пика).ToList().Count;
+
+            var result = _stat.UnitsMeleeWeaponsCount(_fakeDb.Object.Units.ToList()).Result;
+            int statOneHandCount = result.meleeWeaponsStat.Where(m => m.WeaponStatName == MeleeWeaponTypes.Одноручное.ToString())
+                .FirstOrDefault(new MeleeWeaponsStat { UsageCount = 0 }).UsageCount;
+
+            int statTwoHandCount = result.meleeWeaponsStat.Where(m => m.WeaponStatName == MeleeWeaponTypes.Двуручное.ToString())
+                .FirstOrDefault(new MeleeWeaponsStat { UsageCount = 0 }).UsageCount;
+
+            int statSpearCount = result.meleeWeaponsStat.Where(m => m.WeaponStatName == MeleeWeaponTypes.Копье.ToString())
+                .FirstOrDefault(new MeleeWeaponsStat { UsageCount = 0 }).UsageCount;
+
+            int statHalbCount = result.meleeWeaponsStat.Where(m => m.WeaponStatName == MeleeWeaponTypes.Алебарда.ToString())
+                .FirstOrDefault(new MeleeWeaponsStat { UsageCount = 0 }).UsageCount;
+
+            int statDoubleCount = result.meleeWeaponsStat.Where(m => m.WeaponStatName == MeleeWeaponTypes.Парное.ToString())
+                .FirstOrDefault(new MeleeWeaponsStat { UsageCount = 0 }).UsageCount;
+
+            int statPikeCount = result.meleeWeaponsStat.Where(m => m.WeaponStatName == MeleeWeaponTypes.Пика.ToString())
+                .FirstOrDefault(new MeleeWeaponsStat { UsageCount = 0 }).UsageCount;
+
+            Assume.That(statOneHandCount, Is.EqualTo(allOneHand));
+            Assume.That(statTwoHandCount, Is.EqualTo(allTwoHand));
+            Assume.That(statSpearCount, Is.EqualTo(allSpear));
+            Assume.That(statHalbCount, Is.EqualTo(allHalb));
+            Assume.That(statDoubleCount, Is.EqualTo(allDouble));
+            Assume.That(statPikeCount, Is.EqualTo(allPike));
+        }
+
+        [Test]
+        public void UnitsRangeWeaponsCount_count_Weapons_RIGHT()
+        {
+            var allRangeWeap = _fakeDb.Object.Units.Where(u => u.RangeWeapon != null).ToList().Count;
+
+            var result = _stat.UnitsRangeWeaponsCount(_fakeDb.Object.Units.ToList()).Result;
+            int statRangeWeapCount = result.rangeWeaponsCount;
+
+            Assume.That(statRangeWeapCount, Is.EqualTo(allRangeWeap));
+        }
+
+        [Test]
+        public void UnitsRangeWeaponsCount_count_All_Its_Types_RIGHT()
+        {
+            int allLiteRW = _fakeDb.Object.Units.Where(m => m.RangeWeapon != null && m.RangeWeapon.RangeWeaponsType.RWTypeName == "Легкое стрелковое вооружение").ToList().Count;
+            int allHevyRW = _fakeDb.Object.Units.Where(m => m.RangeWeapon != null && m.RangeWeapon.RangeWeaponsType.RWTypeName == "Тяжелое стрелковое вооружение").ToList().Count;
+            int allArtRW = _fakeDb.Object.Units.Where(m => m.RangeWeapon != null && m.RangeWeapon.RangeWeaponsType.RWTypeName == "Артиллерийское вооружение").ToList().Count;
+
+            var result = _stat.UnitsRangeWeaponsCount(_fakeDb.Object.Units.ToList()).Result;
+            int statLiteRWCount = result.rangeWeaponsStat.Where(m => m.WeaponStatName == "Легкое стрелковое вооружение")
+                .FirstOrDefault(new RangeWeaponsStat { UsageCount = 0 }).UsageCount;
+
+            int statHevyRWCount = result.rangeWeaponsStat.Where(m => m.WeaponStatName == "Тяжелое стрелковое вооружение")
+                .FirstOrDefault(new RangeWeaponsStat { UsageCount = 0 }).UsageCount;
+
+            int statArtRWCount = result.rangeWeaponsStat.Where(m => m.WeaponStatName == "Артиллерийское вооружение")
+                .FirstOrDefault(new RangeWeaponsStat { UsageCount = 0 }).UsageCount;
+
+            Assume.That(statLiteRWCount, Is.EqualTo(allLiteRW));
+            Assume.That(statHevyRWCount, Is.EqualTo(allHevyRW));
+            Assume.That(statArtRWCount, Is.EqualTo(allArtRW));
+        }
+
+        [Test]
+        public void UnitsShieldsCount_count_it_RIGHT()
+        {
+            var allShields = _fakeDb.Object.Units.Where(u => u.Shield != null).ToList().Count;
+
+            var statShieldsCount = _stat.UnitsShieldsCount(_fakeDb.Object.Units.ToList()).Result;
+
+            Assume.That(statShieldsCount, Is.EqualTo(allShields));
+        }
     }
 }

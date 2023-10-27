@@ -31,7 +31,7 @@ namespace NUnitTests.UnitsGen
         {
             var newName = uGenerator.GenUnitName(_fakeDb.Object.Units.FirstOrDefault()).Result;
 
-            Assert.That(newName, Is.EqualTo("Легк. Пехота c Алебарда"));
+            Assert.That(newName, Is.EqualTo("Легк. Пехота c Алебарда и Меч"));
         }
         [Test]
         public void DOES_GetUnitRangeWeap_generate_RangeWeapType_for_it()
