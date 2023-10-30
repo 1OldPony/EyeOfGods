@@ -1,11 +1,8 @@
-﻿using EyeOfGods.Context;
-using EyeOfGods.Models;
+﻿using EyeOfGods.Models;
 using EyeOfGods.Models.ViewModels;
-//using EyeOfGods.Models.Testing;
 using EyeOfGods.SupportClasses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,12 +55,27 @@ namespace EyeOfGods.Controllers
         }
 
         [HttpGet("GetUnitsStat")]
-        public async Task<StatisticsViewModel> GetUnitsStat() 
+        public async Task<StatisticsViewModel> GetUnitsStat()
         {
-            List<Unit> units = await _context.Units.ToListAsync();
+            List<Unit> units = new();
+            //try
+            //{
+                units = _context.Units.ToList();
+                //units = await _context.Units.ToListAsync();
+            //}
+            //catch (Exception ex) 
+            //{
+            //    throw new Exception($"Не удалось создать лист юнитов: {ex}");
+            //}
 
-            StatisticsViewModel stat = _statistics.GetUnitsStatistics(units).Result;
-
+            //try
+            //{
+                StatisticsViewModel stat = await _statistics.GetUnitsStatistics(units);
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw new Exception($"Не удалось запустить GetUnitsStatistics: {ex}");
+            //}
             return stat;
         }
 

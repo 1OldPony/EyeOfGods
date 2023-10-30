@@ -46,6 +46,7 @@ namespace NUnitTests.FakeDb
             unitsList.As<IQueryable<Unit>>().Setup(m => m.ElementType).Returns(data.ElementType);
             unitsList.As<IQueryable<Unit>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
 
+            //unitsList.As<IQueryable<Unit>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
             return unitsList;
         }
 

@@ -18,6 +18,14 @@ namespace NUnitTests.Statistic
             _stat = new Statistics();
             _fakeDb = Context();
         }
+        [Test]
+        public void GetUnitsStatistics_Test()
+        {
+            var unitsInDb = _fakeDb.Object.Units.ToList();
+            var x = _stat.GetUnitsStatistics(unitsInDb).Result;
+
+            Assume.That(x.UnitsCount, Is.Not.EqualTo(0));
+        }
 
         [Test]
         public void UnitsCount_count_Units_RIGHT()
