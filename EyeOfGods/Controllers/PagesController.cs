@@ -52,6 +52,21 @@ namespace EyeOfGods.Controllers
             };
             await _context.SaveChangesAsync();
 
+
+            //List<UnitType> allTypes = await _context.UnitTypes.ToListAsync();
+            //List<RangeWeapon> allRangeWeapons = await _context.RangeWeapons.ToListAsync();
+            //UnitGenerator x = new();
+            //List<MeleeWeapon> allMeleeWeapons = await _context.MeleeWeapons.ToListAsync();
+            //List<Shield> allShields = await _context.Shields.ToListAsync();
+            //List<MentalAbilities> allMental = await _context.MentalAbilities.ToListAsync();
+            //List<DefensiveAbilities> allDefense = await _context.DefensiveAbilities.ToListAsync();
+            //List<EnduranceAbilities> allEndurance = await _context.EnduranceAbilities.ToListAsync();
+
+            //List<Unit> allUnits = await x.GenRndUnits(3, allTypes, allRangeWeapons, allMeleeWeapons, allShields, allMental, allDefense, allEndurance);
+
+            //await _context.Units.AddRangeAsync(allUnits);
+            //await _context.SaveChangesAsync();
+
             return RedirectToAction("Start");
         }
 

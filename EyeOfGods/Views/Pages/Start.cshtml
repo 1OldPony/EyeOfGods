@@ -8,7 +8,7 @@
 
 <div class="pageBlock">
     <div class="leftMenu">
-        <div class="menuButton" onclick="GenerateUnits()"><div class="menuButtonText">Добавить <span><span>-</span><input type="number" id="count" value="3" /></span><span>+</span> отряда(-ов)</div></div>
+        <div class="menuButton" onclick="GenerateRndUnits()"><div class="menuButtonText">Добавить <span><span>-</span><input type="number" id="count" value="3" /></span><span>+</span> отряда(-ов)</div></div>
 
 
     </div>
@@ -31,6 +31,10 @@
                 </div>
                 <div style="display:flex;flex-direction:column;">
                     <div class="statisticsDataHeader">Защитные характеристики:</div>
+                    <div id="defChars">
+
+                    </div>
+                    
                     @foreach (var item in Model.DefenceChars)
                     {
                         <div class="statisticsDataRow">@item.CharacteristicName - @item.UsageCount</div>
@@ -77,15 +81,18 @@
 
 </div>
 
-<script>
+@* <script>
     async function GenerateUnits() {
         let count = document.getElementById("count").value;
 
         // отправляет запрос и получаем ответ
         const response = await fetch('/api/GensAndStat/GenUnit?count=3', {
-            method: "POST",
-            headers: { "Accept": "application/json" }
+            method: "GET",
+            headers: { 
+                "Accept": "application/json" 
+            }
         });
+        
         //// если запрос прошел нормально
         // if (response.ok === true) {
         //     // получаем данные
@@ -97,5 +104,5 @@
         //     alert("Фуууу!!!");
         // }
     }
-</script>
-@* <script src="~/js/Start.js"></script> *@
+</script> *@
+<script src="~/js/Start.js"></script>

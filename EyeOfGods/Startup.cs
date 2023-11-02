@@ -28,6 +28,7 @@ namespace EyeOfGods
                 options.UseSqlServer(@"Server=DESKTOP-EIT9M1T;Database=MyWargame;Trusted_Connection=true;TrustServerCertificate=True;MultipleActiveResultSets=true");
             });
             services.AddScoped<IUnitGenerator, UnitGenerator>();
+            services.AddScoped<IStatistics, Statistics>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,24 +1,35 @@
 ﻿document.addEventListener("DOMContentLoaded", function () {
-    //GetUnitsStat();
+    GetUnitsStat();
 })
 
 function GetUnitsStat() {
     fetch("/api/GensAndStat/GetUnitsStat")
         .then(response => response.json())
-        .catch(error => alert('Не удалось получить статистику. ', error))
-        //.then(data => LoadStatResult(data))
-        //.catch(error => alert('Не удалось загрузить результат. ', error));
+        .catch(error => alert('Не удалось получить статистику. ', console.log(error)))
+        .then(data => LoadStatResult(data))
+        .catch(error => alert('Не удалось загрузить результат. ', console.log(error)));
 };
 
 function LoadStatResult(data) {
-    InsertText('unitsCount' ,data.unitsCount);
-    InsertText('infantryCount', data.infantryCount);
-    InsertText('cavaleryCount', data.cavaleryCount);
-    InsertText('monsterCount', data.monsterCount);
-    InsertText('giantsCount', data.giantsCount);
-    InsertText('artilleryCount', data.artilleryCount);
-    InsertText('venicleCount', data.venicleCount);
-    InsertText('aviationCount', data.aviationCount);
+    document.getElementById('unitsCount').innerText = data.unitsCount;
+    //InsertText('unitsCount' ,data.unitsCount);
+    document.getElementById('infantryCount').innerText = data.infantryCount;
+    //InsertText('infantryCount', data.infantryCount);
+    document.getElementById('cavaleryCount').innerText = data.cavaleryCount;
+    //InsertText('cavaleryCount', data.cavaleryCount);
+    document.getElementById('monsterCount').innerText = data.monsterCount;
+    //InsertText('monsterCount', data.monsterCount);
+    document.getElementById('giantsCount').innerText = data.giantsCount;
+    //InsertText('giantsCount', data.giantsCount);
+    document.getElementById('artilleryCount').innerText = data.artilleryCount;
+    //InsertText('artilleryCount', data.artilleryCount);
+    document.getElementById('venicleCount').innerText = data.venicleCount;
+    //InsertText('venicleCount', data.venicleCount);
+    document.getElementById('aviationCount').innerText = data.aviationCount;
+    //InsertText('aviationCount', data.aviationCount);
+
+
+    document.getElementById("defChars")
 };
 
 function InsertText(id, text) {
@@ -26,12 +37,19 @@ function InsertText(id, text) {
     unitsCount.innerHTML = text;
 }
 
+function InsertStatDataRows(id, object) {
+    for (x in object) {
+
+        console.log(object[x])
+    }
+}
 
 
-async function GenerateUnits() {
+
+async function GenerateRndUnits() {
     let count = document.getElementById("count").value;
 
-    const response = await fetch(`/api/GensAndStat/GenUnit?count=${count}`, {
+    await fetch(`/api/GensAndStat/GenUnit?count=${count}`, {
         method: "POST",
         headers: {
             "Accept": "application/json",

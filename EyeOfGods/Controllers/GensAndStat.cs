@@ -24,7 +24,24 @@ namespace EyeOfGods.Controllers
             _statistics = statistics;
         }
 
-        [HttpPost("GenUnit")]
+
+        [HttpGet("all")]
+        public async Task<ActionResult<IEnumerable<Unit>>> Get()
+        {
+            return await _context.Units.ToListAsync();
+        }
+
+
+
+
+
+
+
+
+
+
+
+        [HttpGet("GenUnit")]
         public async Task<IActionResult> GenerateUnits(int count)
         {
             List<UnitType> allTypes = await _context.UnitTypes.ToListAsync();
