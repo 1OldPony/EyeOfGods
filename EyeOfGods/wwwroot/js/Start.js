@@ -1,78 +1,97 @@
 ﻿document.addEventListener("DOMContentLoaded", function () {
-    GetUnitsStat();
+    getUnitsStat();
+
+
 })
 
-function GetUnitsStat() {
+
+function minusGenUnCount() {
+    document.getElementById("count").stepDown();
+}
+function plusGenUnCount() {
+    document.getElementById("count").stepUp();
+}
+
+
+
+
+
+
+
+
+
+
+function getUnitsStat() {
     fetch("/api/GensAndStat/GetUnitsStat")
         .then(response => response.json())
-        .catch(error => alert('Не удалось получить статистику. ', console.log(error)))
-        .then(data => LoadStatResult(data))
-        .catch(error => alert('Не удалось загрузить результат. ', console.log(error)));
+        .catch(er => console.log(`Не удалось получить статистику. ${er}`))
+        .then(data => loadStatResult(data))
+        .catch(er => console.log(`Не удалось загрузить результат. ${er}`));
 };
 
-function LoadStatResult(data) {
-    document.getElementById('unitsCount').innerText = data.unitsCount;
-    //InsertText('unitsCount' ,data.unitsCount);
-    document.getElementById('infantryCount').innerText = data.infantryCount;
-    //InsertText('infantryCount', data.infantryCount);
-    document.getElementById('cavaleryCount').innerText = data.cavaleryCount;
-    //InsertText('cavaleryCount', data.cavaleryCount);
-    document.getElementById('monsterCount').innerText = data.monsterCount;
-    //InsertText('monsterCount', data.monsterCount);
-    document.getElementById('giantsCount').innerText = data.giantsCount;
-    //InsertText('giantsCount', data.giantsCount);
-    document.getElementById('artilleryCount').innerText = data.artilleryCount;
-    //InsertText('artilleryCount', data.artilleryCount);
-    document.getElementById('venicleCount').innerText = data.venicleCount;
-    //InsertText('venicleCount', data.venicleCount);
-    document.getElementById('aviationCount').innerText = data.aviationCount;
-    //InsertText('aviationCount', data.aviationCount);
-
-
-    document.getElementById("defChars")
-};
-
-function InsertText(id, text) {
-    let unitsCount = getElementById(id);
-    unitsCount.innerHTML = text;
-}
-
-function InsertStatDataRows(id, object) {
-    for (x in object) {
-
-        console.log(object[x])
-    }
-}
-
-
-
-async function GenerateRndUnits() {
+function generateRndUnits() {
     let count = document.getElementById("count").value;
+    let url = new URL('/api/GensAndStat/GenRndUnit', 'https://localhost:44372');
+    url.searchParams.set('count', `${count}`);
 
-    await fetch(`/api/GensAndStat/GenUnit?count=${count}`, {
-        method: "POST",
-        headers: {
-            "Accept": "application/json",
-            'Content-Type': 'application/json'
-        },
-        //body: JSON.stringify(здесь должна быть форма)
-    });
-    ////// если запрос прошел нормально
-    // if (response.ok === true) {
-    //     // получаем данные
-    //     alert("Урааа!!!");
-    //     // добавляем полученные элементы в таблицу
-    //     // users.forEach(user => rows.append(row(user)));
-    // }
-    // else {
-    //     alert("Фуууу!!!");
-    // }
-}
+    fetch(url, {
+        method: "POST"
+    })
+        .then(() => getUnitsStat())
+        .catch(er => console.log(`Не удалось сгенерировать юниты. ${er}`));
+};
 
-function deleteItem(id) {
-    fetch(`${uri}/${id}`, {
+function deleteAllUnits() {
+
+    fetch('/api/GensAndStat/ClearUnits', {
         method: 'DELETE'
     })
-        .then(() => getItems())
-        .catch(error => console.error('Unable to delete item.', error));
-}
+        .then(() => getUnitsStat())
+        .catch(er => console.log(`Не удалось очистить базу. ${er}`));
+};
+
+
+function loadStatResult(data) {
+    insertText('unitsCount', data.unitsCount);
+    insertText('infantryCount', data.infantryCount);
+    insertText('cavaleryCount', data.cavaleryCount);
+    insertText('monsterCount', data.monsterCount);
+    insertText('giantsCount', data.giantsCount);
+    insertText('artilleryCount', data.artilleryCount);
+    insertText('venicleCount', data.venicleCount);
+    insertText('aviationCount', data.aviationCount);
+
+    insertStatDataRows('defChars', data['defenceChars']);
+    insertStatDataRows('endChars', data['enduranceChars']);
+    insertStatDataRows('mentChars', data['mentalChars']);
+
+    insertText('MWCount', data.meleeWeaponsCount);
+    insertStatDataRows('MWTypes', data['meleeWeaponsTypes']);
+
+    insertText('RWCount', data.rangeWeaponsCount);
+    insertStatDataRows('RWTypes', data['rangeWeaponsTypes']);
+
+    insertText('shieldsCount', data.shieldsCount);
+};
+
+function insertText(id, text) {
+    let unitsCount = document.getElementById(id);
+    unitsCount.textContent = text;
+};
+
+function insertStatDataRows(id, object) {
+    let container = document.getElementById(id);
+    let newRows = [];
+
+    for (x in object) {
+        let row = document.createElement('div');
+        row.className = 'statisticsDataRow';
+        row.textContent = `${object[x].name} - ${object[x].usageCount}`
+
+        newRows.push(row);
+    };
+
+    container.replaceChildren("", ...newRows);
+};
+
+

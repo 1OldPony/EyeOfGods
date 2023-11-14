@@ -1,15 +1,32 @@
-﻿.pageBlock {
+﻿html {
+    background-color: #ffe9b9;
+    /*background-color: #fdecc8;*/
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+    -webkit-appearance: textfield;
+    appearance: textfield;
+}
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        display: none;
+    }
+
+.pageBlock {
     display: flex;
-    flex-direction: row;
+    /*flex-direction:row;*/
     margin: auto;
-    max-width: 1250px;
+    max-width: 1500px;
 }
 
 .loneBlock {
     display: flex;
     padding: 7px;
     border-radius: 5px;
-    background-color: white;
+    border: ridge #8d6e6e;
+    /*background-color: white;*/
+    background-color: #ffd794;
     margin-bottom: 10px;
 }
 
@@ -18,61 +35,125 @@
     flex-direction: column;
     margin-left: 10px;
     max-width:1000px;
+    width:100%;
 }
 .leftMenu {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 250px;
+    width: fit-content;
+    width: 500px;
+}
+.menuBlock {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /*border-radius: 10px;*/
+    background-color: black;
+    width: 300px;
+    padding: 10px 0 10px 0;
+    margin: 2px 0px 2px 0px;
+}
+.menuBlockTextHeader {
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    margin: auto auto 10px 10px;
+    align-self: flex-start;
+}
+.menuBlockText {
+    display:flex;
+    flex-direction:column;
+    /*justify-content:space-between;*/
+    color: white;
+    font-size:30px;
+    margin:auto 10px 10px auto;
+    width:240px;
+}
+.menuRow {
+    display: flex;
+    justify-content: space-between;
+    height:40px;
+}
+.menuInputBlock {
+    display:flex;
 }
 .menuButton {
+    font:20px bold;
+    width:100px;
+    cursor:pointer;
+}
+.menuImputNumber {
+    width: 30px;
+    height: 38px;
+    text-align: center;
+    font: 25px bold;
+    border: none;
+}
+.numberControlls {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 5px;
-    background-color: black;
-    width: 100%;
-    padding: 10px 0 10px 0;
-    margin: 1px;
+    width: 20px;
+    background-color: lightgray;
+    color: black;
+    cursor: pointer;
+    user-select:none;
 }
-.menuButtonText {
-    color: white;
+#minus.numberControlls {
+    padding-bottom: 5px;
+    height: 35px;
+    font-size: 30px;
 }
+#plus.numberControlls {
+    height: 40px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
 .bigHeader {
     font-size: 1.4rem;
     font-weight: bold;
     margin-bottom: 10px;
 }
 .allStatistics {
-    /*display: flex;
+    display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;*/
-    display:inline-block;
+    /*flex-wrap: wrap;*/
+    /*display:inline-block;*/
 
 }
 .statisticsBlock {
-    /*display: flex;*/
+    display: flex;
     flex-direction: column;
-    width: 48%;
     /*margin-bottom: 10px;*/
     /*padding:7px;*/
-    float:left;
+    /*float:left;*/
     /*border-radius:5px;
     background-color:white;*/
 }
 #first.statisticsBlock {
     margin-right: 10px;
+    width: 49%;
+}
+#second.statisticsBlock {
+    width: 49%;
 }
 .minorHeader {
     font-weight: bold;
     font-size: 1.2rem;
     margin-bottom: 5px;
 }
-.statisticsData {
+.statisticsDataBlock {
     display: flex;
     flex-direction: column;
     margin-bottom: 5px;
-    line-grid: create;
+    /*line-grid: create;*/
+}
+.statisticsData {
+    display: flex;
+    flex-direction: column;
 }
 .statisticsDataHeader {
     font-weight: bold;

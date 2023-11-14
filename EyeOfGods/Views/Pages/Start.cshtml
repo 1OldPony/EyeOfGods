@@ -8,9 +8,36 @@
 
 <div class="pageBlock">
     <div class="leftMenu">
-        <div class="menuButton" onclick="GenerateRndUnits()"><div class="menuButtonText">Добавить <span><span>-</span><input type="number" id="count" value="3" /></span><span>+</span> отряда(-ов)</div></div>
-
-
+        <div class="menuBlock">
+            <div class="menuBlockTextHeader">
+                Отряды:
+            </div>
+            <div class="menuBlockText">
+                <div class="menuRow">
+                    <div class="menuInputBlock">
+                        <div id="minus" class="numberControlls" onclick="minusGenUnCount()">-</div>
+                        <input type="number" id="count" class="menuImputNumber" value="3" />
+                        <div id="plus" class="numberControlls" onclick="plusGenUnCount()">+</div><span style="margin-left:10px">шт.</span>
+                    </div>
+                    <input type="button" class="menuButton" value="Добавить" onclick="generateRndUnits()" />
+                </div>
+            </div>
+            <div class="menuBlockText">
+                <div class="menuRow">
+                    <div class="menuInputBlock">
+                        Все
+                    </div>
+                    <input type="button" class="menuButton" value="Удалить" onclick="deleteAllUnits()" />
+                </div>
+            </div>
+            <div class="menuBlockText">
+                <div class="menuRow">
+                    <div style="cursor:pointer;background-color:grey;width:100%;text-align:center;">
+                        Генератор поля
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -29,51 +56,39 @@
                     <div class="statisticsDataRow">Техника - <span id="venicleCount"></span></div>
                     <div class="statisticsDataRow">Авиация - <span id="aviationCount"></span></div>
                 </div>
-                <div style="display:flex;flex-direction:column;">
+                <div class="statisticsData">
                     <div class="statisticsDataHeader">Защитные характеристики:</div>
-                    <div id="defChars">
-
-                    </div>
-                    
-                    @foreach (var item in Model.DefenceChars)
-                    {
-                        <div class="statisticsDataRow">@item.CharacteristicName - @item.UsageCount</div>
-                    }
+                    <div id="defChars"></div>
+                </div>
+                <div class="statisticsData">
                     <div class="statisticsDataHeader">Характеристики выносливости:</div>
-                    @foreach (var item in Model.EnduranceChars)
-                    {
-                        <div class="statisticsDataRow">@item.CharacteristicName - @item.UsageCount</div>
-                    }
+                    <div id="endChars"></div>
+                </div>
+                <div class="statisticsData">
                     <div class="statisticsDataHeader">Ментальные характеристики:</div>
-                    @foreach (var item in Model.MentalChars)
-                    {
-                        <div class="statisticsDataRow">@item.CharacteristicName - @item.UsageCount</div>
-                    }
+                    <div id="mentChars"></div>
                 </div>
             </div>
-            <div class="loneBlock statisticsBlock">
-                <div class="minorHeader">Количество оружия ближнего боя - @Model.MeleeWeaponsCount</div>
-                <div class="statisticsData">
-                    <div class="statisticsDataHeader">Типы оружия:</div>
-                    @foreach (var item in Model.MeleeWeaponsTypes)
-                    {
-                        <div class="statisticsDataRow">@item.WeaponStatName - @item.UsageCount</div>
-                    }
+            <div id="second" class="statisticsBlock">
+                <div class="loneBlock statisticsBlock">
+                    <div class="minorHeader">Количество оружия ближнего боя - <span id="MWCount"></span></div>
+                    <div class="statisticsData">
+                        <div class="statisticsDataHeader">Типы оружия:</div>
+                        <div id="MWTypes"></div>
+                    </div>
+                </div>
+                <div class="loneBlock statisticsBlock">
+                    <div class="minorHeader">Количество оружия дальнего боя - <span id="RWCount"></span></div>
+                    <div class="statisticsData">
+                        <div class="statisticsDataHeader">Типы оружия:</div>
+                        <div id="RWTypes"></div>
+                    </div>
+                </div>
+                <div class="loneBlock statisticsBlock">
+                    <div class="minorHeader">Количество щитов - <span id="shieldsCount"></span></div>
                 </div>
             </div>
-            <div class="loneBlock statisticsBlock">
-                <div class="minorHeader">Количество оружия дальнего боя - <span id="rangeWeaponsCount"></span></div>
-                <div class="statisticsData">
-                    <div class="statisticsDataHeader">Типы оружия:</div>
-                    @foreach (var item in Model.RangeWeaponsTypes)
-                    {
-                        <div class="statisticsDataRow">@item.WeaponStatName - @item.UsageCount</div>
-                    }
-                </div>
-            </div>
-            <div class="loneBlock statisticsBlock">
-                <div class="statisticsDataHeader">Количество щитов - <span id="shieldsCount"></span></div>
-            </div>
+            
         </div>
     </div>
 

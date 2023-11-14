@@ -24,25 +24,8 @@ namespace EyeOfGods.Controllers
             _statistics = statistics;
         }
 
-
-        [HttpGet("all")]
-        public async Task<ActionResult<IEnumerable<Unit>>> Get()
-        {
-            return await _context.Units.ToListAsync();
-        }
-
-
-
-
-
-
-
-
-
-
-
-        [HttpGet("GenUnit")]
-        public async Task<IActionResult> GenerateUnits(int count)
+        [HttpPost("GenRndUnit")]
+        public async Task<IActionResult> GenerateRndUnits(int count)
         {
             List<UnitType> allTypes = await _context.UnitTypes.ToListAsync();
             List<RangeWeapon> allRangeWeapons = await _context.RangeWeapons.ToListAsync();
@@ -75,25 +58,25 @@ namespace EyeOfGods.Controllers
         public async Task<StatisticsViewModel> GetUnitsStat()
         {
             List<Unit> units = new();
-            //try
-            //{
+            try
+            {
                 units = _context.Units.ToList();
                 //units = await _context.Units.ToListAsync();
-            //}
-            //catch (Exception ex) 
-            //{
-            //    throw new Exception($"Не удалось создать лист юнитов: {ex}");
-            //}
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Не удалось создать лист юнитов: {ex}");
+            }
 
-            //try
-            //{
+            try
+            {
                 StatisticsViewModel stat = await _statistics.GetUnitsStatistics(units);
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw new Exception($"Не удалось запустить GetUnitsStatistics: {ex}");
-            //}
-            return stat;
+                return stat;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Не удалось запустить GetUnitsStatistics: {ex}");
+            }
         }
 
 

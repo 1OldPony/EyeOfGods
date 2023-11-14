@@ -104,13 +104,13 @@ namespace EyeOfGods.SupportClasses
 
             foreach (var unit in allUnits)
             {
-                if (!all.Any(x => x.CharacteristicName == unit.DefensiveAbilities.CharacteristicName))
+                if (!all.Any(x => x.Name == unit.DefensiveAbilities.CharacteristicName))
                 {
-                    all.Add(new DefenceChars() { CharacteristicName = unit.DefensiveAbilities.CharacteristicName, UsageCount = 1 });
+                    all.Add(new DefenceChars() { Name = unit.DefensiveAbilities.CharacteristicName, UsageCount = 1 });
                 }
                 else
                 {
-                    all.First(x => x.CharacteristicName == unit.DefensiveAbilities.CharacteristicName).UsageCount++;
+                    all.First(x => x.Name == unit.DefensiveAbilities.CharacteristicName).UsageCount++;
                 }
             }
             return Task.FromResult(all);
@@ -122,13 +122,13 @@ namespace EyeOfGods.SupportClasses
 
             foreach (var unit in allUnits)
             {
-                if (!all.Any(x => x.CharacteristicName == unit.EnduranceAbilities.CharacteristicName))
+                if (!all.Any(x => x.Name == unit.EnduranceAbilities.CharacteristicName))
                 {
-                    all.Add(new EnduranceChars() { CharacteristicName = unit.EnduranceAbilities.CharacteristicName, UsageCount = 1 });
+                    all.Add(new EnduranceChars() { Name = unit.EnduranceAbilities.CharacteristicName, UsageCount = 1 });
                 }
                 else
                 {
-                    all.First(x => x.CharacteristicName == unit.EnduranceAbilities.CharacteristicName).UsageCount++;
+                    all.First(x => x.Name == unit.EnduranceAbilities.CharacteristicName).UsageCount++;
                 }
             }
             return Task.FromResult(all);
@@ -140,13 +140,13 @@ namespace EyeOfGods.SupportClasses
 
             foreach (var unit in allUnits)
             {
-                if (!all.Any(x => x.CharacteristicName == unit.MentalAbilities.CharacteristicName))
+                if (!all.Any(x => x.Name == unit.MentalAbilities.CharacteristicName))
                 {
-                    all.Add(new MentalChars() { CharacteristicName = unit.MentalAbilities.CharacteristicName, UsageCount = 1 });
+                    all.Add(new MentalChars() { Name = unit.MentalAbilities.CharacteristicName, UsageCount = 1 });
                 }
                 else
                 {
-                    all.First(x => x.CharacteristicName == unit.MentalAbilities.CharacteristicName).UsageCount++;
+                    all.First(x => x.Name == unit.MentalAbilities.CharacteristicName).UsageCount++;
                 }
             }
             return Task.FromResult(all);
@@ -162,13 +162,13 @@ namespace EyeOfGods.SupportClasses
                 foreach (var weapon in unit.MeleeWeapons)
                 {
                     meleeWeaponsCount++;
-                    if (!all.Any(x => x.WeaponStatName == weapon.WeaponType.ToString()))
+                    if (!all.Any(x => x.Name == weapon.WeaponType.ToString()))
                     {
-                        all.Add(new MeleeWeaponsStat() { WeaponStatName = weapon.WeaponType.ToString(), UsageCount = 1 });
+                        all.Add(new MeleeWeaponsStat() { Name = weapon.WeaponType.ToString(), UsageCount = 1 });
                     }
                     else
                     {
-                        all.First(x => x.WeaponStatName == weapon.WeaponType.ToString()).UsageCount++;
+                        all.First(x => x.Name == weapon.WeaponType.ToString()).UsageCount++;
                     }
                 }
             }
@@ -188,13 +188,13 @@ namespace EyeOfGods.SupportClasses
                 if (unit.RangeWeapon!=null)
                 {
                     rangeWeaponsCount++;
-                    if (!all.Any(x => x.WeaponStatName == unit.RangeWeapon.RangeWeaponsType.RWTypeName))
+                    if (!all.Any(x => x.Name == unit.RangeWeapon.RangeWeaponsType.RWTypeName))
                     {
-                        all.Add(new RangeWeaponsStat() { WeaponStatName = unit.RangeWeapon.RangeWeaponsType.RWTypeName, UsageCount = 1 });
+                        all.Add(new RangeWeaponsStat() { Name = unit.RangeWeapon.RangeWeaponsType.RWTypeName, UsageCount = 1 });
                     }
                     else
                     {
-                        all.First(x => x.WeaponStatName == unit.RangeWeapon.RangeWeaponsType.RWTypeName).UsageCount++;
+                        all.First(x => x.Name == unit.RangeWeapon.RangeWeaponsType.RWTypeName).UsageCount++;
                     }
                 }
             }

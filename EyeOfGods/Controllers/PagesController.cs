@@ -46,57 +46,17 @@ namespace EyeOfGods.Controllers
                 if (rangeWeapon.RangeWeaponsType == null)
                 {
                     rangeWeapon.RangeWeaponsType = allRangeWeaponTypes.ElementAt(randomNumber.Next(0, allRangeWeaponTypes.Count));
-                    //rangeWeapon.RWName = rangeWeapon.RangeWeaponsType.RWTypeName;
                 }
                 _context.RangeWeapons.Update(rangeWeapon);
             };
             await _context.SaveChangesAsync();
 
-
-            //List<UnitType> allTypes = await _context.UnitTypes.ToListAsync();
-            //List<RangeWeapon> allRangeWeapons = await _context.RangeWeapons.ToListAsync();
-            //UnitGenerator x = new();
-            //List<MeleeWeapon> allMeleeWeapons = await _context.MeleeWeapons.ToListAsync();
-            //List<Shield> allShields = await _context.Shields.ToListAsync();
-            //List<MentalAbilities> allMental = await _context.MentalAbilities.ToListAsync();
-            //List<DefensiveAbilities> allDefense = await _context.DefensiveAbilities.ToListAsync();
-            //List<EnduranceAbilities> allEndurance = await _context.EnduranceAbilities.ToListAsync();
-
-            //List<Unit> allUnits = await x.GenRndUnits(3, allTypes, allRangeWeapons, allMeleeWeapons, allShields, allMental, allDefense, allEndurance);
-
-            //await _context.Units.AddRangeAsync(allUnits);
-            //await _context.SaveChangesAsync();
-
             return RedirectToAction("Start");
         }
 
-        public async Task<IActionResult> Start()
+        public IActionResult Start()
         {
-            Statistics x = new();
-            var stat = await x.GetUnitsStatistics(_context.Units.ToListAsync().Result);
-
-            return View(stat);
+            return View();
         }
-
-        //public IActionResult Units()
-        //{
-        //    List<Unit> units = _context.Units.ToList();
-
-        //    return View();
-        //}
-        //public IActionResult MapGenerator()
-        //{
-        //    return View();
-        //}
-
-        //public IActionResult Balance()
-        //{
-        //    return View();
-        //}
-        //public IActionResult UserProfile()
-        //{
-        //    return View();
-        //}
-
     }
 }
