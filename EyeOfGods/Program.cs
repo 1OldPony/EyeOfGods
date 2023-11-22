@@ -1,3 +1,4 @@
+using EyeOfGods.Logger;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -21,6 +22,13 @@ namespace EyeOfGods
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureLogging((context, logging) =>
+                {
+                    logging.AddEyeOfGodsFileLogger(options =>
+                    {
+                        context.Configuration.GetSection("Logging").GetSection("LogToFile")/*.GetSection("Options").Bind(options)*/;
+                    });
                 });
-    }
+                }
 }
