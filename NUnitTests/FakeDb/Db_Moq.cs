@@ -1,5 +1,6 @@
 ﻿using EyeOfGods.Context;
 using EyeOfGods.Models;
+using EyeOfGods.Models.MapModels;
 using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -23,8 +24,40 @@ namespace NUnitTests.FakeDb
             mockContext.Setup(m => m.UnitOrders).Returns(UnitOrdersList().Object);
             mockContext.Setup(m => m.UnitTypes).Returns(UnitTypesList().Object);
             mockContext.Setup(m => m.Units).Returns(UnitsList().Object);
+            mockContext.Setup(m => m.MapSchemes).Returns(MapSchemeList().Object);
+            mockContext.Setup(m => m.Quests).Returns(QuestsList().Object);
 
             return mockContext;
+        }
+
+
+        public static Mock<DbSet<Quest>> QuestsList()
+        {
+            SeedData seedData = new();
+            var data = new List<Quest> { seedData.quests[0] }.AsQueryable();
+
+            var quests = new Mock<DbSet<Quest>>();
+            quests.As<IQueryable<Quest>>().Setup(m => m.Provider).Returns(data.Provider);
+            quests.As<IQueryable<Quest>>().Setup(m => m.Expression).Returns(data.Expression);
+            quests.As<IQueryable<Quest>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            quests.As<IQueryable<Quest>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            return quests;
+        }
+
+        public static Mock<DbSet<MapScheme>> MapSchemeList()
+        {
+            SeedData seedData = new();
+            seedData.mapSchemes[0].Points=seedData.mapSchemePoints;
+            var data = new List<MapScheme> { seedData.mapSchemes[0] }.AsQueryable();
+
+            var mapSchemes = new Mock<DbSet<MapScheme>>();
+            mapSchemes.As<IQueryable<MapScheme>>().Setup(m => m.Provider).Returns(data.Provider);
+            mapSchemes.As<IQueryable<MapScheme>>().Setup(m => m.Expression).Returns(data.Expression);
+            mapSchemes.As<IQueryable<MapScheme>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mapSchemes.As<IQueryable<MapScheme>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            return mapSchemes;
         }
 
         public static Mock<DbSet<Unit>> UnitsList()
@@ -46,7 +79,6 @@ namespace NUnitTests.FakeDb
             unitsList.As<IQueryable<Unit>>().Setup(m => m.ElementType).Returns(data.ElementType);
             unitsList.As<IQueryable<Unit>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
 
-            //unitsList.As<IQueryable<Unit>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
             return unitsList;
         }
 

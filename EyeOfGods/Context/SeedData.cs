@@ -1,4 +1,5 @@
 ﻿using EyeOfGods.Models;
+using EyeOfGods.Models.MapModels;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,6 +73,26 @@ namespace EyeOfGods.Context
                 new UnitOrder { Id = 3, OrderName = "Отступление", OrderType = "Оборона", OrderDescrption = "+2 брони каждому отряду, после этого отступающий отступает на свое движение. Противник может преследовать",
                     SituationBonus = "Если ваша скорость выше, чем у противника - добавьте 1 к своей броне", DoubleWeaponsBonus = "0", GreatWeaponBonus = "-1 к броне противника",
                     HalberdBonus = "0", OneHandBonus = "0", PikeBonus = "0", SpearBonus = "0" }
+        };
+
+
+
+        public List<MapScheme> mapSchemes = new() {
+            new MapScheme { Id = 1, Name="Test", MapHeight=96, MapWidth = 96, NumbOfCities= 2, NumbOfResources= 2, NumbOfTreasuries = 2, QuestLevel = QuestLevel.легкий }        
+        };
+
+        public List<MapSchemePoint> mapSchemePoints = new() {
+            new MapSchemePoint {PointNumber = 1, PareWhithPoint = 2, XCoordinate = 10, YCoordinate = 10 },
+            new MapSchemePoint {PointNumber = 2, PareWhithPoint = 1, XCoordinate = 86, YCoordinate = 86 },
+            new MapSchemePoint {PointNumber = 3, PareWhithPoint = 4, XCoordinate = 86, YCoordinate = 10},
+            new MapSchemePoint {PointNumber = 4, PareWhithPoint = 3, XCoordinate = 10, YCoordinate = 86},
+            new MapSchemePoint {PointNumber = 5, PareWhithPoint = 6, XCoordinate = 37, YCoordinate = 10},
+            new MapSchemePoint {PointNumber = 6, PareWhithPoint = 5, XCoordinate = 37, YCoordinate = 86 }
+        };
+
+        public List<Quest> quests = new() {
+            new Quest { Id = 1, Name="Low quest", Level = QuestLevel.легкий, Description = "Найден старый склеп. Получите >2 успехов выносливости чтоб порыться в нем.", 
+                ConsLoose = "Ничего не нашлось, получите 1 усталость", ConsDraw = "Ничего не нашлось", ConsWin = "Получите артефакт Х" }
         };
     }
 }

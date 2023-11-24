@@ -1,10 +1,12 @@
 ﻿using EyeOfGods.Context;
+using EyeOfGods.Models.MapModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace EyeOfGods.Models
 {
     public class MyWargameContext : DbContext
     {
+        SeedData seedData = new();
         public MyWargameContext()
         {
                 
@@ -15,7 +17,6 @@ namespace EyeOfGods.Models
             
         }
 
-        SeedData seedData = new();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -46,6 +47,13 @@ namespace EyeOfGods.Models
             modelBuilder.Entity<Unit>().Navigation(u => u.RangeWeapon).AutoInclude();
             modelBuilder.Entity<Unit>().Navigation(u => u.Shield).AutoInclude();
             modelBuilder.Entity<Unit>().Navigation(u => u.UnitType).AutoInclude();
+
+
+
+
+            modelBuilder.Entity<MapScheme>().OwnsMany(m => m.Points);
+            
+            modelBuilder.Entity<Quest>().HasData(seedData.quests[0]);
         }
 
 
@@ -61,5 +69,9 @@ namespace EyeOfGods.Models
         public virtual DbSet<Unit> Units { get; set; }
         public virtual DbSet<UnitOrder> UnitOrders { get; set; }
         public virtual DbSet<UnitType> UnitTypes { get; set; }
+
+
+        public virtual DbSet<MapScheme> MapSchemes { get; set; }
+        public virtual DbSet<Quest> Quests { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using EyeOfGods.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EyeOfGods.Migrations
 {
     [DbContext(typeof(MyWargameContext))]
-    partial class MyWargameContextModelSnapshot : ModelSnapshot
+    [Migration("20231124182454_Terr-Point")]
+    partial class TerrPoint
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -233,9 +236,6 @@ namespace EyeOfGods.Migrations
                     b.Property<int>("NumbOfTreasuries")
                         .HasColumnType("int");
 
-                    b.Property<int>("QuestLevel")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("MapSchemes");
@@ -269,19 +269,7 @@ namespace EyeOfGods.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Quests");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ConsDraw = "Ничего не нашлось",
-                            ConsLoose = "Ничего не нашлось, получите 1 усталость",
-                            ConsWin = "Получите артефакт Х",
-                            Description = "Найден старый склеп. Получите >2 успехов выносливости чтоб порыться в нем.",
-                            Level = 0,
-                            Name = "Low quest"
-                        });
+                    b.ToTable("Quest");
                 });
 
             modelBuilder.Entity("EyeOfGods.Models.MapModels.Terrain", b =>

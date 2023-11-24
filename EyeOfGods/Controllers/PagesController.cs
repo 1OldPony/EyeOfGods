@@ -2,6 +2,7 @@
 using EyeOfGods.Context;
 using EyeOfGods.Logger;
 using EyeOfGods.Models;
+using EyeOfGods.Models.MapModels;
 using EyeOfGods.Models.ViewModels;
 using EyeOfGods.SupportClasses;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,7 @@ namespace EyeOfGods.Controllers
             List<UnitOrder> allOrders = new();
             List<RangeWeapon> allRangeWeapons = new();
             List<RangeWeaponsType> allRangeWeaponTypes = new();
+            List<MapScheme> allMapSchemes = new();
 
             try
             {
@@ -64,6 +66,14 @@ namespace EyeOfGods.Controllers
             {
                 _logger.LogCritical(ex, "Не удалось получить список типов оружия даль. боя");
             }
+            try
+            {
+                allMapSchemes = _context.MapSchemes.ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical(ex, "Не удалось получить список схем карт");
+            }
 
             Random randomNumber = new();
 
@@ -88,6 +98,16 @@ namespace EyeOfGods.Controllers
                 }
                 _context.RangeWeapons.Update(rangeWeapon);
             };
+
+            if (allMapSchemes.Count == 0)
+            {
+                SeedData seedData = new();
+                MapScheme scheme = seedData.mapSchemes[0];
+                scheme.Points = seedData.mapSchemePoints;
+
+                _context.MapSchemes.Add(scheme);
+            }
+
 
             try
             {
