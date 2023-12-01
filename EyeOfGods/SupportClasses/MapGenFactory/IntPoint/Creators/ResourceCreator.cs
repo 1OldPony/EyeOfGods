@@ -6,11 +6,11 @@ using System;
 
 namespace EyeOfGods.SupportClasses.MapGenFactory.Creators
 {
-    public class ResourceCreator : Creator
+    public class ResourceCreator : IntPointCreator
     {
         public ResourceCreator(MapSchemePoint point) : base(point){}
 
-        public override MapSchemePoint Create()
+        public override InterestPoint Create()
         {
             return new Resource(_point);
         }

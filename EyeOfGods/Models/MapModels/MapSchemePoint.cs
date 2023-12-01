@@ -10,5 +10,6 @@ namespace EyeOfGods.Models.MapModels
         public int XCoordinate { get; set; }
         public int YCoordinate { get; set; }
         public int? PareWhithPoint { get; set; }
+        public int? ReferenceTo { get; set; }
     }
 }

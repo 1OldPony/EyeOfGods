@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace EyeOfGods.SupportClasses
+namespace EyeOfGods.SupportClasses.UniGen
 {
     public interface IUnitGenerator
     {

@@ -1,11 +1,13 @@
 ﻿using EyeOfGods.Models;
 using EyeOfGods.Models.ViewModels;
-using EyeOfGods.SupportClasses;
+using EyeOfGods.SupportClasses.StatGen;
+using EyeOfGods.SupportClasses.UniGen;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace EyeOfGods.Controllers
@@ -17,25 +19,102 @@ namespace EyeOfGods.Controllers
         private readonly MyWargameContext _context;
         private readonly IUnitGenerator _unitGen;
         private readonly IStatistics _statistics;
-        public GensAndStat(MyWargameContext context, IUnitGenerator unitGen, IStatistics statistics)
+        ILogger<GensAndStat> _logger;
+        public GensAndStat(MyWargameContext context, IUnitGenerator unitGen, IStatistics statistics, ILogger<GensAndStat> logger)
         {
             _context = context;
             _unitGen = unitGen;
             _statistics = statistics;
+            _logger = logger;
         }
 
         [HttpPost("GenRndUnit")]
         public async Task<IActionResult> GenerateRndUnits(int count)
         {
-            List<UnitType> allTypes = await _context.UnitTypes.ToListAsync();
-            List<RangeWeapon> allRangeWeapons = await _context.RangeWeapons.ToListAsync();
-            List<MeleeWeapon> allMeleeWeapons = await _context.MeleeWeapons.ToListAsync();
-            List<Shield> allShields = await _context.Shields.ToListAsync();
-            List<MentalAbilities> allMental = await _context.MentalAbilities.ToListAsync();
-            List<DefensiveAbilities> allDefense = await _context.DefensiveAbilities.ToListAsync();
-            List<EnduranceAbilities> allEndurance = await _context.EnduranceAbilities.ToListAsync();
+            _logger.LogWarning("GenRndUnit запущен");
+            List<UnitType> allTypes;
+            List<RangeWeapon> allRangeWeapons;
+            List<MeleeWeapon> allMeleeWeapons;
+            List<Shield> allShields;
+            List<MentalAbilities> allMental;
+            List<DefensiveAbilities> allDefense;
+            List<EnduranceAbilities> allEndurance;
 
-            List<Unit> allUnits = await _unitGen.GenRndUnits(count, allTypes, allRangeWeapons, allMeleeWeapons, allShields, allMental, allDefense, allEndurance);
+            List<Unit> allUnits;
+
+            try
+            {
+                allTypes = await _context.UnitTypes.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogCritical(e, "Не удалось загрузить UnitTypes");
+                throw;
+            }
+            try
+            {
+                allRangeWeapons = await _context.RangeWeapons.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogCritical(e, "Не удалось загрузить RangeWeapons");
+                throw;
+            }
+            try
+            {
+                allMeleeWeapons = await _context.MeleeWeapons.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogCritical(e, "Не удалось загрузить MeleeWeapons");
+                throw;
+            }
+            try
+            {
+                allShields = await _context.Shields.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogCritical(e, "Не удалось загрузить Shields");
+                throw;
+            }
+            try
+            {
+                allMental = await _context.MentalAbilities.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogCritical(e, "Не удалось загрузить MentalAbilities");
+                throw;
+            }
+            try
+            {
+                allDefense = await _context.DefensiveAbilities.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogCritical(e, "Не удалось загрузить DefensiveAbilities");
+                throw;
+            }
+            try
+            {
+                allEndurance = await _context.EnduranceAbilities.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogCritical(e, "Не удалось загрузить EnduranceAbilities");
+                throw;
+            }
+
+            try
+            {
+                allUnits = await _unitGen.GenRndUnits(count, allTypes, allRangeWeapons, allMeleeWeapons, allShields, allMental, allDefense, allEndurance);
+            }
+            catch (Exception e)
+            {
+                _logger.LogCritical(e, "Не удалось сгенерировать юниты GenRndUnits");
+                throw;
+            }
 
             await _context.Units.AddRangeAsync(allUnits);
             await _context.SaveChangesAsync();
@@ -46,6 +125,7 @@ namespace EyeOfGods.Controllers
         [HttpDelete("ClearUnits")]
         public async Task<IActionResult> DeleteAllUnits()
         {
+            _logger.LogWarning("GenRndUnit запущен");
             List<Unit> allUnits = await _context.Units.ToListAsync();
             
             _context.Units.RemoveRange(allUnits);
@@ -60,11 +140,11 @@ namespace EyeOfGods.Controllers
             List<Unit> units = new();
             try
             {
-                units = _context.Units.ToList();
-                //units = await _context.Units.ToListAsync();
+                units = await _context.Units.ToListAsync();
             }
             catch (Exception ex)
             {
+                _logger.LogCritical(ex, $"Не удалось создать лист юнитов");
                 throw new Exception($"Не удалось создать лист юнитов: {ex}");
             }
 
@@ -75,6 +155,7 @@ namespace EyeOfGods.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogCritical(ex, $"Не удалось запустить GetUnitsStatistics");
                 throw new Exception($"Не удалось запустить GetUnitsStatistics: {ex}");
             }
         }

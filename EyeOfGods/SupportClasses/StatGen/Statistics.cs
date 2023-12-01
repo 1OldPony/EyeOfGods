@@ -1,14 +1,10 @@
 ﻿using EyeOfGods.Models;
 using EyeOfGods.Models.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EyeOfGods.SupportClasses
+namespace EyeOfGods.SupportClasses.StatGen
 {
     public class Statistics : IStatistics
     {

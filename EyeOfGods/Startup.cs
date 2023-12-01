@@ -4,8 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using EyeOfGods.SupportClasses;
 using EyeOfGods.Models;
+using EyeOfGods.SupportClasses.UniGen;
+using EyeOfGods.SupportClasses.StatGen;
 
 namespace EyeOfGods
 {

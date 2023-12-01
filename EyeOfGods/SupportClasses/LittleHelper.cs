@@ -83,7 +83,6 @@ namespace EyeOfGods.SupportClasses
 
 
 
-
         //public static bool DbInitialisationFix (List<Unit> allUnits, List<RangeWeaponsType> allRangeWeaponTypes, List<RangeWeapon> allRangeWeapons,
         //    List<UnitOrder> allOrders, List<UnitType> allTypes)
         //{

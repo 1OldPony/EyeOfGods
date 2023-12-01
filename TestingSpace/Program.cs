@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace TestingBoolGenerator
@@ -9,7 +10,29 @@ namespace TestingBoolGenerator
         static void Main(string[] args)
         {
 
+            //Rectangle rect1 = new Rectangle(0, 0, 1, 1);
+            //Rectangle rect2 = new Rectangle(1, 0, 1, 1);
+            //Rectangle rect3 = new Rectangle(0, 0, 1, 1);
+            //bool x;
+            //rect1.Intersect(rect2);
+            //if (rect1.IsEmpty)
+            //{
+            //    Console.WriteLine("Intersect - isEmpty");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Intersect - NOT isEmpty");
+            //}
 
+            //if (rect3.IntersectsWith(rect2))
+            //{
+            //    Console.WriteLine("IntersectWhith - пересекается");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("IntersectWhith - не пересекается");
+            //}
+            //Console.ReadLine();
 
             Random random = new Random();
 
@@ -18,7 +41,7 @@ namespace TestingBoolGenerator
                 double chance, percent, total = 0.0;
                 int numberOfCicles = 0;
                 int generationCount = 0;
-                List<double> results = new ();
+                List<double> results = new();
 
                 Console.WriteLine("Задай процент");
                 percent = double.Parse(Console.ReadLine());
@@ -86,9 +109,6 @@ namespace TestingBoolGenerator
                 Console.WriteLine($"Минимальный процент при {generationCount} генераций значения - {lowestRes}%");
                 Console.WriteLine($"Максимальный процент при {generationCount} генераций значения - {highestRes}%");
                 Console.WriteLine($"Погрешность на {generationCount} генераций значения - +-{Inaccurancy}%\n\n");
-
-
-
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using EyeOfGods.Models;
 using EyeOfGods.Models.ViewModels;
 using EyeOfGods.SupportClasses;
+using EyeOfGods.SupportClasses.StatGen;
 using Moq;
 using static NUnitTests.FakeDb.Db_Moq;
 

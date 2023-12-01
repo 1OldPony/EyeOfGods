@@ -3,7 +3,7 @@ using EyeOfGods.Models.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace EyeOfGods.SupportClasses
+namespace EyeOfGods.SupportClasses.StatGen
 {
     public interface IStatistics
     {

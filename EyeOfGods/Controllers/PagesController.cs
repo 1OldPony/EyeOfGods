@@ -1,12 +1,7 @@
-﻿using Castle.Core.Logging;
-using EyeOfGods.Context;
-using EyeOfGods.Logger;
+﻿using EyeOfGods.Context;
 using EyeOfGods.Models;
 using EyeOfGods.Models.MapModels;
-using EyeOfGods.Models.ViewModels;
-using EyeOfGods.SupportClasses;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -18,9 +13,9 @@ namespace EyeOfGods.Controllers
     public class PagesController : Controller
     {
         private readonly MyWargameContext _context;
-        private readonly /*EyeOfGodsFileLogger*/ILogger<PagesController> _logger;
+        private readonly ILogger<PagesController> _logger;
 
-        public PagesController(MyWargameContext context, /*EyeOfGodsFileLogger*/ ILogger<PagesController> logger) {
+        public PagesController(MyWargameContext context, ILogger<PagesController> logger) {
             _context = context;
             _logger = logger;
         }
@@ -115,7 +110,7 @@ namespace EyeOfGods.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogCritical(ex, "Не удалось сохранить даннные");
+                _logger.LogCritical(ex, "Не удалось сохранить даннные в seed");
             }
 
             return RedirectToAction("Start");

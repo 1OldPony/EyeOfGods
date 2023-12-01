@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EyeOfGods.Models.MapModels
 {
@@ -10,6 +11,7 @@ namespace EyeOfGods.Models.MapModels
         public int NumbOfCities { get; set; }
         public int NumbOfResources { get; set; }
         public int NumbOfTreasuries { get; set; }
+        public int MaxDensityAvail { get; set; }
         public QuestLevel QuestLevel { get; set; }
 
 

@@ -78,16 +78,26 @@ namespace EyeOfGods.Context
 
 
         public List<MapScheme> mapSchemes = new() {
-            new MapScheme { Id = 1, Name="Test", MapHeight=96, MapWidth = 96, NumbOfCities= 2, NumbOfResources= 2, NumbOfTreasuries = 2, QuestLevel = QuestLevel.легкий }        
+            new MapScheme { Name="Test", MapHeight=16, MapWidth = 16, NumbOfCities= 2, NumbOfResources= 2, NumbOfTreasuries = 2,
+                QuestLevel = QuestLevel.легкий, MaxDensityAvail = 2 }
         };
 
         public List<MapSchemePoint> mapSchemePoints = new() {
-            new MapSchemePoint {PointNumber = 1, PareWhithPoint = 2, XCoordinate = 10, YCoordinate = 10 },
-            new MapSchemePoint {PointNumber = 2, PareWhithPoint = 1, XCoordinate = 86, YCoordinate = 86 },
-            new MapSchemePoint {PointNumber = 3, PareWhithPoint = 4, XCoordinate = 86, YCoordinate = 10},
-            new MapSchemePoint {PointNumber = 4, PareWhithPoint = 3, XCoordinate = 10, YCoordinate = 86},
-            new MapSchemePoint {PointNumber = 5, PareWhithPoint = 6, XCoordinate = 37, YCoordinate = 10},
-            new MapSchemePoint {PointNumber = 6, PareWhithPoint = 5, XCoordinate = 37, YCoordinate = 86 }
+            new MapSchemePoint {PointNumber = 1, PareWhithPoint = 2, XCoordinate = 2, YCoordinate = 2 },
+            new MapSchemePoint {PointNumber = 2, PareWhithPoint = 1, XCoordinate = 10, YCoordinate = 10 },
+            new MapSchemePoint {PointNumber = 3, PareWhithPoint = 4, XCoordinate = 10, YCoordinate = 2},
+            new MapSchemePoint {PointNumber = 4, PareWhithPoint = 3, XCoordinate = 2, YCoordinate = 10},
+            new MapSchemePoint {PointNumber = 5, PareWhithPoint = 6, XCoordinate = 5, YCoordinate = 2},
+            new MapSchemePoint {PointNumber = 6, PareWhithPoint = 5, XCoordinate = 5, YCoordinate = 10 }
+        };
+        public List<MapSchemePoint> mapSchemePoints7 = new() {
+            new MapSchemePoint {PointNumber = 1, PareWhithPoint = 2, XCoordinate = 2, YCoordinate = 2 },
+            new MapSchemePoint {PointNumber = 2, PareWhithPoint = 1, XCoordinate = 10, YCoordinate = 10 },
+            new MapSchemePoint {PointNumber = 3, PareWhithPoint = null, XCoordinate = 10, YCoordinate = 2},
+            new MapSchemePoint {PointNumber = 4, PareWhithPoint = null, XCoordinate = 2, YCoordinate = 10},
+            new MapSchemePoint {PointNumber = 5, PareWhithPoint = 6, XCoordinate = 5, YCoordinate = 2},
+            new MapSchemePoint {PointNumber = 6, PareWhithPoint = 5, XCoordinate = 5, YCoordinate = 10 },
+            new MapSchemePoint {PointNumber = 7, PareWhithPoint = null, XCoordinate = 2, YCoordinate = 10 }
         };
 
         public List<Quest> quests = new() {

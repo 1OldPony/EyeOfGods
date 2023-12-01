@@ -13,7 +13,7 @@ namespace EyeOfGods.Migrations
 {
     [DbContext(typeof(MyWargameContext))]
     [Migration("20231123232917_MapScheme")]
-    partial class MapScheme
+    partial class MSchem
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

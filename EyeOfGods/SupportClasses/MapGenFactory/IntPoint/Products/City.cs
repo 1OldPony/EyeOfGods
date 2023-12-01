@@ -14,7 +14,7 @@ namespace EyeOfGods.SupportClasses.MapGenFactory.Products
             XCoordinate = point.XCoordinate;
             YCoordinate = point.YCoordinate;
 
-            Type = InterestPointsTypes.Ресурсы;
+            Type = InterestPointsTypes.Город;
             Description = $"Город, при первом захвате каждой из площадей игрок получает 1 очко(могут получить оба игрока)," +
                 $" в конце игры каждая контроллируемая площадь дает 2 очка";
         }

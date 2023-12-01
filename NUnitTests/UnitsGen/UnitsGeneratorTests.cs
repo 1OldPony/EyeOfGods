@@ -1,5 +1,5 @@
 ﻿using EyeOfGods.Models;
-using EyeOfGods.SupportClasses;
+using EyeOfGods.SupportClasses.UniGen;
 using Moq;
 using static NUnitTests.FakeDb.Db_Moq;
 

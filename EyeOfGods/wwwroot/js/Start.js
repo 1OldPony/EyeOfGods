@@ -31,7 +31,7 @@ function getUnitsStat() {
 
 function generateRndUnits() {
     let count = document.getElementById("count").value;
-    let url = new URL('/api/GensAndStat/GenRndUnit', 'https://localhost:44372');
+    let url = new URL('/api/GensAndStat/GenRndUnit', 'https://localhost:5001');
     url.searchParams.set('count', `${count}`);
 
     fetch(url, {

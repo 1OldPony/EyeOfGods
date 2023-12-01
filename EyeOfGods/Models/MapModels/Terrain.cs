@@ -3,6 +3,10 @@
     public enum TerrainTypes { 
         Лес, Болото, Вода
     }
+    public enum TerrainDensity
+    {
+        Низкая = 1, Средняя, Высокая
+    }
     public class Terrain : MapSchemePoint
     {
         /// <summary>

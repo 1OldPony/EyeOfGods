@@ -1,11 +1,10 @@
 ﻿using EyeOfGods.Models;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
 using System.Linq;
 
-namespace EyeOfGods.SupportClasses
+namespace EyeOfGods.SupportClasses.UniGen
 {
     public class UnitGenerator : IUnitGenerator
     {
