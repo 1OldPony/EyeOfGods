@@ -26,15 +26,29 @@ namespace NUnitTests.FakeDb
             mockContext.Setup(m => m.Units).Returns(UnitsList().Object);
             mockContext.Setup(m => m.MapSchemes).Returns(MapSchemeList().Object);
             mockContext.Setup(m => m.Quests).Returns(QuestsList().Object);
+            mockContext.Setup(m => m.Gods).Returns(GodsList().Object);
 
             return mockContext;
         }
 
 
+        public static Mock<DbSet<God>> GodsList()
+        {
+            SeedData seedData = new();
+            var data = seedData.gods.AsQueryable();
+
+            var gods = new Mock<DbSet<God>>();
+            gods.As<IQueryable<God>>().Setup(m => m.Provider).Returns(data.Provider);
+            gods.As<IQueryable<God>>().Setup(m => m.Expression).Returns(data.Expression);
+            gods.As<IQueryable<God>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            gods.As<IQueryable<God>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            return gods;
+        }
         public static Mock<DbSet<Quest>> QuestsList()
         {
             SeedData seedData = new();
-            var data = new List<Quest> { seedData.quests[0] }.AsQueryable();
+            var data = seedData.quests.AsQueryable();
 
             var quests = new Mock<DbSet<Quest>>();
             quests.As<IQueryable<Quest>>().Setup(m => m.Provider).Returns(data.Provider);
@@ -49,7 +63,7 @@ namespace NUnitTests.FakeDb
         {
             SeedData seedData = new();
             seedData.mapSchemes[0].Points=seedData.mapSchemePoints;
-            var data = new List<MapScheme> { seedData.mapSchemes[0] }.AsQueryable();
+            var data = seedData.mapSchemes.AsQueryable();
 
             var mapSchemes = new Mock<DbSet<MapScheme>>();
             mapSchemes.As<IQueryable<MapScheme>>().Setup(m => m.Provider).Returns(data.Provider);
@@ -85,7 +99,7 @@ namespace NUnitTests.FakeDb
         public static Mock<DbSet<DefensiveAbilities>> DefensiveAbilitiesList()
         {
             SeedData seedData = new();
-            var data = new List<DefensiveAbilities>{seedData.defensiveAbilities[0], seedData.defensiveAbilities[1], seedData.defensiveAbilities[2]}.AsQueryable();
+            var data =seedData.defensiveAbilities.AsQueryable();
 
             var defensiveAbilities = new Mock<DbSet<DefensiveAbilities>>();
             defensiveAbilities.As<IQueryable<DefensiveAbilities>>().Setup(m => m.Provider).Returns(data.Provider);
@@ -98,7 +112,7 @@ namespace NUnitTests.FakeDb
         public static Mock<DbSet<EnduranceAbilities>> EnduranceAbilitiesList()
         {
             SeedData seedData = new();
-            var data = new List<EnduranceAbilities>{seedData.enduranceAbilities[0], seedData.enduranceAbilities[1]}.AsQueryable();
+            var data =seedData.enduranceAbilities.AsQueryable();
 
             var enduranceAbilities = new Mock<DbSet<EnduranceAbilities>>();
             enduranceAbilities.As<IQueryable<EnduranceAbilities>>().Setup(m => m.Provider).Returns(data.Provider);
@@ -111,7 +125,7 @@ namespace NUnitTests.FakeDb
         public static Mock<DbSet<MentalAbilities>> MentalAbilitiesList()
         {
             SeedData seedData = new();
-            var data = new List<MentalAbilities>{ seedData.mentalAbilities[0], seedData.mentalAbilities[1] }.AsQueryable();
+            var data = seedData.mentalAbilities.AsQueryable();
 
             var mentalAbilities = new Mock<DbSet<MentalAbilities>>();
             mentalAbilities.As<IQueryable<MentalAbilities>>().Setup(m => m.Provider).Returns(data.Provider);
@@ -126,7 +140,8 @@ namespace NUnitTests.FakeDb
             SeedData seedData = new();
             seedData.meleeWeapon[0].Units.Add(new Unit { Id = 1 });
             seedData.meleeWeapon[2].Units.Add(new Unit { Id = 1 });
-            var data = new List<MeleeWeapon>{ seedData.meleeWeapon[0], seedData.meleeWeapon[1], seedData.meleeWeapon[2] }.AsQueryable();
+
+            var data = seedData.meleeWeapon.AsQueryable();
 
             var meleeWeapons = new Mock<DbSet<MeleeWeapon>>();
             meleeWeapons.As<IQueryable<MeleeWeapon>>().Setup(m => m.Provider).Returns(data.Provider);
@@ -143,7 +158,7 @@ namespace NUnitTests.FakeDb
             seedData.rangeWeapon[1].RangeWeaponsType = seedData.rangeWeaponsType[1];
             seedData.rangeWeapon[2].RangeWeaponsType = seedData.rangeWeaponsType[2];
 
-            var data = new List<RangeWeapon> { seedData.rangeWeapon[0], seedData.rangeWeapon[1], seedData.rangeWeapon[2] }.AsQueryable();
+            var data = seedData.rangeWeapon.AsQueryable();
 
             var rangeWeapons = new Mock<DbSet<RangeWeapon>>();
             rangeWeapons.As<IQueryable<RangeWeapon>>().Setup(m => m.Provider).Returns(data.Provider);
@@ -156,7 +171,7 @@ namespace NUnitTests.FakeDb
         public static Mock<DbSet<RangeWeaponsType>> RangeWeaponsTypeList()
         {
             SeedData seedData = new();
-            var data = new List<RangeWeaponsType> { seedData.rangeWeaponsType[0], seedData.rangeWeaponsType[1], seedData.rangeWeaponsType[2] }.AsQueryable();
+            var data = seedData.rangeWeaponsType.AsQueryable();
 
             var rangeWeaponsType = new Mock<DbSet<RangeWeaponsType>>();
             rangeWeaponsType.As<IQueryable<RangeWeaponsType>>().Setup(m => m.Provider).Returns(data.Provider);
@@ -185,7 +200,7 @@ namespace NUnitTests.FakeDb
             seedData.unitType[0].UnitTypeOrders.Add(seedData.unitOrder[2]);
             seedData.unitType[1].UnitTypeOrders.AddRange(new List<UnitOrder> { seedData.unitOrder[0], seedData.unitOrder[1] });
 
-            var data = new List<UnitType>{ seedData.unitType[0], seedData.unitType[1] }.AsQueryable();
+            var data = seedData.unitType.AsQueryable();
 
             var unitTypes = new Mock<DbSet<UnitType>>();
             unitTypes.As<IQueryable<UnitType>>().Setup(m => m.Provider).Returns(data.Provider);
@@ -198,7 +213,7 @@ namespace NUnitTests.FakeDb
         public static Mock<DbSet<UnitOrder>> UnitOrdersList()
         {
             SeedData seedData = new();
-            var data = new List<UnitOrder>{ seedData.unitOrder[0], seedData.unitOrder[1], seedData.unitOrder[2] }.AsQueryable();
+            var data = seedData.unitOrder.AsQueryable();
 
             var unitOrders = new Mock<DbSet<UnitOrder>>();
             unitOrders.As<IQueryable<UnitOrder>>().Setup(m => m.Provider).Returns(data.Provider);

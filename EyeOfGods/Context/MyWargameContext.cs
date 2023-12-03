@@ -54,6 +54,8 @@ namespace EyeOfGods.Models
             modelBuilder.Entity<MapScheme>().OwnsMany(m => m.Points);
             
             modelBuilder.Entity<Quest>().HasData(seedData.quests[0]);
+
+            modelBuilder.Entity<God>().HasData(seedData.gods[0], seedData.gods[1], seedData.gods[2], seedData.gods[3], seedData.gods[4]);
         }
 
 
@@ -73,5 +75,6 @@ namespace EyeOfGods.Models
 
         public virtual DbSet<MapScheme> MapSchemes { get; set; }
         public virtual DbSet<Quest> Quests { get; set; }
+        public virtual DbSet<God> Gods { get; set; }
     }
 }

@@ -1,12 +1,14 @@
 ﻿using EyeOfGods.Models.MapModels;
+using System;
 
 namespace EyeOfGods.SupportClasses.MapGenFactory.TerrPoint.Products
 {
-    public class Forest : Terrain
+    public class Swamp : Terrain
     {
-        public Forest(int refPoint) {
-            Type = TerrainTypes.Лес;
-            Description = "+2 к броне в ближнем бою и от стрельбы";
+        public Swamp(int refPoint)
+        {
+            Type = TerrainTypes.Болото;
+            Description = "+2 к броне в ближнем бою";
 
             ReferenceTo = refPoint;
             PointWidth = 2;

@@ -6,8 +6,8 @@ namespace EyeOfGods.SupportClasses.MapGenFactory.Products
     {
         public City(MapSchemePoint point)
         {
-            PointHeight = 3;
-            PointWidth = 3;
+            PointHeight = 2;
+            PointWidth = 2;
             PointNumber = point.PointNumber;
             PareWhithPoint = point.PareWhithPoint;
 

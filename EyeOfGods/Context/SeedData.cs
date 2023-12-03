@@ -79,7 +79,7 @@ namespace EyeOfGods.Context
 
         public List<MapScheme> mapSchemes = new() {
             new MapScheme { Name="Test", MapHeight=16, MapWidth = 16, NumbOfCities= 2, NumbOfResources= 2, NumbOfTreasuries = 2,
-                QuestLevel = QuestLevel.легкий, MaxDensityAvail = 2 }
+                QuestLevel = QuestLevel.легкий, MaxDensityAvail = 2, GodPresense = 4 }
         };
 
         public List<MapSchemePoint> mapSchemePoints = new() {
@@ -103,6 +103,14 @@ namespace EyeOfGods.Context
         public List<Quest> quests = new() {
             new Quest { Id = 1, Name="Low quest", Level = QuestLevel.легкий, Description = "Найден старый склеп. Получите >2 успехов выносливости чтоб порыться в нем.", 
                 ConsLoose = "Ничего не нашлось, получите 1 усталость", ConsDraw = "Ничего не нашлось", ConsWin = "Получите артефакт Х" }
+        };
+
+        public List<God> gods = new() {
+            new God { GodName = GodNames.Доблесть.ToString() },
+            new God { GodName = GodNames.Время.ToString() },
+            new God { GodName = GodNames.Знания.ToString() },
+            new God { GodName = GodNames.Справедливость.ToString() },
+            new God { GodName = GodNames.Шутник.ToString() }
         };
     }
 }

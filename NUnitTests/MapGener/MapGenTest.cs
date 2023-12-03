@@ -37,17 +37,16 @@ namespace NUnitTests.MapGener
             scheme = _fakeDb.Object.MapSchemes.First();
         }
 
-        //[Test]
-        //public void DOES_city_creator_create_City()
-        //{
-        //    var sheme = _fakeDb.Object.MapSchemes.First();
-        //    CityCreator cr = new(sheme.Points[0]);
-        //    var x = cr.Create();
+        [Test]
+        public void DOES_city_creator_create_City()
+        {
+            var sheme = _fakeDb.Object.MapSchemes.First();
 
-        //    //var x = generator.CreateCity(sheme.Points[0]);
 
-        //    Assert.That(x,Is.TypeOf<City>());
-        //}
+            var x = generator.GenerateMap(sheme,TerrainDensity.Средняя,30,30,30);
+
+            Assert.That(x, Is.TypeOf<City>());
+        }
 
         [Test]
         public void DOES_forest_creator_create_Forest()
@@ -56,9 +55,11 @@ namespace NUnitTests.MapGener
             List<Rectangle> rect = new()
             {
                 new Rectangle(sheme.Points[0].XCoordinate, sheme.Points[0].YCoordinate,
-                sheme.Points[0].PointWidth, sheme.Points[0].PointHeight)
+                2, 2)
             };
-            ForestCreator fCr = new(sheme.Points[0], rect, scheme);
+
+            MapSchemePoint x = new() { PointNumber = 1, PointHeight = 2, PointWidth = 2, XCoordinate = 2, YCoordinate = 2 };
+            ForestCreator fCr = new(x, rect, scheme);
 
             List<Terrain> ter = new();
             for (int i = 0; i < 10; i++)
@@ -67,8 +68,6 @@ namespace NUnitTests.MapGener
                 rect.Add(new Rectangle(t.XCoordinate, t.YCoordinate, t.PointWidth, t.PointHeight));
                 ter.Add(t);
             }
-
-            //var x = generator.CreateCity(sheme.Points[0]);
 
             Assert.That(ter.Count==10, Is.True);
         }

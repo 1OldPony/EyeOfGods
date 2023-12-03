@@ -14,6 +14,7 @@ namespace EyeOfGods.SupportClasses.MapGenFactory
     {
         private readonly ILogger<MapGenerator> _logger;
         private List<Quest> _quests;
+        //private List<God> _gods;
         public MapGenerator(ILogger<MapGenerator> logger, List<Quest> quests)
         {
             _logger = logger;
@@ -35,17 +36,23 @@ namespace EyeOfGods.SupportClasses.MapGenFactory
             ///Далее добавление террейна
             ////////
 
-            
-            
 
+
+
+            List<MapSchemePoint> basePoints = new();
+            foreach (var item in scheme.Points)
+            {
+                basePoints.Add(item);
+            }
             List<MapSchemePoint> points = new();
             MapSchemePoint point;
+
             //рандомизируем порядок исходных точек
             for (int i = 0; i < scheme.Points.Count; i++)
             {
-                point = scheme.Points.ElementAt(rnd.Next(0, scheme.Points.Count));
+                point = basePoints.ElementAt(rnd.Next(0, basePoints.Count));
                 points.Add(point);
-                scheme.Points.Remove(point);
+                basePoints.Remove(point);
             }
 
             //по мере генерации террейна заполняем лист уже существующих точек и отправляем в creator-ы
@@ -62,6 +69,7 @@ namespace EyeOfGods.SupportClasses.MapGenFactory
                 // и крутим while пока не создасться хоть какой-то
                 for (int i = 0; i < (int)density; i++)
                 {
+                    typeIsGen = false;
                     while (typeIsGen == false)
                     {
                         if (LittleHelper.BoolRandom(forestDen))
@@ -78,23 +86,55 @@ namespace EyeOfGods.SupportClasses.MapGenFactory
                             
                             typeIsGen = true;
                         }
-                        //else if (LittleHelper.BoolRandom(swampDen))
-                        //{
-                        //    //terrTypes.Add(TerrainTypes.Болото);
-                        //    typeIsGen = true;
-                        //}
+                        else if (LittleHelper.BoolRandom(swampDen))
+                        {
+                            SwampCreator swampCr = new(item, forbidPos, scheme);
+                            Terrain terrain = swampCr.Create();
+
+                            if (terrain != null)
+                            {
+                                terrains.Add(terrain);
+                                forbidPos.Add(new Rectangle(terrain.XCoordinate, terrain.YCoordinate,
+                                    terrain.PointWidth, terrain.PointHeight));
+                            }
+
+                            typeIsGen = true;
+                        }
                         //else if (LittleHelper.BoolRandom(waterDen))
                         //{
                         //    //terrTypes.Add(TerrainTypes.Вода);
                         //    typeIsGen = true;
                         //}
-                        //else
-                        //{
-                        //    continue;
-                        //}
+                        else
+                        {
+                            continue;
+                        }
                     }
                 }
             }
+
+
+            ///// раскидываем божественные жетоны
+            ///надо вывести в отдельную функцию, чтоб ее отдельно можно было вызывать
+            int godTokenCount = 0;
+
+            while (godTokenCount != scheme.GodPresense)
+            {
+                var haveToken = terrains.Where(t => t.HasGodToken == true);
+                var dontHaveToken = terrains.Where(t => t.GodFrendly == true && t.HasGodToken == false);
+
+                var possElem = dontHaveToken.Except(dontHaveToken
+                    .IntersectBy(haveToken.Select(p => p.ReferenceTo), w => w.ReferenceTo));
+
+                possElem.ElementAt(rnd.Next(0, possElem.Count())).HasGodToken = true;
+
+                godTokenCount++;
+            }
+
+
+
+
+
 
             return map;
         }
@@ -115,6 +155,16 @@ namespace EyeOfGods.SupportClasses.MapGenFactory
 
         public async Task<List<InterestPoint>> GenInterestPoints(MapScheme scheme, Random rnd)
         {
+            List<MapSchemePoint> allPoints = new();
+            foreach (var item in scheme.Points)
+            {
+                allPoints.Add(item);
+            }
+
+
+
+
+
             List<MapSchemePoint> cit = new();
             List<MapSchemePoint> treas = new();
             List<MapSchemePoint> res = new();
@@ -128,7 +178,7 @@ namespace EyeOfGods.SupportClasses.MapGenFactory
             {
                 try
                 {
-                    point = scheme.Points.ElementAt(rnd.Next(0, scheme.Points.Count));
+                    point = allPoints.ElementAt(rnd.Next(0, allPoints.Count));
                 }
                 catch (Exception ex)
                 {
@@ -141,19 +191,19 @@ namespace EyeOfGods.SupportClasses.MapGenFactory
                     if ((scheme.NumbOfCities - cit.Count) % 2 == 1 && scheme.NumbOfCities > cit.Count)
                     {
                         cit.Add(point);
-                        scheme.Points.Remove(point);
+                        allPoints.Remove(point);
                         continue;
                     }
                     if ((scheme.NumbOfTreasuries - treas.Count) % 2 == 1 && scheme.NumbOfTreasuries > treas.Count)
                     {
                         treas.Add(point);
-                        scheme.Points.Remove(point);
+                        allPoints.Remove(point);
                         continue;
                     }
                     if ((scheme.NumbOfResources - res.Count) % 2 == 1 && scheme.NumbOfResources > res.Count)
                     {
                         res.Add(point);
-                        scheme.Points.Remove(point);
+                        allPoints.Remove(point);
                         continue;
                     }
                 }
@@ -161,7 +211,7 @@ namespace EyeOfGods.SupportClasses.MapGenFactory
                 {
                     try
                     {
-                        pairPoint = scheme.Points.Find(p => p.PareWhithPoint == point.PointNumber);
+                        pairPoint = allPoints.Find(p => p.PareWhithPoint == point.PointNumber);
                     }
                     catch (Exception ex)
                     {
@@ -172,22 +222,22 @@ namespace EyeOfGods.SupportClasses.MapGenFactory
                     if ((scheme.NumbOfCities - cit.Count) % 2 == 0 && scheme.NumbOfCities > cit.Count)
                     {
                         cit.AddRange(new List<MapSchemePoint> { point, pairPoint });
-                        scheme.Points.Remove(point);
-                        scheme.Points.Remove(pairPoint);
+                        allPoints.Remove(point);
+                        allPoints.Remove(pairPoint);
                         continue;
                     }
                     if ((scheme.NumbOfTreasuries - treas.Count) % 2 == 0 && scheme.NumbOfTreasuries > treas.Count)
                     {
                         treas.AddRange(new List<MapSchemePoint> { point, pairPoint });
-                        scheme.Points.Remove(point);
-                        scheme.Points.Remove(pairPoint);
+                        allPoints.Remove(point);
+                        allPoints.Remove(pairPoint);
                         continue;
                     }
                     if ((scheme.NumbOfResources - res.Count) % 2 == 0 && scheme.NumbOfResources > res.Count)
                     {
                         res.AddRange(new List<MapSchemePoint> { point, pairPoint });
-                        scheme.Points.Remove(point);
-                        scheme.Points.Remove(pairPoint);
+                        allPoints.Remove(point);
+                        allPoints.Remove(pairPoint);
                         continue;
                     }
                 }
