@@ -1,10 +1,7 @@
 ﻿using EyeOfGods.Models.MapModels;
-using EyeOfGods.Models;
-using EyeOfGods.SupportClasses.MapGenFactory.Products;
-using System.Collections.Generic;
-using System;
+using EyeOfGods.SupportClasses.MapGenFactory.IntPoint.Products;
 
-namespace EyeOfGods.SupportClasses.MapGenFactory.Creators
+namespace EyeOfGods.SupportClasses.MapGenFactory.IntPoint.Creators
 {
     public class ResourceCreator : IntPointCreator
     {

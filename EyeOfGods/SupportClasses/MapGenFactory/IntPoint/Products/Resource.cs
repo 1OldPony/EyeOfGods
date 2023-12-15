@@ -1,7 +1,7 @@
 ﻿using EyeOfGods.Models.MapModels;
 using System.Drawing;
 
-namespace EyeOfGods.SupportClasses.MapGenFactory.Products
+namespace EyeOfGods.SupportClasses.MapGenFactory.IntPoint.Products
 {
     public class Resource : InterestPoint
     {

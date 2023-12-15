@@ -16,13 +16,8 @@ function plusGenUnCount() {
 
 
 
-
-
-
-
-
 function getUnitsStat() {
-    fetch("/api/GensAndStat/GetUnitsStat")
+    fetch("/api/Statistics/GetUnitsStat")
         .then(response => response.json())
         .catch(er => console.log(`Не удалось получить статистику. ${er}`))
         .then(data => loadStatResult(data))
@@ -31,7 +26,7 @@ function getUnitsStat() {
 
 function generateRndUnits() {
     let count = document.getElementById("count").value;
-    let url = new URL('/api/GensAndStat/GenRndUnit', 'https://localhost:5001');
+    let url = new URL('/api/UnitsGen/GenRndUnit', 'https://localhost:5001');
     url.searchParams.set('count', `${count}`);
 
     fetch(url, {
@@ -43,7 +38,7 @@ function generateRndUnits() {
 
 function deleteAllUnits() {
 
-    fetch('/api/GensAndStat/ClearUnits', {
+    fetch('/api/UnitsGen/ClearUnits', {
         method: 'DELETE'
     })
         .then(() => getUnitsStat())
@@ -85,7 +80,7 @@ function insertStatDataRows(id, object) {
 
     for (x in object) {
         let row = document.createElement('div');
-        row.className = 'statisticsDataRow';
+        row.className = 'simpleRowData';
         row.textContent = `${object[x].name} - ${object[x].usageCount}`
 
         newRows.push(row);

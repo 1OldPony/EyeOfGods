@@ -13,6 +13,10 @@ input[type="number"] {
         display: none;
     }
 
+.genInput {
+    text-align:end;
+}
+
 .pageBlock {
     display: flex;
     /*flex-direction:row;*/
@@ -42,7 +46,7 @@ input[type="number"] {
     flex-direction: column;
     align-items: center;
     width: fit-content;
-    width: 500px;
+    width: 320px;
 }
 .menuBlock {
     display: flex;
@@ -84,6 +88,11 @@ input[type="number"] {
     width:100px;
     cursor:pointer;
 }
+.bigMenuButton {
+    font: 20px bold;
+    width: 240px;
+    cursor: pointer;
+}
 .menuImputNumber {
     width: 30px;
     height: 38px;
@@ -115,54 +124,109 @@ input[type="number"] {
 .bigHeader {
     font-size: 1.4rem;
     font-weight: bold;
+}
+.bigHeaderRow {
     margin-bottom: 10px;
 }
-.allStatistics {
+
+.middleHeader {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+.middleHeaderRow {
+    margin-bottom: 5px;
+}
+
+.minorHeader {
+    font-weight: bold;
+}
+.minorHeaderRow {
+    margin-bottom: 2px;
+}
+
+.columnBlock {
     display: flex;
     justify-content: space-between;
-    /*flex-wrap: wrap;*/
-    /*display:inline-block;*/
-
 }
-.statisticsBlock {
+.column {
     display: flex;
     flex-direction: column;
-    /*margin-bottom: 10px;*/
-    /*padding:7px;*/
-    /*float:left;*/
-    /*border-radius:5px;
-    background-color:white;*/
 }
-#first.statisticsBlock {
+.column-half {
+    display: flex;
+    flex-direction: column;
+    width: 49%;
+}
+.firstOfTwo {
     margin-right: 10px;
     width: 49%;
 }
-#second.statisticsBlock {
+.secondOfTwo {
     width: 49%;
 }
-.minorHeader {
+.firstOfThree {
+    margin-right: 10px;
+    width: 32%;
+}
+.secondOfThree {
+    margin-right: 10px;
+    width: 32%;
+}
+.thirdOfThree {
+    width: 32%;
+}
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.row-between  {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.row-half-between {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items:center;
+    width:49%;
+}
+.simpleRowData {
+    margin-bottom: 2px;
+}
+/*.textMiddle {
     font-weight: bold;
     font-size: 1.2rem;
-    margin-bottom: 5px;
-}
-.statisticsDataBlock {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 5px;
-    /*line-grid: create;*/
-}
-.statisticsData {
-    display: flex;
-    flex-direction: column;
-}
-.statisticsDataHeader {
-    font-weight: bold;
-    margin-bottom: 2px;
-}
-.statisticsDataRow {
-    margin-bottom: 2px;
-}
+}*/
 
+
+
+.center {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.mapBlock {
+    display: none;
+    height: 0px;
+    transition: height 1s;
+}
+.map {
+    background-color: cornsilk;
+    display: grid;
+}
+.mapOld {
+    /*width: 800px;*/
+    /*max-width: 800px;*/
+    /*height: 800px;*/
+    background-color: cornsilk;
+    display: grid;
+    /*grid-template-rows: repeat(auto-fit, размер строки);*/
+    /*grid-template-rows: repeat(12, 1fr);*/
+    /*grid-template-columns: repeat(12, 1fr);*/
+}
 
 
 

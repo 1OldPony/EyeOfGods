@@ -10,13 +10,13 @@ namespace NUnitTests.Statistic
     [TestFixture]
     internal class StatisticsTest
     {
-        Statistics _stat;
+        StatisticsGen _stat;
         Mock<MyWargameContext> _fakeDb;
 
         [SetUp]
         public void Setup()
         {
-            _stat = new Statistics();
+            _stat = new StatisticsGen();
             _fakeDb = Context();
         }
         [Test]

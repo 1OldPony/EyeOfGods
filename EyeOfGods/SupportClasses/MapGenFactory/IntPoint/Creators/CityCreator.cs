@@ -1,8 +1,7 @@
 ﻿using EyeOfGods.Models.MapModels;
-using EyeOfGods.SupportClasses.MapGenFactory.Products;
-using System.Collections.Generic;
+using EyeOfGods.SupportClasses.MapGenFactory.IntPoint.Products;
 
-namespace EyeOfGods.SupportClasses.MapGenFactory.Creators
+namespace EyeOfGods.SupportClasses.MapGenFactory.IntPoint.Creators
 {
     public class CityCreator : IntPointCreator
     {

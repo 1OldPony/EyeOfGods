@@ -1,6 +1,6 @@
 ﻿using EyeOfGods.Models.MapModels;
 
-namespace EyeOfGods.SupportClasses.MapGenFactory.Creators
+namespace EyeOfGods.SupportClasses.MapGenFactory.IntPoint.Creators
 {
     public abstract class IntPointCreator
     {

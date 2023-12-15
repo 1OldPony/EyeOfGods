@@ -4,6 +4,7 @@ using EyeOfGods.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EyeOfGods.Migrations
 {
     [DbContext(typeof(MyWargameContext))]
-    partial class MyWargameContextModelSnapshot : ModelSnapshot
+    [Migration("20231204202504_TerrOpt")]
+    partial class TerrOpt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -247,14 +250,9 @@ namespace EyeOfGods.Migrations
                     b.Property<int?>("SchemeId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TerrainOptionsId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("SchemeId");
-
-                    b.HasIndex("TerrainOptionsId");
 
                     b.ToTable("Map");
                 });
@@ -297,86 +295,6 @@ namespace EyeOfGods.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MapSchemes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            GodPresense = 4,
-                            MapHeight = 12,
-                            MapWidth = 12,
-                            MaxDensityAvail = 2,
-                            Name = "6 точек: 2 Города, 2 Ресурса, 2 Сокровищницы",
-                            NumbOfCities = 2,
-                            NumbOfResources = 2,
-                            NumbOfTreasuries = 2,
-                            QuestLevel = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            GodPresense = 4,
-                            MapHeight = 8,
-                            MapWidth = 8,
-                            MaxDensityAvail = 2,
-                            Name = "7 точек: Тестовая",
-                            NumbOfCities = 3,
-                            NumbOfResources = 2,
-                            NumbOfTreasuries = 2,
-                            QuestLevel = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            GodPresense = 4,
-                            MapHeight = 8,
-                            MapWidth = 8,
-                            MaxDensityAvail = 2,
-                            Name = "8 точек: Тестовая",
-                            NumbOfCities = 3,
-                            NumbOfResources = 2,
-                            NumbOfTreasuries = 2,
-                            QuestLevel = 1
-                        },
-                        new
-                        {
-                            Id = 4,
-                            GodPresense = 4,
-                            MapHeight = 12,
-                            MapWidth = 12,
-                            MaxDensityAvail = 2,
-                            Name = "5 точек: Тестовая",
-                            NumbOfCities = 3,
-                            NumbOfResources = 2,
-                            NumbOfTreasuries = 2,
-                            QuestLevel = 1
-                        },
-                        new
-                        {
-                            Id = 5,
-                            GodPresense = 4,
-                            MapHeight = 8,
-                            MapWidth = 8,
-                            MaxDensityAvail = 2,
-                            Name = "6 точек: 2 Города, 2 Ресурса, 2 Сокровищницы",
-                            NumbOfCities = 2,
-                            NumbOfResources = 2,
-                            NumbOfTreasuries = 2,
-                            QuestLevel = 1
-                        },
-                        new
-                        {
-                            Id = 6,
-                            GodPresense = 4,
-                            MapHeight = 8,
-                            MapWidth = 12,
-                            MaxDensityAvail = 2,
-                            Name = "6-ТЕСТ!: 1 Город, 3 Ресурса, 2 Сокровищницы",
-                            NumbOfCities = 1,
-                            NumbOfResources = 3,
-                            NumbOfTreasuries = 2,
-                            QuestLevel = 1
-                        });
                 });
 
             modelBuilder.Entity("EyeOfGods.Models.MapModels.Quest", b =>
@@ -417,7 +335,7 @@ namespace EyeOfGods.Migrations
                             ConsLoose = "Ничего не нашлось, получите 1 усталость",
                             ConsWin = "Получите артефакт Х",
                             Description = "Найден старый склеп. Получите >2 успехов выносливости чтоб порыться в нем.",
-                            Level = 1,
+                            Level = 0,
                             Name = "Low quest"
                         });
                 });
@@ -481,9 +399,6 @@ namespace EyeOfGods.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Density")
-                        .HasColumnType("int");
-
                     b.Property<int>("ForestDensity")
                         .HasColumnType("int");
 
@@ -496,6 +411,9 @@ namespace EyeOfGods.Migrations
                     b.Property<int>("WaterDensity")
                         .HasColumnType("int");
 
+                    b.Property<int>("density")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("TerrainOptions");
@@ -504,47 +422,11 @@ namespace EyeOfGods.Migrations
                         new
                         {
                             Id = 1,
-                            Density = 2,
-                            ForestDensity = 34,
-                            OptionsSetName = "Затопленная низина",
+                            ForestDensity = 33,
+                            OptionsSetName = "Тестовая",
                             SwampDensity = 33,
-                            WaterDensity = 33
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Density = 2,
-                            ForestDensity = 66,
-                            OptionsSetName = "Низина",
-                            SwampDensity = 22,
-                            WaterDensity = 12
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Density = 2,
-                            ForestDensity = 66,
-                            OptionsSetName = "Болотистые леса",
-                            SwampDensity = 34,
-                            WaterDensity = 0
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Density = 2,
-                            ForestDensity = 88,
-                            OptionsSetName = "Лесистая местность",
-                            SwampDensity = 12,
-                            WaterDensity = 0
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Density = 2,
-                            ForestDensity = 22,
-                            OptionsSetName = "Тысячезерье",
-                            SwampDensity = 12,
-                            WaterDensity = 66
+                            WaterDensity = 33,
+                            density = 2
                         });
                 });
 
@@ -1038,6 +920,21 @@ namespace EyeOfGods.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MapSchemeTerrainOptions", b =>
+                {
+                    b.Property<int>("SchemesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TerrainOptionsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SchemesId", "TerrainOptionsId");
+
+                    b.HasIndex("TerrainOptionsId");
+
+                    b.ToTable("MapSchemeTerrainOptions");
+                });
+
             modelBuilder.Entity("MeleeWeaponUnit", b =>
                 {
                     b.Property<int>("MeleeWeaponsId")
@@ -1087,13 +984,7 @@ namespace EyeOfGods.Migrations
                         .WithMany("Maps")
                         .HasForeignKey("SchemeId");
 
-                    b.HasOne("EyeOfGods.Models.MapModels.TerrainOptions", "TerrainOptions")
-                        .WithMany("Maps")
-                        .HasForeignKey("TerrainOptionsId");
-
                     b.Navigation("Scheme");
-
-                    b.Navigation("TerrainOptions");
                 });
 
             modelBuilder.Entity("EyeOfGods.Models.MapModels.MapScheme", b =>
@@ -1196,6 +1087,21 @@ namespace EyeOfGods.Migrations
                     b.Navigation("UnitType");
                 });
 
+            modelBuilder.Entity("MapSchemeTerrainOptions", b =>
+                {
+                    b.HasOne("EyeOfGods.Models.MapModels.MapScheme", null)
+                        .WithMany()
+                        .HasForeignKey("SchemesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EyeOfGods.Models.MapModels.TerrainOptions", null)
+                        .WithMany()
+                        .HasForeignKey("TerrainOptionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("MeleeWeaponUnit", b =>
                 {
                     b.HasOne("EyeOfGods.Models.MeleeWeapon", null)
@@ -1234,11 +1140,6 @@ namespace EyeOfGods.Migrations
                 });
 
             modelBuilder.Entity("EyeOfGods.Models.MapModels.MapScheme", b =>
-                {
-                    b.Navigation("Maps");
-                });
-
-            modelBuilder.Entity("EyeOfGods.Models.MapModels.TerrainOptions", b =>
                 {
                     b.Navigation("Maps");
                 });

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EyeOfGods.SupportClasses.MapGenFactory.TerrPoint.Creators
 {
@@ -17,7 +18,7 @@ namespace EyeOfGods.SupportClasses.MapGenFactory.TerrPoint.Creators
 
             Swamp swamp = new(_point.PointNumber);
 
-            List<Rectangle> finPossPos = GenPossiblePositions(swamp);
+            List<Rectangle> finPossPos = /*await*/ GenPossiblePositions(swamp);
 
             if (finPossPos.Count != 0)
             {

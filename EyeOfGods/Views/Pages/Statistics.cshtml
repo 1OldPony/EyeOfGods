@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = "";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<div class="pageBlock">
+    <div class="leftMenu">
+        <div class="menuBlock">
+            <div class="menuBlockTextHeader">
+                Отряды:
+            </div>
+            <div class="menuBlockText">
+                <div class="menuRow">
+                    <div class="menuInputBlock">
+                        <div id="minus" class="numberControlls" onclick="minusGenUnCount()">-</div>
+                        <input type="number" id="count" class="menuImputNumber" value="3" />
+                        <div id="plus" class="numberControlls" onclick="plusGenUnCount()">+</div><span style="margin-left:10px">шт.</span>
+                    </div>
+                    <input type="button" class="menuButton" value="Добавить" onclick="generateRndUnits()" />
+                </div>
+            </div>
+            <div class="menuBlockText">
+                <div class="menuRow">
+                    <div class="menuInputBlock">
+                        Все
+                    </div>
+                    <input type="button" class="menuButton" value="Удалить" onclick="deleteAllUnits()" />
+                </div>
+            </div>
+            <div class="menuBlockText">
+                <div class="menuRow">
+                    <a asp-action="Map" style="cursor:pointer;background-color:grey;width:100%;text-align:center;text-decoration:none;color:white">
+                        Генератор карт
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="content">
+        <div class="loneBlock bigHeader bigHeaderRow">Статистика по базе данных:</div>
+        <div class="columnBlock">
+            <div id="first" class="loneBlock column-half firstOfTwo">
+                <div class="middleHeader middleHeaderRow">Количество отрядов - <span id="unitsCount"></span></div>
+                <div class="column">
+                    <div class="minorHeader middleHeaderRow">Рода войск:</div>
+                    <div class="simpleRowData">Пехота - <span id="infantryCount"></span></div>
+                    <div class="simpleRowData">Кавалерия - <span id="cavaleryCount"></span></div>
+                    <div class="simpleRowData">Монстры - <span id="monsterCount"></span></div>
+                    <div class="simpleRowData">Артиллерия - <span id="artilleryCount"></span></div>
+                    <div class="simpleRowData">Гиганты - <span id="giantsCount"></span></div>
+                    <div class="simpleRowData">Техника - <span id="venicleCount"></span></div>
+                    <div class="simpleRowData">Авиация - <span id="aviationCount"></span></div>
+                </div>
+                <div class="column">
+                    <div class="minorHeader minorHeaderRow">Защитные характеристики:</div>
+                    <div id="defChars"></div>
+                </div>
+                <div class="column">
+                    <div class="minorHeader minorHeaderRow">Характеристики выносливости:</div>
+                    <div id="endChars"></div>
+                </div>
+                <div class="column">
+                    <div class="minorHeader minorHeaderRow">Ментальные характеристики:</div>
+                    <div id="mentChars"></div>
+                </div>
+            </div>
+            <div class="column-half secondOfTwo">
+                <div class="loneBlock column">
+                    <div class="middleHeader middleHeaderRow">Количество оружия ближнего боя - <span id="MWCount"></span></div>
+                    <div class="column">
+                        <div class="minorHeader minorHeaderRow">Типы оружия:</div>
+                        <div id="MWTypes"></div>
+                    </div>
+                </div>
+                <div class="loneBlock column">
+                    <div class="middleHeader middleHeaderRow">Количество оружия дальнего боя - <span id="RWCount"></span></div>
+                    <div class="column">
+                        <div class="minorHeader minorHeaderRow">Типы оружия:</div>
+                        <div id="RWTypes"></div>
+                    </div>
+                </div>
+                <div class="loneBlock column">
+                    <div class="middleHeader middleHeaderRow">Количество щитов - <span id="shieldsCount"></span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/Statistics.js"></script>

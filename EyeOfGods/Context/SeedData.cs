@@ -78,8 +78,18 @@ namespace EyeOfGods.Context
 
 
         public List<MapScheme> mapSchemes = new() {
-            new MapScheme { Name="Test", MapHeight=16, MapWidth = 16, NumbOfCities= 2, NumbOfResources= 2, NumbOfTreasuries = 2,
-                QuestLevel = QuestLevel.легкий, MaxDensityAvail = 2, GodPresense = 4 }
+            new MapScheme { Id=1, Name="6 точек: 2 Города, 2 Ресурса, 2 Сокровищницы", MapHeight=12, MapWidth = 12, NumbOfCities= 2, NumbOfResources= 2, NumbOfTreasuries = 2,
+                QuestLevel = QuestLevel.легкий, MaxDensityAvail = 2, GodPresense = 4 },
+            new MapScheme { Id=2, Name="7 точек: фиктивная", MapHeight = 12, MapWidth = 8, NumbOfCities= 3, NumbOfResources= 2, NumbOfTreasuries = 2,
+                QuestLevel = QuestLevel.легкий, MaxDensityAvail = 2, GodPresense = 4 },
+            new MapScheme { Id=3, Name="8 точек: фиктивная", MapHeight = 8, MapWidth = 12, NumbOfCities= 3, NumbOfResources= 2, NumbOfTreasuries = 2,
+                QuestLevel = QuestLevel.легкий, MaxDensityAvail = 2, GodPresense = 4 },
+            new MapScheme { Id=4, Name="7 точек: фиктивная", MapHeight = 12, MapWidth = 12, NumbOfCities= 3, NumbOfResources= 2, NumbOfTreasuries = 2,
+                QuestLevel = QuestLevel.легкий, MaxDensityAvail = 2, GodPresense = 4 },
+            new MapScheme { Id=5, Name="6 точек: 2 Города, 2 Ресурса, 2 Сокровищницы", MapHeight = 8, MapWidth = 8, NumbOfCities= 2, NumbOfResources= 2, NumbOfTreasuries = 2,
+                QuestLevel = QuestLevel.легкий, MaxDensityAvail = 2, GodPresense = 4 },
+            //new MapScheme { Id=6, Name="6-фиктивная!: 1 Город, 3 Ресурса, 2 Сокровищницы", MapHeight = 8, MapWidth = 12, NumbOfCities= 1, NumbOfResources= 3, NumbOfTreasuries = 2,
+            //    QuestLevel = QuestLevel.легкий, MaxDensityAvail = 2, GodPresense = 4 }
         };
 
         public List<MapSchemePoint> mapSchemePoints = new() {
@@ -87,8 +97,8 @@ namespace EyeOfGods.Context
             new MapSchemePoint {PointNumber = 2, PareWhithPoint = 1, XCoordinate = 10, YCoordinate = 10 },
             new MapSchemePoint {PointNumber = 3, PareWhithPoint = 4, XCoordinate = 10, YCoordinate = 2},
             new MapSchemePoint {PointNumber = 4, PareWhithPoint = 3, XCoordinate = 2, YCoordinate = 10},
-            new MapSchemePoint {PointNumber = 5, PareWhithPoint = 6, XCoordinate = 5, YCoordinate = 2},
-            new MapSchemePoint {PointNumber = 6, PareWhithPoint = 5, XCoordinate = 5, YCoordinate = 10 }
+            new MapSchemePoint {PointNumber = 5, PareWhithPoint = 6, XCoordinate = 6, YCoordinate = 2},
+            new MapSchemePoint {PointNumber = 6, PareWhithPoint = 5, XCoordinate = 6, YCoordinate = 10 }
         };
         public List<MapSchemePoint> mapSchemePoints7 = new() {
             new MapSchemePoint {PointNumber = 1, PareWhithPoint = 2, XCoordinate = 2, YCoordinate = 2 },
@@ -111,6 +121,19 @@ namespace EyeOfGods.Context
             new God { GodName = GodNames.Знания.ToString() },
             new God { GodName = GodNames.Справедливость.ToString() },
             new God { GodName = GodNames.Шутник.ToString() }
+        };
+
+        public List<TerrainOptions> terrOptions = new() {
+            new TerrainOptions { Id=1, OptionsSetName = "Затопленная низина", Density = TerrainDensity.Средняя, ForestDensity = 34, SwampDensity = 33,
+                WaterDensity = 33 },
+            new TerrainOptions { Id=2, OptionsSetName = "Низина", Density = TerrainDensity.Средняя, ForestDensity = 66, SwampDensity = 22,
+                WaterDensity = 12 },
+            new TerrainOptions { Id=3, OptionsSetName = "Болотистые леса", Density = TerrainDensity.Средняя, ForestDensity = 66, SwampDensity = 34,
+                WaterDensity = 0 },
+            new TerrainOptions { Id=4, OptionsSetName = "Лесистая местность", Density = TerrainDensity.Средняя, ForestDensity = 88, SwampDensity = 12,
+                WaterDensity = 0 },
+            new TerrainOptions { Id=5, OptionsSetName = "Тысячезерье", Density = TerrainDensity.Средняя, ForestDensity = 22, SwampDensity = 12,
+                WaterDensity = 66 }
         };
     }
 }

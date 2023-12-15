@@ -4,14 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EyeOfGods.SupportClasses.MapGenFactory.TerrPoint.Creators
 {
     public class ForestCreator : TerrCreator
     {
-        //List<Rectangle> _forbidPos;
-        //List<Rectangle> allPossibPos = new();
-        //MapScheme _scheme;
         public ForestCreator(MapSchemePoint point, List<Rectangle> forbidPos, MapScheme scheme) : base(point, forbidPos, scheme) { }
 
         public override Terrain Create()
@@ -20,7 +18,7 @@ namespace EyeOfGods.SupportClasses.MapGenFactory.TerrPoint.Creators
 
             Forest forest = new(_point.PointNumber);
 
-            List<Rectangle> finPossPos = GenPossiblePositions(forest);
+            List<Rectangle> finPossPos = /*await вот тут может быть Task.Run?*/GenPossiblePositions(forest);
 
             if (finPossPos.Count != 0)
             {

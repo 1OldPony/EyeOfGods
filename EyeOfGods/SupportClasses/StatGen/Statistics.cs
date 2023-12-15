@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace EyeOfGods.SupportClasses.StatGen
 {
-    public class Statistics : IStatistics
+    public class StatisticsGen : IStatistics
     {
-        public Task<StatisticsViewModel> GetUnitsStatistics(List<Unit> allUnits)
+        public async Task<StatisticsViewModel> GetUnitsStatistics(List<Unit> allUnits)
         {
             StatisticsViewModel statistics = new();
 
             //Учитываем юнитов и их типы
-            var uCount = UnitsCount(allUnits).Result;
+            var uCount = await UnitsCount(allUnits);
             statistics.UnitsCount = uCount.unitsCount;
             statistics.InfantryCount = uCount.infantryCount;
             statistics.CavaleryCount = uCount.cavaleryCount;
@@ -24,28 +24,28 @@ namespace EyeOfGods.SupportClasses.StatGen
             statistics.AviationCount = uCount.aviationCount;
 
             //учитываем защитные характеристики
-            statistics.DefenceChars.AddRange(UnitsDefenceCharsCount(allUnits).Result);
+            statistics.DefenceChars.AddRange(await UnitsDefenceCharsCount(allUnits));
 
             //учитываем характеристики выносливости
-            statistics.EnduranceChars.AddRange(UnitsEnduranceCharsCount(allUnits).Result);
+            statistics.EnduranceChars.AddRange(await UnitsEnduranceCharsCount(allUnits));
 
             //учитываем ментальные характеристики
-            statistics.MentalChars.AddRange(UnitsMentalCharsCount(allUnits).Result);
+            statistics.MentalChars.AddRange(await UnitsMentalCharsCount(allUnits));
 
             //учитываем оружие ближнего боя
-            var meleeCount = UnitsMeleeWeaponsCount(allUnits).Result;
+            var meleeCount = await UnitsMeleeWeaponsCount(allUnits);
             statistics.MeleeWeaponsCount = meleeCount.meleeWeaponsCount;
             statistics.MeleeWeaponsTypes.AddRange(meleeCount.meleeWeaponsStat);
 
             //учитываем оружие дальнего боя
-            var rangeCount = UnitsRangeWeaponsCount(allUnits).Result;
+            var rangeCount = await UnitsRangeWeaponsCount(allUnits);
             statistics.RangeWeaponsCount = rangeCount.rangeWeaponsCount;
             statistics.RangeWeaponsTypes.AddRange(rangeCount.rangeWeaponsStat);
 
             //учитываем щиты
-            statistics.ShieldsCount = UnitsShieldsCount(allUnits).Result;
+            statistics.ShieldsCount = await UnitsShieldsCount(allUnits);
 
-            return Task.FromResult(statistics);
+            return statistics;
         }
 
         public Task<(int unitsCount, int infantryCount, int cavaleryCount, int monsterCount, int giantsCount,

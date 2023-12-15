@@ -20,25 +20,25 @@ namespace EyeOfGods.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<DefensiveAbilities>().HasData(seedData.defensiveAbilities[0], seedData.defensiveAbilities[1], seedData.defensiveAbilities[2]);
+            modelBuilder.Entity<DefensiveAbilities>().HasData(seedData.defensiveAbilities);
 
-            modelBuilder.Entity<EnduranceAbilities>().HasData(seedData.enduranceAbilities[0], seedData.enduranceAbilities[1]);
+            modelBuilder.Entity<EnduranceAbilities>().HasData(seedData.enduranceAbilities);
 
-            modelBuilder.Entity<MentalAbilities>().HasData(seedData.mentalAbilities[0], seedData.mentalAbilities[1]);
+            modelBuilder.Entity<MentalAbilities>().HasData(seedData.mentalAbilities);
 
-            modelBuilder.Entity<MeleeWeapon>().HasData(seedData.meleeWeapon[0], seedData.meleeWeapon[1], seedData.meleeWeapon[2]);
+            modelBuilder.Entity<MeleeWeapon>().HasData(seedData.meleeWeapon);
 
             modelBuilder.Entity<RangeWeapon>().Navigation(r => r.RangeWeaponsType).AutoInclude();
-            modelBuilder.Entity<RangeWeapon>().HasData(seedData.rangeWeapon[0], seedData.rangeWeapon[1], seedData.rangeWeapon[2]);
+            modelBuilder.Entity<RangeWeapon>().HasData(seedData.rangeWeapon);
 
-            modelBuilder.Entity<RangeWeaponsType>().HasData(seedData.rangeWeaponsType[0], seedData.rangeWeaponsType[1], seedData.rangeWeaponsType[2]);
+            modelBuilder.Entity<RangeWeaponsType>().HasData(seedData.rangeWeaponsType);
 
-            modelBuilder.Entity<Shield>().HasData(seedData.shield[0]);
+            modelBuilder.Entity<Shield>().HasData(seedData.shield);
 
             modelBuilder.Entity<UnitType>().Navigation(u => u.UnitTypeOrders).AutoInclude();
-            modelBuilder.Entity<UnitType>().HasData(seedData.unitType[0], seedData.unitType[1]);
+            modelBuilder.Entity<UnitType>().HasData(seedData.unitType);
 
-            modelBuilder.Entity<UnitOrder>().HasData(seedData.unitOrder[0], seedData.unitOrder[1], seedData.unitOrder[2]);
+            modelBuilder.Entity<UnitOrder>().HasData(seedData.unitOrder);
 
             modelBuilder.Entity<Unit>().Navigation(u => u.DefensiveAbilities).AutoInclude();
             modelBuilder.Entity<Unit>().Navigation(u => u.EnduranceAbilities).AutoInclude();
@@ -52,10 +52,18 @@ namespace EyeOfGods.Models
 
 
             modelBuilder.Entity<MapScheme>().OwnsMany(m => m.Points);
-            
+            modelBuilder.Entity<MapScheme>().HasData(seedData.mapSchemes);
+
+            modelBuilder.Entity<Map>().Navigation(i=>i.InterestPoints).AutoInclude();
+            modelBuilder.Entity<Map>().Navigation(t => t.Terrains).AutoInclude();
+            modelBuilder.Entity<Map>().Navigation(to => to.TerrainOptions).AutoInclude();
+            modelBuilder.Entity<Map>().Navigation(s => s.Scheme).AutoInclude();
+
             modelBuilder.Entity<Quest>().HasData(seedData.quests[0]);
 
-            modelBuilder.Entity<God>().HasData(seedData.gods[0], seedData.gods[1], seedData.gods[2], seedData.gods[3], seedData.gods[4]);
+            modelBuilder.Entity<God>().HasData(seedData.gods);
+
+            modelBuilder.Entity<TerrainOptions>().HasData(seedData.terrOptions);
         }
 
 
@@ -76,5 +84,6 @@ namespace EyeOfGods.Models
         public virtual DbSet<MapScheme> MapSchemes { get; set; }
         public virtual DbSet<Quest> Quests { get; set; }
         public virtual DbSet<God> Gods { get; set; }
+        public virtual DbSet<TerrainOptions> TerrainOptions { get; set; }
     }
 }

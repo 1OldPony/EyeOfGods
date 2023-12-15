@@ -1,0 +1,129 @@
+﻿@using EyeOfGods.Models.MapModels;
+@{
+    ViewBag.Title = "";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<div class="pageBlock">
+    <div class="leftMenu">
+        <div class="menuBlock">
+            <div class="menuBlockTextHeader">
+                Отряды:
+            </div>
+            <div class="menuBlockText">
+                <div class="menuRow">
+                   @*  <div class="menuInputBlock">
+                        <div id="minus" class="numberControlls" onclick="minusGenUnCount()">-</div>
+                        <input type="number" id="count" class="menuImputNumber" value="3" />
+                        <div id="plus" class="numberControlls" onclick="plusGenUnCount()">+</div><span style="margin-left:10px">шт.</span>
+                    </div> *@
+                    <input type="button" class="bigMenuButton" value="Сгенерировать карту" onclick="generateMap()" />
+                </div>
+            </div>
+            <div class="menuBlockText">
+                <div class="menuRow">
+                    <div class="menuInputBlock">
+                        Все
+                    </div>
+                    <input type="button" class="menuButton" value="Удалить" onclick="deleteAllUnits()" />
+                </div>
+            </div>
+            <div class="menuBlockText">
+                <div class="menuRow">
+                    <a asp-action="Statistics" style="cursor:pointer;background-color:grey;width:100%;text-align:center;text-decoration:none;color:white">
+                        Статистика
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="content" class="content">
+        <div class="loneBlock bigHeader">
+            Генератор карт
+        </div>
+        <div class="loneBlock column">
+            <div class="row">
+                <div class="row-half-between firstOfTwo middleHeaderRow">
+                    <div class="middleHeader">Выберите размер стола:</div>
+                    <div class="row">
+                        <select id="mapSize" asp-items="@ViewBag.MapSizes" onchange="getMapSchemes()"></select>
+                        @* <div class="row firstOfTwo">
+                            <div class="minorHeader">
+                                Ширина&nbsp;-&nbsp;
+                            </div>
+                            <select id="fieldWidth" asp-items="@ViewBag.Widths" onchange="getMapSchemes()"></select>
+                        </div>
+                        <div class="row secondOfTwo">
+                            <div class="minorHeader">Высота&nbsp;-&nbsp;</div>
+                            <select id="fieldHeight" asp-items="@ViewBag.Heights" onchange="getMapSchemes()"></select>
+                        </div> *@
+                    </div>
+                </div>
+                <div class="row-half-between secondOfTwo middleHeaderRow">
+                    <div class="middleHeader">Схема карты:</div>
+                    <div class="row">
+                        <select id="mapScheme"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="loneBlock column">
+            <div class="row">
+                <div class="column-half firstOfTwo">
+                    <div class="row-between minorHeaderRow" id="optionsSetName">
+                        <div class="minorHeader">Выберите тип местности:</div>
+                        <select id="terrainOptions"></select>
+                    </div>
+                    <div class="row-between minorHeaderRow">
+                        <div class="minorHeader">Количество лесов, % - </div>
+                        <input id="forestDensity" type="number" class="genInput" disabled />
+                    </div>
+                    <div class="row-between minorHeaderRow">
+                        <div class="minorHeader">Количество болот, % - </div>
+                        <input id="swampDensity" type="number" class="genInput" disabled />
+                    </div>
+                    <div class="row-between minorHeaderRow">
+                        <div class="minorHeader">Количество воды, % - </div>
+                        <input id="waterDensity" type="number" class="genInput" disabled />
+                    </div>
+                    <div class="row-between minorHeaderRow">
+                        <div class="minorHeader">Плотность террейна - </div>
+                        <select id="density" asp-items="@new SelectList(Enum.GetValues(typeof(TerrainDensity)))"></select>
+                    </div>
+                </div>
+                <div class="column-half secondOfTwo">
+                    <div class="row-between minorHeaderRow">
+                        <div class="minorHeader">Города, шт. - </div>
+                        <input id="numbOfCities" type="number" class="genInput" disabled />
+                    </div>
+                    <div class="row-between minorHeaderRow">
+                        <div class="minorHeader">Ресурсы, шт. - </div>
+                        <input id="numbOfResources" type="number" class="genInput" disabled />
+                    </div>
+                    <div class="row-between minorHeaderRow">
+                        <div class="minorHeader">Сокровищницы, шт. - </div>
+                        <input id="numbOfTreasuries" type="number" class="genInput" disabled />
+                    </div>
+                    <div class="row-between minorHeaderRow">
+                        <div class="minorHeader">Божественные жетоны, макс. - </div>
+                        <input id="godPresense" type="number" class="genInput" disabled />
+                    </div>
+                    <div class="row-between minorHeaderRow">
+                        <div class="minorHeader">Уровень квестов - </div>
+                        <select id="questLevel" asp-items="@new SelectList(Enum.GetValues(typeof(QuestLevel)))"></select>
+                    </div>
+                </div>
+            </div>
+            <div id="mapBlock" class="row center mapBlock">
+                <div id="map" class="map"></div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+<script src="~/js/MapGen.js"></script>

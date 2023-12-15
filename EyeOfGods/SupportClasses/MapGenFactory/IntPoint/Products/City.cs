@@ -1,6 +1,6 @@
 ﻿using EyeOfGods.Models.MapModels;
 
-namespace EyeOfGods.SupportClasses.MapGenFactory.Products
+namespace EyeOfGods.SupportClasses.MapGenFactory.IntPoint.Products
 {
     public class City : InterestPoint
     {

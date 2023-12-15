@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace EyeOfGods.SupportClasses
 {
-    public class LittleHelper
+    public class LittleHelper : ILittleHelper
     {
 
-        public static bool UnitEquipRandomAssigment(Unit unit, string equipType, double percent)
+        public bool UnitEquipRandomAssigment(Unit unit, string equipType, double percent)
         {
             bool basicValue = false;
             bool basicAbility = false;
@@ -36,7 +36,7 @@ namespace EyeOfGods.SupportClasses
             }
         }
 
-        public static bool BoolRandom(double percent)
+        public bool BoolRandom(double percent)
         {
             //погрешность ~2%
             Random random = new Random();
@@ -57,7 +57,7 @@ namespace EyeOfGods.SupportClasses
                 }
             }
 
-            return results.ElementAt(random.Next(0, results.Count-1));
+            return results.ElementAt(random.Next(0, results.Count - 1));
         }
 
 

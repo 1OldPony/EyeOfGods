@@ -1,5 +1,4 @@
 ﻿using EyeOfGods.Models.MapModels;
-using System;
 
 namespace EyeOfGods.SupportClasses.MapGenFactory.TerrPoint.Products
 {

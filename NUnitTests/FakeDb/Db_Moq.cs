@@ -1,11 +1,8 @@
 ﻿using EyeOfGods.Context;
 using EyeOfGods.Models;
 using EyeOfGods.Models.MapModels;
-using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Moq;
-using Moq.EntityFrameworkCore;
 
 namespace NUnitTests.FakeDb
 {
@@ -27,11 +24,25 @@ namespace NUnitTests.FakeDb
             mockContext.Setup(m => m.MapSchemes).Returns(MapSchemeList().Object);
             mockContext.Setup(m => m.Quests).Returns(QuestsList().Object);
             mockContext.Setup(m => m.Gods).Returns(GodsList().Object);
+            mockContext.Setup(m => m.TerrainOptions).Returns(TerrOptList().Object);
 
             return mockContext;
         }
 
 
+        public static Mock<DbSet<TerrainOptions>> TerrOptList()
+        {
+            SeedData seedData = new();
+            var data = seedData.terrOptions.AsQueryable();
+
+            var terrOptions = new Mock<DbSet<TerrainOptions>>();
+            terrOptions.As<IQueryable<TerrainOptions>>().Setup(m => m.Provider).Returns(data.Provider);
+            terrOptions.As<IQueryable<TerrainOptions>>().Setup(m => m.Expression).Returns(data.Expression);
+            terrOptions.As<IQueryable<TerrainOptions>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            terrOptions.As<IQueryable<TerrainOptions>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+            return terrOptions;
+        }
         public static Mock<DbSet<God>> GodsList()
         {
             SeedData seedData = new();
@@ -63,6 +74,7 @@ namespace NUnitTests.FakeDb
         {
             SeedData seedData = new();
             seedData.mapSchemes[0].Points=seedData.mapSchemePoints;
+            //seedData.mapSchemes[0].TerrainOptions = seedData.terrOptions;
             var data = seedData.mapSchemes.AsQueryable();
 
             var mapSchemes = new Mock<DbSet<MapScheme>>();

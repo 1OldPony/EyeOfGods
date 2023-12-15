@@ -2,7 +2,7 @@
 {
     public enum QuestLevel
     {
-        легкий, средний, сложный, случайный
+        случайный, легкий, средний, сложный
     }
     public class Quest
     {
