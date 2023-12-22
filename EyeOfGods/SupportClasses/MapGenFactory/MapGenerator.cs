@@ -25,15 +25,16 @@ namespace EyeOfGods.SupportClasses.MapGenFactory
             //_helper = helper;
         }
 
-        public Map GenerateMap(MapScheme scheme, TerrainOptions options)
+        public Map GenerateMap(MapScheme scheme, TerrainOptions options, TerrainDensity density, QuestLevel qLevel)
         {
-            _logger.LogError("GenerateMap запусчен");
             Random rnd = new();
 
             Map map = new();
             map.Scheme = scheme;
             map.InterestPoints = GenInterestPoints(scheme, rnd);
-            map.Terrains = GenTerrForPoints(scheme, rnd, options);
+            map.QuestLevel = qLevel;
+            map.Terrains = GenTerrForPoints(map.InterestPoints, rnd, options, scheme, density);
+            map.Density = density;
             map.TerrainOptions = options;
 
             return map;
@@ -142,7 +143,7 @@ namespace EyeOfGods.SupportClasses.MapGenFactory
             {
                 try
                 {
-                    complete.Add(CreateTreasury(item, /*_quests, */scheme.QuestLevel));
+                    complete.Add(CreateTreasury(item/*, _quests, scheme.QuestLevel*/));
                 }
                 catch (Exception e)
                 {
@@ -167,23 +168,19 @@ namespace EyeOfGods.SupportClasses.MapGenFactory
             return complete;
         }
 
-        public List<Terrain> GenTerrForPoints(MapScheme scheme, Random rnd, TerrainOptions options)
+        public List<Terrain> GenTerrForPoints(List<InterestPoint> intPoints, Random rnd, TerrainOptions options,
+            MapScheme scheme, TerrainDensity density)
         {
-            //LittleHelper _helper = new();
-
-            List<MapSchemePoint> basePoints = new();
-            foreach (var item in scheme.Points)
+            List<InterestPoint> basePoints = new();
+            foreach (var item in intPoints)
             {
-                ///////////////////// ВСЕ ПОИНТЫ ЗДЕСЬ - ТОЧКИ, У НИХ НЕТ ВЫСОТЫ И ШИРИНЫ
-                /// НУЖНО ПЕРЕДАВАТЬ СЮДА УЖЕ НАГЕНЕРЕННЫЕ ТОЧКИ ИНТЕРЕСА
                 basePoints.Add(item);
             }
-
-            List<MapSchemePoint> points = new();
-            MapSchemePoint point;
+            List<InterestPoint> points = new();
+            InterestPoint point;
 
             //рандомизируем порядок исходных точек
-            for (int i = 0; i < scheme.Points.Count; i++)
+            for (int i = 0; i < intPoints.Count; i++)
             {
                 try
                 {
@@ -212,7 +209,7 @@ namespace EyeOfGods.SupportClasses.MapGenFactory
                 bool typeIsGen = false;
 
                 //в зависимости от заданной плотности террейна, создаем разные его типы с заданным шансом
-                for (int i = 0; i < (int)options.Density; i++)
+                for (int i = 0; i < (int)density; i++)
                 {
                     typeIsGen = false;
                     while (typeIsGen == false)
@@ -270,7 +267,7 @@ namespace EyeOfGods.SupportClasses.MapGenFactory
             return terrains;
         }
 
-        public Terrain CreateForest(MapSchemePoint point, List<Rectangle> forbidPos, MapScheme scheme)
+        public Terrain CreateForest(InterestPoint point, List<Rectangle> forbidPos, MapScheme scheme)
         {
             ForestCreator forestCr = new(point, forbidPos, scheme);
             Terrain terrain;
@@ -288,7 +285,7 @@ namespace EyeOfGods.SupportClasses.MapGenFactory
             return terrain;
         }
 
-        public Terrain CreateSwamp(MapSchemePoint point, List<Rectangle> forbidPos, MapScheme scheme)
+        public Terrain CreateSwamp(InterestPoint point, List<Rectangle> forbidPos, MapScheme scheme)
         {
             SwampCreator swampCr = new(point, forbidPos, scheme);
             Terrain terrain;
@@ -306,7 +303,7 @@ namespace EyeOfGods.SupportClasses.MapGenFactory
             return terrain;
         }
 
-        public Terrain CreateWater(MapSchemePoint point, List<Rectangle> forbidPos, MapScheme scheme)
+        public Terrain CreateWater(InterestPoint point, List<Rectangle> forbidPos, MapScheme scheme)
         {
             WaterCreator waterCr = new(point, forbidPos, scheme);
             Terrain terrain;
@@ -326,9 +323,6 @@ namespace EyeOfGods.SupportClasses.MapGenFactory
 
         public List<Terrain> PlaceGodTokens(int godPresence, Random rnd, List<Terrain> terrains)
         {
-            /////// Если будет дальше артачиться - просто создай отдельный лист террейна,
-            ///выборку делай по нему, но удаляй из него весь террейн привязанный к выбранной точке в каждой итерации цикла
-            ///тогда просто добавиться запрос where -> refTo==refTo
             int godTokenCount = 1;
             int cycles = 0;
 
@@ -424,7 +418,7 @@ namespace EyeOfGods.SupportClasses.MapGenFactory
             return res;
         }
 
-        public InterestPoint CreateTreasury(MapSchemePoint point,/* List<Quest> quests,*/ QuestLevel level)
+        public InterestPoint CreateTreasury(MapSchemePoint point/*, List<Quest> quests, QuestLevel level*/)
         {
             IntPointCreator treasCr;
             InterestPoint treas;
@@ -436,7 +430,7 @@ namespace EyeOfGods.SupportClasses.MapGenFactory
             }
             catch (Exception e)
             {
-                _logger.LogCritical(e, $"Генерация сокровищницы не удалась, точка схемы: {point}, уровень квеста: {level}");
+                _logger.LogCritical(e, $"Генерация сокровищницы не удалась, точка схемы: {point}");
                 throw;
             }
             return treas;

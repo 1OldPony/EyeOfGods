@@ -10,7 +10,7 @@ namespace EyeOfGods.SupportClasses.MapGenFactory.TerrPoint.Creators
 {
     public class SwampCreator : TerrCreator
     {
-        public SwampCreator(MapSchemePoint point, List<Rectangle> forbidPos, MapScheme scheme) : base(point, forbidPos, scheme){}
+        public SwampCreator(InterestPoint point, List<Rectangle> forbidPos, MapScheme scheme) : base(point, forbidPos, scheme){}
 
         public override Terrain Create()
         {
@@ -18,7 +18,7 @@ namespace EyeOfGods.SupportClasses.MapGenFactory.TerrPoint.Creators
 
             Swamp swamp = new(_point.PointNumber);
 
-            List<Rectangle> finPossPos = /*await*/ GenPossiblePositions(swamp);
+            List<Rectangle> finPossPos = /*await*/ CalcPossiblePositions(swamp);
 
             if (finPossPos.Count != 0)
             {

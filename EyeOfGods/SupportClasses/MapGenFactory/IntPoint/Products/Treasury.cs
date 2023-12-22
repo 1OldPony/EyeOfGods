@@ -16,7 +16,7 @@ namespace EyeOfGods.SupportClasses.MapGenFactory.IntPoint.Products
 
             Type = InterestPointsTypes.Сокровищница;
             //Quest = quest;
-            //Description = $"Сокровищница, попробуй выполнить {quest.Level} квест => получи плюшку/очки или по шее";
+            Description = $"Сокровищница, получи плюшку/очки или по шее";
         }
     }
 }

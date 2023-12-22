@@ -9,31 +9,6 @@ namespace TestingBoolGenerator
     {
         static void Main(string[] args)
         {
-
-            //Rectangle rect1 = new Rectangle(0, 0, 1, 1);
-            //Rectangle rect2 = new Rectangle(1, 0, 1, 1);
-            //Rectangle rect3 = new Rectangle(0, 0, 1, 1);
-            //bool x;
-            //rect1.Intersect(rect2);
-            //if (rect1.IsEmpty)
-            //{
-            //    Console.WriteLine("Intersect - isEmpty");
-            //}
-            //else
-            //{
-            //    Console.WriteLine("Intersect - NOT isEmpty");
-            //}
-
-            //if (rect3.IntersectsWith(rect2))
-            //{
-            //    Console.WriteLine("IntersectWhith - пересекается");
-            //}
-            //else
-            //{
-            //    Console.WriteLine("IntersectWhith - не пересекается");
-            //}
-            //Console.ReadLine();
-
             Random random = new Random();
 
             for (int i = 0; i < 100; i++)
@@ -43,14 +18,10 @@ namespace TestingBoolGenerator
                 int generationCount = 0;
                 List<double> results = new();
 
+
                 Console.WriteLine("Задай процент");
                 percent = double.Parse(Console.ReadLine());
                 double coefficient = Math.Round(100.00 / percent, 2);
-
-
-                /////////////////////////////////////////
-                ///ПЕРЕВЕСТИ НА tryParse, try/cath И ПРОЧИЕ ЗАГОГУЛИНЫ
-                /////////////////////////////////////////
 
 
                 Console.WriteLine("Количество генераций значения");

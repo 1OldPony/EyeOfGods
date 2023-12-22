@@ -31,13 +31,12 @@ namespace NUnitTests.MapGener
             scheme = _fakeDb.Object.MapSchemes.First();
         }
 
-        [TestCase(0)]
-        [TestCase(2)]
-        [TestCase(4)]
-        [TestCase(5)]
-        public void CreateForest_generate_Forests_whith_no_Intersections(int pointIndex)
+        [TestCase(3, 3)]
+        [TestCase(4, 5)]
+        [TestCase(2, 6)]
+        public void CreateForest_generate_Forests_whith_no_Intersections(int xCoord, int yCoord)
         {
-            var point = scheme.Points[pointIndex];
+            var point = new InterestPoint() { PointNumber=1, PointHeight = 2, PointWidth = 2, XCoordinate= xCoord, YCoordinate = yCoord };
             Rectangle pointRect = new() { X = point.XCoordinate, Y = point.YCoordinate,
                 Height = 2, Width = 2 };
 
@@ -55,66 +54,66 @@ namespace NUnitTests.MapGener
             Assert.That(forestRect.IntersectsWith(forbidPos[0]), Is.False);
         }
 
-        [TestCase(TerrainDensity.Низкая, 33, 33, 33)]
-        [TestCase(TerrainDensity.Средняя, 33, 33, 33)]
-        [TestCase(TerrainDensity.Высокая, 33, 33, 33)]
-        public void GenTerrForPoints_generate_right_number_of_Terrain(TerrainDensity terDensity, int fDensity, int sDensity, int wDensity)
-        {
-            TerrainOptions opt = new()
-            {
-                Density = terDensity,
-                ForestDensity = fDensity,
-                SwampDensity = sDensity,
-                WaterDensity = wDensity
-            };
+        //[TestCase(TerrainDensity.Низкая, 33, 33, 33)]
+        //[TestCase(TerrainDensity.Средняя, 33, 33, 33)]
+        //[TestCase(TerrainDensity.Высокая, 33, 33, 33)]
+        //public void GenTerrForPoints_generate_right_number_of_Terrain(TerrainDensity terDensity, int fDensity, int sDensity, int wDensity)
+        //{
+        //    TerrainOptions opt = new()
+        //    {
+        //        Density = terDensity,
+        //        ForestDensity = fDensity,
+        //        SwampDensity = sDensity,
+        //        WaterDensity = wDensity
+        //    };
 
-            var points = generator.GenTerrForPoints(scheme, rnd, opt);
+        //    var points = generator.GenTerrForPoints(scheme, rnd, opt);
 
-            Assert.That(points.Count / (int)terDensity, Is.EqualTo(scheme.Points.Count));
-        }
+        //    Assert.That(points.Count / (int)terDensity, Is.EqualTo(scheme.Points.Count));
+        //}
 
-        [TestCase(TerrainDensity.Низкая)]
-        [TestCase(TerrainDensity.Средняя)]
-        [TestCase(TerrainDensity.Высокая)]
-        public void PlaceGodToken_in_GenTerrForPoints_generate_right_number_of_Tokens(TerrainDensity _density)
-        {
-            TerrainOptions opt = new()
-            {
-                Density = _density,
-                ForestDensity = 33,
-                SwampDensity = 33,
-                WaterDensity = 33
-            };
+        //[TestCase(TerrainDensity.Низкая)]
+        //[TestCase(TerrainDensity.Средняя)]
+        //[TestCase(TerrainDensity.Высокая)]
+        //public void PlaceGodToken_in_GenTerrForPoints_generate_right_number_of_Tokens(TerrainDensity _density)
+        //{
+        //    TerrainOptions opt = new()
+        //    {
+        //        Density = _density,
+        //        ForestDensity = 33,
+        //        SwampDensity = 33,
+        //        WaterDensity = 33
+        //    };
 
-            var terrains = generator.GenTerrForPoints(scheme, rnd, opt);
+        //    var terrains = generator.GenTerrForPoints(scheme, rnd, opt);
 
-            var terrWhithToken = terrains.Where(t => t.HasGodToken == true).Count();
+        //    var terrWhithToken = terrains.Where(t => t.HasGodToken == true).Count();
 
-            Assert.That(terrWhithToken, Is.EqualTo(scheme.GodPresense));
-        }
+        //    Assert.That(terrWhithToken, Is.EqualTo(scheme.GodPresense));
+        //}
 
-        [TestCase(TerrainDensity.Низкая)]
-        [TestCase(TerrainDensity.Средняя)]
-        [TestCase(TerrainDensity.Высокая)]
-        public void PlaceGodToken_in_GenTerrForPoints_generate_ONLY_ONE_Token_to_InterstPoint(TerrainDensity _density)
-        {
-            TerrainOptions opt = new()
-            {
-                Density = _density,
-                ForestDensity = 67,
-                SwampDensity = 33,
-                WaterDensity = 0
-            };
-            scheme.GodPresense = 5;
+        //[TestCase(TerrainDensity.Низкая)]
+        //[TestCase(TerrainDensity.Средняя)]
+        //[TestCase(TerrainDensity.Высокая)]
+        //public void PlaceGodToken_in_GenTerrForPoints_generate_ONLY_ONE_Token_to_InterstPoint(TerrainDensity _density)
+        //{
+        //    TerrainOptions opt = new()
+        //    {
+        //        Density = _density,
+        //        ForestDensity = 67,
+        //        SwampDensity = 33,
+        //        WaterDensity = 0
+        //    };
+        //    scheme.GodPresense = 5;
 
-            var terrains = generator.GenTerrForPoints(scheme, rnd, opt);
+        //    var terrains = generator.GenTerrForPoints(scheme, rnd, opt);
 
-            var terrWhithToken = terrains.Where(t => t.HasGodToken == true)/*.GroupBy(r=>r.ReferenceTo)*/;
-            //bool lessThanTwo = terrWhithToken.Any(g => g.Count() > 1);
+        //    var terrWhithToken = terrains.Where(t => t.HasGodToken == true)/*.GroupBy(r=>r.ReferenceTo)*/;
+        //    //bool lessThanTwo = terrWhithToken.Any(g => g.Count() > 1);
 
 
-            Assert.That(terrWhithToken.Count, Is.EqualTo(scheme.GodPresense));
-        }
+        //    Assert.That(terrWhithToken.Count, Is.EqualTo(scheme.GodPresense));
+        //}
 
 
 

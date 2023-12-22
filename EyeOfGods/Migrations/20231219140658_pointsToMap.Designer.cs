@@ -4,6 +4,7 @@ using EyeOfGods.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EyeOfGods.Migrations
 {
     [DbContext(typeof(MyWargameContext))]
-    partial class MyWargameContextModelSnapshot : ModelSnapshot
+    [Migration("20231219140658_pointsToMap")]
+    partial class pointsToMap
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -212,7 +215,7 @@ namespace EyeOfGods.Migrations
 
                     b.HasIndex("TerrainOptionsId");
 
-                    b.ToTable("Maps");
+                    b.ToTable("Map");
                 });
 
             modelBuilder.Entity("EyeOfGods.Models.MapModels.MapScheme", b =>

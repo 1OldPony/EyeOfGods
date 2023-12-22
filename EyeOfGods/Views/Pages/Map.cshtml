@@ -12,12 +12,20 @@
             </div>
             <div class="menuBlockText">
                 <div class="menuRow">
-                   @*  <div class="menuInputBlock">
-                        <div id="minus" class="numberControlls" onclick="minusGenUnCount()">-</div>
-                        <input type="number" id="count" class="menuImputNumber" value="3" />
-                        <div id="plus" class="numberControlls" onclick="plusGenUnCount()">+</div><span style="margin-left:10px">шт.</span>
-                    </div> *@
-                    <input type="button" class="bigMenuButton" value="Сгенерировать карту" onclick="generateMap()" />
+                    <input type="button" class="bigMenuButton" value="Генерировать карту" onclick="generateMap()" />
+                </div>
+                <div>
+                    <input type="button" class="bigMenuButton" value="Генерировать местность" onclick="" />
+                </div>
+                <div>
+                    <input type="button" class="bigMenuButton" value="Генерировать точки" onclick="" />
+                </div>
+                <div>
+                    <div>Название карты:</div>
+                    <input id="mapName" type="text" placeholder="Моя карта" oninput="mapNameChange()" />
+                </div>
+                <div>
+                    <input type="button" class="bigMenuButton" value="Сохранить карту" onclick="saveMap()" />
                 </div>
             </div>
             <div class="menuBlockText">
@@ -49,16 +57,6 @@
                     <div class="middleHeader">Выберите размер стола:</div>
                     <div class="row">
                         <select id="mapSize" asp-items="@ViewBag.MapSizes" onchange="getMapSchemes()"></select>
-                        @* <div class="row firstOfTwo">
-                            <div class="minorHeader">
-                                Ширина&nbsp;-&nbsp;
-                            </div>
-                            <select id="fieldWidth" asp-items="@ViewBag.Widths" onchange="getMapSchemes()"></select>
-                        </div>
-                        <div class="row secondOfTwo">
-                            <div class="minorHeader">Высота&nbsp;-&nbsp;</div>
-                            <select id="fieldHeight" asp-items="@ViewBag.Heights" onchange="getMapSchemes()"></select>
-                        </div> *@
                     </div>
                 </div>
                 <div class="row-half-between secondOfTwo middleHeaderRow">
@@ -75,7 +73,7 @@
                 <div class="column-half firstOfTwo">
                     <div class="row-between minorHeaderRow" id="optionsSetName">
                         <div class="minorHeader">Выберите тип местности:</div>
-                        <select id="terrainOptions"></select>
+                        <select id="terrOptions"></select>
                     </div>
                     <div class="row-between minorHeaderRow">
                         <div class="minorHeader">Количество лесов, % - </div>
@@ -91,7 +89,7 @@
                     </div>
                     <div class="row-between minorHeaderRow">
                         <div class="minorHeader">Плотность террейна - </div>
-                        <select id="density" asp-items="@new SelectList(Enum.GetValues(typeof(TerrainDensity)))"></select>
+                        <select id="terrDensity" asp-items="@new SelectList(Enum.GetValues(typeof(TerrainDensity)))"></select>
                     </div>
                 </div>
                 <div class="column-half secondOfTwo">
@@ -113,12 +111,13 @@
                     </div>
                     <div class="row-between minorHeaderRow">
                         <div class="minorHeader">Уровень квестов - </div>
-                        <select id="questLevel" asp-items="@new SelectList(Enum.GetValues(typeof(QuestLevel)))"></select>
+                        <select id="qLevel" asp-items="@new SelectList(Enum.GetValues(typeof(QuestLevel)))"></select>
                     </div>
                 </div>
             </div>
-            <div id="mapBlock" class="row center mapBlock">
+            <div id="mapBlock" class="column center mapBlock">
                 <div id="map" class="map"></div>
+                <form id="mapForm" method="post" hidden></form>
             </div>
         </div>
 

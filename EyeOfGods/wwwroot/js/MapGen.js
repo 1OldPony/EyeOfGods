@@ -4,6 +4,38 @@
 
 })
 
+class MapForm {
+    mapName;
+    questLevel;
+    density;
+
+    terrainOptionsId;
+    schemeId;
+
+    InterestPoints = [];
+    Terrains = [];
+}
+class InterestPoint {
+    pointNumber;
+    pointHeight;
+    pointWidth;
+    xCoordinate;
+    yCoordinate;
+    pointType;
+    description;
+    pareWhithPoint;
+}
+class Terrain {
+    //pointNumber;
+    pointHeight;
+    pointWidth;
+    xCoordinate;
+    yCoordinate;
+    pointType;
+    description;
+    referenceTo;
+    hasGodToken;
+}
 
 
 function getMapSchemes() {
@@ -83,32 +115,255 @@ function getScheme(id) {
 
 function generateMap() {
     let shemeId = document.getElementById('mapScheme').value;
-    let terrOptId = document.getElementById('terrainOptions').value;
+    let terrOptId = document.getElementById('terrOptions').value;
+    let terrDensity = document.getElementById('terrDensity').value;
+    let qLevel = document.getElementById('qLevel').value;
 
     let url = new URL('/api/MapGen/GenMap', 'https://localhost:5001');
     url.searchParams.set('schemeId', `${shemeId}`);
     url.searchParams.set('optionsId', `${terrOptId}`);
+    url.searchParams.set('terrDensity', `${terrDensity}`);
+    url.searchParams.set('qLevel', `${qLevel}`);
 
     fetch(url)
         .then(response => response.json())
         .catch(er => console.log(`Не удалось получить схему. ${er}`))
         .then(data => fillTheMap(data))
-        /*.then(data => setMapSize(data.scheme))*/
-        .catch(er => console.log(`Не удалось установить размер карты. ${er}`));
-        //.then(data => fillTheMap(data))
-        //.catch(er => console.log(`Не удалось добавить на карту объекты. ${er}`));
+        .catch(er => console.log(`Не удалось заполнить карту. ${er}`));
 }
 
+function saveMap() {
+    let mapF = new MapForm();
+    mapF.mapName = document.getElementById('name').value;
+    mapF.schemeId = document.getElementById('schemeId').value;
+    mapF.terrainOptionsId = document.getElementById('terrainOptionsId').value;
+    mapF.questLevel = document.getElementById('questLevel').value;
+    mapF.density = document.getElementById('density').value;
+
+    mapF.InterestPoints = formMapPoints('interestPoints');
+    mapF.Terrains = formMapPoints('terrains');
+
+    console.log(mapF);
+
+
+
+    fetch(`/api/MapGen/SaveMap`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(mapF)
+    })
+        .catch(er => console.log(`Не удалось сохранить карту. ${er}`));
+}
+
+function formMapPoints(pointsGroup) {
+    let formedPoints = [];
+
+    let points = document.getElementById(pointsGroup).getElementsByTagName('div');
+
+    for (let i = 0; i < points.length; i++) {
+        let terr = new Terrain();
+        let intP = new InterestPoint();
+
+        let inputs = points[i].getElementsByTagName('input');
+        for (let s = 0; s < inputs.length; s++) {
+            switch (inputs[s].id) {
+                case "pointNumber":
+                    if (pointsGroup == "interestPoints") {
+                        intP.pointNumber = inputs[s].value;
+                    }
+                    else {
+                        terr.pointNumber = inputs[s].value;
+                    }
+                    break;
+                case "pointHeight":
+                    if (pointsGroup == "interestPoints") {
+                        intP.pointHeight = inputs[s].value;
+                    }
+                    else {
+                        terr.pointHeight = inputs[s].value;
+                    }
+                    break;
+                case "pointWidth":
+                    if (pointsGroup == "interestPoints") {
+                        intP.pointWidth = inputs[s].value;
+                    }
+                    else {
+                        terr.pointWidth = inputs[s].value;
+                    }
+                    break;
+                case "xCoordinate":
+                    if (pointsGroup == "interestPoints") {
+                        intP.xCoordinate = inputs[s].value;
+                    }
+                    else {
+                        terr.xCoordinate = inputs[s].value;
+                    }
+                    break;
+                case "yCoordinate":
+                    if (pointsGroup == "interestPoints") {
+                        intP.yCoordinate = inputs[s].value;
+                    }
+                    else {
+                        terr.yCoordinate = inputs[s].value;
+                    }
+                    break;
+                case "pareWhithPoint":
+                    intP.pareWhithPoint = inputs[s].value;
+                    break;
+                case "referenceTo":
+                    terr.referenceTo = inputs[s].value;
+                    break;
+                case "hasGodToken":
+                    terr.hasGodToken = inputs[s].value;
+                    break;
+                case "description":
+                    if (pointsGroup == "interestPoints") {
+                        intP.description = inputs[s].value;
+                    }
+                    else {
+                        terr.description = inputs[s].value;
+                    }
+                    break;
+                case "type":
+                    if (pointsGroup == "interestPoints") {
+                        intP.pointType = inputs[s].value;
+                    }
+                    else {
+                        terr.pointType = inputs[s].value;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if (pointsGroup == "interestPoints") {
+            formedPoints.push(intP);
+        }
+        else {
+            formedPoints.push(terr);
+        }
+    }
+
+    return formedPoints;
+}
 
 function fillTheMap(data) {
     setMapSize(data);
 
-    console.log(data);
     addMapObjects(data['interestPoints'], 'interestPoints');
 
-    //console.log(data['terrains']);
     addMapObjects(data['terrains'], 'terrains');
+
+    crFormForMap(data);
 }
+
+function crFormForMap(data) {
+    let form = document.createElement('div');
+    form.setAttribute('id', 'mapForm');
+    //form.setAttribute('hidden', true);
+
+    let nameField = crFieldToForm('text', 'name', document.getElementById('mapName').value);
+    form.appendChild(nameField);
+
+    let qLevel = crFieldToForm('number', 'questLevel', data.questLevel);
+    form.appendChild(qLevel);
+
+    let density = crFieldToForm('number', 'density', data.density);
+    form.appendChild(density);
+
+    let terrOptId = crFieldToForm('number', 'terrainOptionsId', document.getElementById('terrOptions').value);
+    form.appendChild(terrOptId);
+
+    let schemeId = crFieldToForm('number', 'schemeId', document.getElementById('terrOptions').value);
+    form.appendChild(schemeId);
+
+    let intPoints = crPointsToForm(data['interestPoints'], 'interestPoint');
+    intPoints.setAttribute('id', 'interestPoints')
+    form.appendChild(intPoints);
+
+    let terrPoints = crPointsToForm(data['terrains'], 'terrain');
+    terrPoints.setAttribute('id', 'terrains')
+    form.appendChild(terrPoints);
+
+
+    document.getElementById('mapForm').replaceWith(form);
+}
+
+function crPointsToForm(points, id) {
+    let pointsDiv = document.createElement('div');
+
+    for (var i = 0; i < points.length; i++) {
+        let point = document.createElement('div');
+        point.setAttribute('id', id+`${i}`);
+
+        let pNumber = crFieldToForm('number', 'pointNumber', points[i].pointNumber);
+        point.appendChild(pNumber);
+
+        let pHeight = crFieldToForm('number', 'pointHeight', points[i].pointHeight);
+        point.appendChild(pHeight);
+
+        let pWidth = crFieldToForm('number', 'pointWidth', points[i].pointWidth);
+        point.appendChild(pWidth);
+
+        let xCoord = crFieldToForm('number', 'xCoordinate', points[i].xCoordinate);
+        point.appendChild(xCoord);
+
+        let yCoord = crFieldToForm('number', 'yCoordinate', points[i].yCoordinate);
+        point.appendChild(yCoord);
+
+        if (points[i].pareWhithPoint != undefined) {
+            let pareWhith = crFieldToForm('number', 'pareWhithPoint', points[i].pareWhithPoint);
+            point.appendChild(pareWhith);
+        }
+
+        if (points[i].referenceTo != undefined) {
+            let referenceTo = crFieldToForm('number', 'referenceTo', points[i].referenceTo);
+            point.appendChild(referenceTo);
+        }
+
+        let pType = crFieldToForm('number', 'type', points[i].type);
+        point.appendChild(pType);
+
+        let pDesc = crFieldToForm('text', 'description', points[i].description);
+        point.appendChild(pDesc);
+
+        if (points[i].hasGodToken != undefined) {
+            let pGodToken = crFieldToForm('text', 'hasGodToken', points[i].hasGodToken);
+            point.appendChild(pGodToken);
+        }
+
+        pointsDiv.appendChild(point);
+    }
+
+    return pointsDiv;
+}
+
+function crFieldToForm(type, id, value) {
+    let input = document.createElement('input');
+    input.setAttribute('type', type);
+    input.setAttribute('id', id);
+    input.setAttribute('name', id);
+    if (type == 'checkbox') {
+        input.checked = value;
+    }
+    else {
+        input.value = value;
+    }
+
+    return input;
+}
+function mapNameChange() {
+    if (document.getElementById('name') != null) {
+        document.getElementById('name').value = document.getElementById('mapName').value;
+    }
+}
+
+
+
+
 function setMapSize(data) {
     let cellSize;
     let blockWidth = document.getElementById('content').offsetWidth;
@@ -119,16 +374,10 @@ function setMapSize(data) {
     else {
         cellSize = ((blockWidth * Number(0.9)).toFixed() / data.scheme.mapWidth).toFixed();
     }
-    //console.log("document.documentElement.clientHeight = " + document.documentElement.clientHeight);
-    //console.log("data.scheme.mapWidth = " + data.scheme.mapWidth);
-    //console.log("data.scheme.((blockWidth * Number(0.9)).toFixed() = " + (blockWidth * Number(0.9)).toFixed());
-    //console.log("cellSize = " + cellSize);
 
     let map = document.createElement('div');
     map.id = 'map';
     map.className = 'map';
-    //map.style.display = 'grid';
-    console.log(`repeat(${data.scheme.mapWidth}, ${cellSize}px)`);
 
     map.style.gridTemplateColumns = `repeat(${data.scheme.mapWidth}, ${cellSize}px)`;
     map.style.gridTemplateRows = `repeat(${data.scheme.mapHeight}, ${cellSize}px)`;
@@ -146,13 +395,18 @@ function addMapObjects(data, objType) {
     let represent;
 
     for (var i = 0; i < data.length; i++) {
-        //console.log("data[i] = " + data[i]);
 
         let newPoint = document.createElement('div');
         newPoint.style.gridColumnStart = data[i].xCoordinate;
         newPoint.style.gridColumnEnd = `span ${data[i].pointWidth}`;
         newPoint.style.gridRowStart = data[i].yCoordinate;
         newPoint.style.gridRowEnd = `span ${data[i].pointHeight}`;
+
+        ///////////////////////////
+        newPoint.style.display = `flex`;
+        newPoint.style.justifyContent = `center`;
+        newPoint.style.alignItems = `center`;
+
         if (objType == 'interestPoints') {
             switch (data[i].type) {
                 case 0:
@@ -173,6 +427,13 @@ function addMapObjects(data, objType) {
                     break;
             }
             newPoint.setAttribute("PointNumber", `${data[i].pointNumber}`);
+
+            ///////////////////////////
+            let pointNumb = document.createElement('div');
+            pointNumb.innerText = `${ data[i].pointNumber }`;
+            pointNumb.style.fontSize = `80px`;
+            pointNumb.style.fontWeight = `800`;
+            newPoint.appendChild(pointNumb);
         }
         else {
             switch (data[i].type) {
@@ -181,7 +442,7 @@ function addMapObjects(data, objType) {
                     newPoint.setAttribute("Type", "Лес");
                     break;
                 case 1:
-                    represent = "darkgreen"
+                    represent = "#142f14"
                     newPoint.setAttribute("Type", "Болото");
                     break;
                 case 2:
@@ -193,6 +454,20 @@ function addMapObjects(data, objType) {
                     break;
             }
             newPoint.setAttribute("RefereceTo", `${data[i].referenceTo}`);
+            newPoint.style.opacity = `0.7`;
+
+            ///////////////////////////
+            let pointNumb = document.createElement('div');
+            if (data[i].hasGodToken) {
+                pointNumb.innerText = `${data[i].referenceTo}*`;
+            }
+            else {
+                pointNumb.innerText = `${data[i].referenceTo}`;
+            }
+            pointNumb.style.fontSize = `60px`;
+            newPoint.appendChild(pointNumb);
+
+            //console.log(`К точке ${data[i].referenceTo}, Х = ${data[i].xCoordinate}, Y = ${data[i].yCoordinate}`);
         }
 
         newPoint.style.backgroundColor = `${represent}`;
@@ -200,6 +475,7 @@ function addMapObjects(data, objType) {
         document.getElementById('map').appendChild(newPoint);
     }
 }
+
 
 ////////////////////////////////////////////////
 
@@ -213,25 +489,33 @@ function getTerrOptions() {
 
 function loadTerrOptions(data) {
     let select = document.createElement('select');
-    select.id = 'terrainOptions';
+    select.id = 'terrOptions';
     select.setAttribute('onchange', 'terrOptSelect()');
 
     for (let i = 0; i < data.length; i++) {
         select = addSelectOption(select, data[i].id, data[i].optionsSetName);
     }
-    document.getElementById('terrainOptions').replaceWith(select);
+    document.getElementById('terrOptions').replaceWith(select);
 
-    updateTerrOptions(data[0]);
+    try {
+        updateTerrOptions(data[0]);
+    } catch (e) {
+        console.log(`Апдейт опций террейна не сработал ${e}`);
+    }
 }
 
 function updateTerrOptions(data) {
     setInputValue('forestDensity', data.forestDensity);
     setInputValue('swampDensity', data.swampDensity);
     setInputValue('waterDensity', data.waterDensity);
+
+    if (document.getElementById('TerrainOptionsId') != null) {
+        document.getElementById('TerrainOptionsId').value = document.getElementById('terrOptions').value;
+    }
 }
 
 function terrOptSelect() {
-    let terrId = document.getElementById('terrainOptions').value;
+    let terrId = document.getElementById('terrOptions').value;
     getTerrOption(terrId)
 }
 

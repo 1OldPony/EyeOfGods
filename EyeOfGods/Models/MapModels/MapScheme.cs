@@ -13,7 +13,6 @@ namespace EyeOfGods.Models.MapModels
         public int NumbOfResources { get; set; }
         public int NumbOfTreasuries { get; set; }
         public int MaxDensityAvail { get; set; }
-        public QuestLevel QuestLevel { get; set; }
         public int GodPresense { get; set; }
 
 

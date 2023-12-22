@@ -54,8 +54,10 @@ namespace EyeOfGods.Models
             modelBuilder.Entity<MapScheme>().OwnsMany(m => m.Points);
             modelBuilder.Entity<MapScheme>().HasData(seedData.mapSchemes);
 
-            modelBuilder.Entity<Map>().Navigation(i=>i.InterestPoints).AutoInclude();
-            modelBuilder.Entity<Map>().Navigation(t => t.Terrains).AutoInclude();
+            modelBuilder.Entity<Map>().OwnsMany(m => m.Terrains);
+            modelBuilder.Entity<Map>().OwnsMany(m => m.InterestPoints);
+            //modelBuilder.Entity<Map>().Navigation(i=>i.InterestPoints).AutoInclude();
+            //modelBuilder.Entity<Map>().Navigation(t => t.Terrains).AutoInclude();
             modelBuilder.Entity<Map>().Navigation(to => to.TerrainOptions).AutoInclude();
             modelBuilder.Entity<Map>().Navigation(s => s.Scheme).AutoInclude();
 
@@ -64,6 +66,7 @@ namespace EyeOfGods.Models
             modelBuilder.Entity<God>().HasData(seedData.gods);
 
             modelBuilder.Entity<TerrainOptions>().HasData(seedData.terrOptions);
+
         }
 
 
@@ -85,5 +88,6 @@ namespace EyeOfGods.Models
         public virtual DbSet<Quest> Quests { get; set; }
         public virtual DbSet<God> Gods { get; set; }
         public virtual DbSet<TerrainOptions> TerrainOptions { get; set; }
+        public virtual DbSet<Map> Maps { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace EyeOfGods.SupportClasses.MapGenFactory.TerrPoint.Creators
 {
     public class WaterCreator : TerrCreator
     {
-        public WaterCreator(MapSchemePoint point, List<Rectangle> forbidPos, MapScheme scheme) : base(point, forbidPos, scheme) { }
+        public WaterCreator(InterestPoint point, List<Rectangle> forbidPos, MapScheme scheme) : base(point, forbidPos, scheme) { }
 
         public override Terrain Create()
         {
@@ -18,7 +18,7 @@ namespace EyeOfGods.SupportClasses.MapGenFactory.TerrPoint.Creators
 
             Water water = new(_point.PointNumber);
 
-            List<Rectangle> finPossPos = /*await*/ GenPossiblePositions(water);
+            List<Rectangle> finPossPos = /*await*/ CalcPossiblePositions(water);
 
             if (finPossPos.Count != 0)
             {
