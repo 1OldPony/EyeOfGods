@@ -3,8 +3,10 @@ using EyeOfGods.Models.MapModels;
 using EyeOfGods.Models.ViewModels;
 using EyeOfGods.SupportClasses.MapGenFactory;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,22 +33,77 @@ namespace EyeOfGods.Controllers.API
             var scheme = await _context.MapSchemes.FindAsync(schemeId);
             var terrOpt = await _context.TerrainOptions.FindAsync(optionsId);
 
-            //MapGenerator gen = new(_logger);
-            var map = _gen.GenerateMap(scheme, terrOpt, /*(TerrainDensity)*/terrDensity, /*(QuestLevel)*/qLevel);
+            var map = _gen.GenerateMap(scheme, terrOpt, terrDensity, qLevel);
 
             return map;
         }
 
         [HttpPost("SaveMap")]
-        public async Task<IActionResult> SaveMap([FromBody] SaveMapForm mapForm)
+        public async Task<IActionResult> SaveMap([FromBody] MapForm mapForm)
         {
+            List<Terrain> terrain = FormTerrList(mapForm.Terrains);
+            List<InterestPoint> intPoints = FormIntPointsList(mapForm.InterestPoints);
 
+            var scheme = await _context.MapSchemes.FindAsync(mapForm.SchemeId);
+            var terOpt = await _context.TerrainOptions.FindAsync(mapForm.TerrainOptionsId);
+
+            Map map = new() {
+                Scheme = scheme,
+                TerrainOptions = terOpt,
+                Name = mapForm.MapName,
+                QuestLevel = (QuestLevel)mapForm.QuestLevel,
+                Density = (TerrainDensity)mapForm.Density,
+                InterestPoints = intPoints,
+                Terrains = terrain
+            };
+            try
+            {
+                await _context.Maps.AddAsync(map);
+                await _context.SaveChangesAsync();
+            }
+            catch (System.Exception e)
+            {
+                _logger.LogCritical(e, "Не удалось сохранить карту");
+                throw new System.Exception($"Не удалось сохранить карту, {e.Message}, {e.StackTrace}");
+            }
+
+            return Ok();
+        }
+
+        [HttpPost("RegenTerr")]
+        public async Task<List<Terrain>> GenTerrain([FromBody] MapForm mapForm)
+        {
+            Random rnd = new();
+
+            List<InterestPoint> intPoints = FormIntPointsList(mapForm.InterestPoints);
+
+            var scheme = await _context.MapSchemes.FindAsync(mapForm.SchemeId);
+            var terOpt = await _context.TerrainOptions.FindAsync(mapForm.TerrainOptionsId);
+
+            var terr = _gen.GenTerrForPoints(intPoints, rnd, terOpt, scheme, (TerrainDensity)mapForm.Density);
+
+            return terr;
+        }
+
+        [HttpGet("RegenIntPoints/{schemeId}")]
+        public async Task<List<InterestPoint>> GenIntPoints(int schemeId)
+        {
+            Random rnd = new();
+            var scheme = await _context.MapSchemes.FindAsync(schemeId);
+
+            var intP = _gen.GenInterestPoints(scheme, rnd);
+
+            return intP;
+        }
+
+        public List<Terrain> FormTerrList(List<Terr> terrains)
+        {
             List<Terrain> terrain = new();
-            foreach (var ter in mapForm.Terrains)
+            foreach (var ter in terrains)
             {
                 Terrain newTerr = new()
                 {
-                    XCoordinate = ter.yCoordinate,
+                    XCoordinate = ter.xCoordinate,
                     YCoordinate = ter.yCoordinate,
                     PointHeight = ter.pointHeight,
                     PointWidth = ter.pointWidth,
@@ -62,40 +119,28 @@ namespace EyeOfGods.Controllers.API
 
                 terrain.Add(newTerr);
             }
+            return terrain;
+        }
 
+        public List<InterestPoint> FormIntPointsList(List<IntP> intP)
+        {
             List<InterestPoint> intPoints = new();
-            foreach (var intP in mapForm.InterestPoints)
+            foreach (var iP in intP)
             {
                 InterestPoint newPoint = new()
                 {
-                    XCoordinate = intP.yCoordinate,
-                    YCoordinate = intP.yCoordinate,
-                    PointHeight = intP.pointHeight,
-                    PointWidth = intP.pointWidth,
-                    Description = intP.description,
-                    PareWhithPoint = intP.pareWhithPoint,
-                    Type = (InterestPointsTypes)intP.pointType
+                    PointNumber = iP.pointNumber,
+                    XCoordinate = iP.xCoordinate,
+                    YCoordinate = iP.yCoordinate,
+                    PointHeight = iP.pointHeight,
+                    PointWidth = iP.pointWidth,
+                    Description = iP.description,
+                    PareWhithPoint = iP.pareWhithPoint,
+                    Type = (InterestPointsTypes)iP.pointType
                 };
                 intPoints.Add(newPoint);
             }
-
-            var scheme = await _context.MapSchemes.FindAsync(mapForm.SchemeId);
-            var terOpt = await _context.TerrainOptions.FindAsync(mapForm.TerrainOptionsId);
-
-            Map map = new() {
-                Scheme = scheme,
-                TerrainOptions = terOpt,
-                Name = mapForm.MapName,
-                QuestLevel = (QuestLevel)mapForm.QuestLevel,
-                Density = (TerrainDensity)mapForm.Density,
-                InterestPoints = intPoints,
-                Terrains = terrain
-            };
-
-            await _context.Maps.AddAsync(map);
-            await _context.SaveChangesAsync();
-
-            return Ok();
+            return intPoints;
         }
 
         [HttpGet("GetMapSchemes")]

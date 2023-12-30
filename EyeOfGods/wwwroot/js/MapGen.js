@@ -1,7 +1,7 @@
 ﻿document.addEventListener("DOMContentLoaded", function () {
     getMapSchemes();
     getTerrOptions();
-
+    //generateMap();
 })
 
 class MapForm {
@@ -47,9 +47,6 @@ function getMapSchemes() {
 };
 
 function loadMapSchemes(data) {
-    //let height = document.getElementById("fieldHeight").value;
-    //let width = document.getElementById("fieldWidth").value;
-
     let size = (document.getElementById("mapSize").value).split('x');
 
     let selScheme;
@@ -90,6 +87,7 @@ function loadMapSchemes(data) {
     document.getElementById('mapScheme').replaceWith(select);
 
     updateSchemeOptions(selScheme);
+    generateMap();
 };
 
 function updateSchemeOptions(data) {
@@ -100,7 +98,8 @@ function updateSchemeOptions(data) {
 }
 function schemeSelect() {
     let schemeId = document.getElementById('mapScheme').value;
-    getScheme(schemeId)
+    getScheme(schemeId);
+    generateMap();
 }
 
 function getScheme(id) {
@@ -129,7 +128,7 @@ function generateMap() {
         .then(response => response.json())
         .catch(er => console.log(`Не удалось получить схему. ${er}`))
         .then(data => fillTheMap(data))
-        .catch(er => console.log(`Не удалось заполнить карту. ${er}`));
+        .catch(er => console.log(`Не удалось заполнить карту. ${er}, ${data}`));
 }
 
 function saveMap() {
@@ -143,10 +142,6 @@ function saveMap() {
     mapF.InterestPoints = formMapPoints('interestPoints');
     mapF.Terrains = formMapPoints('terrains');
 
-    console.log(mapF);
-
-
-
     fetch(`/api/MapGen/SaveMap`, {
         method: 'POST',
         headers: {
@@ -155,6 +150,35 @@ function saveMap() {
         body: JSON.stringify(mapF)
     })
         .catch(er => console.log(`Не удалось сохранить карту. ${er}`));
+}
+function regenTerrain() {
+    let mapF = new MapForm();
+    mapF.schemeId = document.getElementById('schemeId').value;
+    mapF.terrainOptionsId = document.getElementById('terrainOptionsId').value;
+    mapF.density = document.getElementById('density').value;
+
+    mapF.InterestPoints = formMapPoints('interestPoints');
+
+    fetch(`/api/MapGen/RegenTerr`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(mapF)
+    })
+        .then(response => response.json())
+        .catch(er => console.log(`Не удалось перегенерировать террейн. ${er}`))
+        .then(data => refreshPoints(data, 'terrains'))
+        .catch(er => console.log(`Не удалось обновить террейн на карте. ${er}`));
+}
+
+function regenIntPoints() {
+    let schemeId = document.getElementById('schemeId').value;
+    fetch(`/api/MapGen/RegenIntPoints/${schemeId}`)
+        .then(response => response.json())
+        .catch(er => console.log(`Не удалось перегенерировать точки интереса. ${er}`))
+        .then(data => refreshPoints(data, 'interestPoints'))
+        .catch(er => console.log(`Не удалось обновить точки интереса на карте. ${er}`));
 }
 
 function formMapPoints(pointsGroup) {
@@ -165,6 +189,10 @@ function formMapPoints(pointsGroup) {
     for (let i = 0; i < points.length; i++) {
         let terr = new Terrain();
         let intP = new InterestPoint();
+
+        //////////////////////////
+        ////ПЕРЕВЕДИ НА NAME, НЕ ID
+        //////////////////////////
 
         let inputs = points[i].getElementsByTagName('input');
         for (let s = 0; s < inputs.length; s++) {
@@ -250,6 +278,21 @@ function formMapPoints(pointsGroup) {
     return formedPoints;
 }
 
+function refreshPoints(data, pointsGroup) {
+    let newPointsToForm = crPointsToForm(data, pointsGroup);
+    newPointsToForm.setAttribute('id', pointsGroup)
+    
+    let oldFormPoints = document.getElementById(pointsGroup);
+    oldFormPoints.replaceWith(newPointsToForm);
+
+    let oldMapPoints = document.getElementsByName(pointsGroup);
+    for (let i = oldMapPoints.length-1; i >= 0; i--) {
+        oldMapPoints[i].parentNode.removeChild(oldMapPoints[i]);
+    }
+
+    addMapObjects(data, pointsGroup);
+}
+
 function fillTheMap(data) {
     setMapSize(data);
 
@@ -258,6 +301,8 @@ function fillTheMap(data) {
     addMapObjects(data['terrains'], 'terrains');
 
     crFormForMap(data);
+
+    updateTerrOptions(data['terrainOptions']);
 }
 
 function crFormForMap(data) {
@@ -277,7 +322,7 @@ function crFormForMap(data) {
     let terrOptId = crFieldToForm('number', 'terrainOptionsId', document.getElementById('terrOptions').value);
     form.appendChild(terrOptId);
 
-    let schemeId = crFieldToForm('number', 'schemeId', document.getElementById('terrOptions').value);
+    let schemeId = crFieldToForm('number', 'schemeId', document.getElementById('mapScheme').value);
     form.appendChild(schemeId);
 
     let intPoints = crPointsToForm(data['interestPoints'], 'interestPoint');
@@ -355,14 +400,12 @@ function crFieldToForm(type, id, value) {
 
     return input;
 }
+
 function mapNameChange() {
     if (document.getElementById('name') != null) {
         document.getElementById('name').value = document.getElementById('mapName').value;
     }
 }
-
-
-
 
 function setMapSize(data) {
     let cellSize;
@@ -426,11 +469,11 @@ function addMapObjects(data, objType) {
                     newPoint.setAttribute("Type", "Ошибка");
                     break;
             }
-            newPoint.setAttribute("PointNumber", `${data[i].pointNumber}`);
+            newPoint.setAttribute("PointNumber", data[i].pointNumber);
 
             ///////////////////////////
             let pointNumb = document.createElement('div');
-            pointNumb.innerText = `${ data[i].pointNumber }`;
+            pointNumb.innerText = data[i].pointNumber;
             pointNumb.style.fontSize = `80px`;
             pointNumb.style.fontWeight = `800`;
             newPoint.appendChild(pointNumb);
@@ -453,7 +496,7 @@ function addMapObjects(data, objType) {
                     represent = "gray"
                     break;
             }
-            newPoint.setAttribute("RefereceTo", `${data[i].referenceTo}`);
+            newPoint.setAttribute("RefereceTo", data[i].referenceTo);
             newPoint.style.opacity = `0.7`;
 
             ///////////////////////////
@@ -470,7 +513,8 @@ function addMapObjects(data, objType) {
             //console.log(`К точке ${data[i].referenceTo}, Х = ${data[i].xCoordinate}, Y = ${data[i].yCoordinate}`);
         }
 
-        newPoint.style.backgroundColor = `${represent}`;
+        newPoint.style.backgroundColor = represent;
+        newPoint.setAttribute("Name", objType);
 
         document.getElementById('map').appendChild(newPoint);
     }
@@ -478,6 +522,11 @@ function addMapObjects(data, objType) {
 
 
 ////////////////////////////////////////////////
+
+//function terrOptSelect() {
+//    let terrId = document.getElementById('terrOptions').value;
+//    getTerrOption(terrId)
+//}
 
 function getTerrOptions() {
     fetch("/api/MapGen/GetTerrOptions")
@@ -490,7 +539,7 @@ function getTerrOptions() {
 function loadTerrOptions(data) {
     let select = document.createElement('select');
     select.id = 'terrOptions';
-    select.setAttribute('onchange', 'terrOptSelect()');
+    select.setAttribute('onchange', 'generateMap()'/*'terrOptSelect()'*/);
 
     for (let i = 0; i < data.length; i++) {
         select = addSelectOption(select, data[i].id, data[i].optionsSetName);
@@ -504,6 +553,14 @@ function loadTerrOptions(data) {
     }
 }
 
+//function getTerrOption(id) {
+//    fetch(`/api/MapGen/GetTerrOption/${id}`)
+//        .then(response => response.json())
+//        .catch(er => console.log(`Не удалось получить список опций. ${er}`))
+//        .then(data => updateTerrOptions(data))
+//        .catch(er => console.log(`Не удалось загрузить список опций. ${er}`));
+//}
+
 function updateTerrOptions(data) {
     setInputValue('forestDensity', data.forestDensity);
     setInputValue('swampDensity', data.swampDensity);
@@ -512,19 +569,6 @@ function updateTerrOptions(data) {
     if (document.getElementById('TerrainOptionsId') != null) {
         document.getElementById('TerrainOptionsId').value = document.getElementById('terrOptions').value;
     }
-}
-
-function terrOptSelect() {
-    let terrId = document.getElementById('terrOptions').value;
-    getTerrOption(terrId)
-}
-
-function getTerrOption(id) {
-    fetch(`/api/MapGen/GetTerrOption/${id}`)
-        .then(response => response.json())
-        .catch(er => console.log(`Не удалось получить список опций. ${er}`))
-        .then(data => updateTerrOptions(data))
-        .catch(er => console.log(`Не удалось загрузить список опций. ${er}`));
 }
 
 ////////////////////////////////////////////////

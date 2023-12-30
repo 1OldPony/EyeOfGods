@@ -211,7 +211,7 @@ input[type="number"] {
 .mapBlock {
     display: none;
     height: 0px;
-    transition: height 1s;
+    /*transition: height 1s;*/
 }
 .map {
     background-color: cornsilk;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace EyeOfGods.Models.ViewModels
 {
-    public class SaveMapForm
+    public class MapForm
     {
         public string MapName { get; set; }
         public int QuestLevel { get; set; }

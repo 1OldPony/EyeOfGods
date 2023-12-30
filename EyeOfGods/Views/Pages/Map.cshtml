@@ -15,10 +15,10 @@
                     <input type="button" class="bigMenuButton" value="Генерировать карту" onclick="generateMap()" />
                 </div>
                 <div>
-                    <input type="button" class="bigMenuButton" value="Генерировать местность" onclick="" />
+                    <input type="button" class="bigMenuButton" value="Генерировать местность" onclick="regenTerrain()" />
                 </div>
                 <div>
-                    <input type="button" class="bigMenuButton" value="Генерировать точки" onclick="" />
+                    <input type="button" class="bigMenuButton" value="Генерировать точки" onclick="regenIntPoints()" />
                 </div>
                 <div>
                     <div>Название карты:</div>
@@ -89,7 +89,7 @@
                     </div>
                     <div class="row-between minorHeaderRow">
                         <div class="minorHeader">Плотность террейна - </div>
-                        <select id="terrDensity" asp-items="@new SelectList(Enum.GetValues(typeof(TerrainDensity)))"></select>
+                        <select id="terrDensity" asp-items="@new SelectList(Enum.GetValues(typeof(TerrainDensity)))" onchange="generateMap()"></select>
                     </div>
                 </div>
                 <div class="column-half secondOfTwo">
