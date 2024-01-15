@@ -1,7 +1,6 @@
 ﻿document.addEventListener("DOMContentLoaded", function () {
     getMapSchemes();
     getTerrOptions();
-    //generateMap();
 })
 
 class MapForm {
@@ -26,7 +25,6 @@ class InterestPoint {
     pareWhithPoint;
 }
 class Terrain {
-    //pointNumber;
     pointHeight;
     pointWidth;
     xCoordinate;
@@ -190,13 +188,9 @@ function formMapPoints(pointsGroup) {
         let terr = new Terrain();
         let intP = new InterestPoint();
 
-        //////////////////////////
-        ////ПЕРЕВЕДИ НА NAME, НЕ ID
-        //////////////////////////
-
         let inputs = points[i].getElementsByTagName('input');
         for (let s = 0; s < inputs.length; s++) {
-            switch (inputs[s].id) {
+            switch (inputs[s].name) {
                 case "pointNumber":
                     if (pointsGroup == "interestPoints") {
                         intP.pointNumber = inputs[s].value;
@@ -310,19 +304,19 @@ function crFormForMap(data) {
     form.setAttribute('id', 'mapForm');
     form.setAttribute('hidden', true);
 
-    let nameField = crFieldToForm('text', 'name', document.getElementById('mapName').value);
+    let nameField = crFieldToForm('text', 'name', document.getElementById('mapName').value, true);
     form.appendChild(nameField);
 
-    let qLevel = crFieldToForm('number', 'questLevel', data.questLevel);
+    let qLevel = crFieldToForm('number', 'questLevel', data.questLevel, true);
     form.appendChild(qLevel);
 
-    let density = crFieldToForm('number', 'density', data.density);
+    let density = crFieldToForm('number', 'density', data.density, true);
     form.appendChild(density);
 
-    let terrOptId = crFieldToForm('number', 'terrainOptionsId', document.getElementById('terrOptions').value);
+    let terrOptId = crFieldToForm('number', 'terrainOptionsId', document.getElementById('terrOptions').value, true);
     form.appendChild(terrOptId);
 
-    let schemeId = crFieldToForm('number', 'schemeId', document.getElementById('mapScheme').value);
+    let schemeId = crFieldToForm('number', 'schemeId', document.getElementById('mapScheme').value, true);
     form.appendChild(schemeId);
 
     let intPoints = crPointsToForm(data['interestPoints'], 'interestPoint');
@@ -386,10 +380,12 @@ function crPointsToForm(points, id) {
     return pointsDiv;
 }
 
-function crFieldToForm(type, id, value) {
+function crFieldToForm(type, id, value, needId) {
     let input = document.createElement('input');
     input.setAttribute('type', type);
-    input.setAttribute('id', id);
+    if (needId) {
+        input.setAttribute('id', id);
+    }
     input.setAttribute('name', id);
     if (type == 'checkbox') {
         input.checked = value;
