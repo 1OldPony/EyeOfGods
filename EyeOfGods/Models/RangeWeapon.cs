@@ -13,7 +13,6 @@ namespace EyeOfGods.Models
         public string RWName { get; set; } = "Оружие дальнего боя";
 
         public int RangeOfShooting { get; set; } = 1;
-        //public int RWTypeId { get; set; }
         public RangeWeaponsType RangeWeaponsType { get; set; }
     }
 }

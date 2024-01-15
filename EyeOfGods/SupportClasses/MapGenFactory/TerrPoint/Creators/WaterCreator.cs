@@ -18,7 +18,7 @@ namespace EyeOfGods.SupportClasses.MapGenFactory.TerrPoint.Creators
 
             Water water = new(_point.PointNumber);
 
-            List<Rectangle> finPossPos = /*await*/ CalcPossiblePositions(water);
+            List<Rectangle> finPossPos = CalcPossiblePositions(water);
 
             if (finPossPos.Count != 0)
             {

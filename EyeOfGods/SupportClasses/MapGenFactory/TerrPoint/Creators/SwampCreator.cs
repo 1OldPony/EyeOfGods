@@ -18,7 +18,7 @@ namespace EyeOfGods.SupportClasses.MapGenFactory.TerrPoint.Creators
 
             Swamp swamp = new(_point.PointNumber);
 
-            List<Rectangle> finPossPos = /*await*/ CalcPossiblePositions(swamp);
+            List<Rectangle> finPossPos = CalcPossiblePositions(swamp);
 
             if (finPossPos.Count != 0)
             {

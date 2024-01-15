@@ -13,7 +13,5 @@ namespace EyeOfGods.Models
         public int MaxValue { get; set; }
         public int Step { get; set; }
         public string SpiritAddProperty { get; set; } = "Дополнительное свойство";
-
-        //public List<Unit> UnitsList { get; set; }
     }
 }

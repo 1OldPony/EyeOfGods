@@ -70,7 +70,7 @@ namespace EyeOfGods.SupportClasses.UniGen
                     throw new Exception($"Не удалось сгенерировать оружие бл. боя, передано {allMeleeWeapons.Count} элем." +
                         $" {e.Message}, {e.StackTrace}");
                 }
-                //LittleHelper x = new();
+
                 try
                 {
                     if (_helper.UnitEquipRandomAssigment(newUnit, "RangeWeapon", 30.0))

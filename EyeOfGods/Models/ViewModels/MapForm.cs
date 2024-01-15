@@ -18,7 +18,6 @@ namespace EyeOfGods.Models.ViewModels
 
     public class Terr
     {
-        //public int pointNumber { get; set; }
         public int xCoordinate { get; set; }
         public int yCoordinate { get; set; }
         public int pointHeight { get; set; }

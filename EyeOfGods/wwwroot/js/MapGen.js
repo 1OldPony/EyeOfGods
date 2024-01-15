@@ -308,7 +308,7 @@ function fillTheMap(data) {
 function crFormForMap(data) {
     let form = document.createElement('div');
     form.setAttribute('id', 'mapForm');
-    //form.setAttribute('hidden', true);
+    form.setAttribute('hidden', true);
 
     let nameField = crFieldToForm('text', 'name', document.getElementById('mapName').value);
     form.appendChild(nameField);
@@ -509,8 +509,6 @@ function addMapObjects(data, objType) {
             }
             pointNumb.style.fontSize = `60px`;
             newPoint.appendChild(pointNumb);
-
-            //console.log(`К точке ${data[i].referenceTo}, Х = ${data[i].xCoordinate}, Y = ${data[i].yCoordinate}`);
         }
 
         newPoint.style.backgroundColor = represent;
@@ -523,11 +521,6 @@ function addMapObjects(data, objType) {
 
 ////////////////////////////////////////////////
 
-//function terrOptSelect() {
-//    let terrId = document.getElementById('terrOptions').value;
-//    getTerrOption(terrId)
-//}
-
 function getTerrOptions() {
     fetch("/api/MapGen/GetTerrOptions")
         .then(response => response.json())
@@ -539,7 +532,7 @@ function getTerrOptions() {
 function loadTerrOptions(data) {
     let select = document.createElement('select');
     select.id = 'terrOptions';
-    select.setAttribute('onchange', 'generateMap()'/*'terrOptSelect()'*/);
+    select.setAttribute('onchange', 'generateMap()');
 
     for (let i = 0; i < data.length; i++) {
         select = addSelectOption(select, data[i].id, data[i].optionsSetName);
@@ -552,14 +545,6 @@ function loadTerrOptions(data) {
         console.log(`Апдейт опций террейна не сработал ${e}`);
     }
 }
-
-//function getTerrOption(id) {
-//    fetch(`/api/MapGen/GetTerrOption/${id}`)
-//        .then(response => response.json())
-//        .catch(er => console.log(`Не удалось получить список опций. ${er}`))
-//        .then(data => updateTerrOptions(data))
-//        .catch(er => console.log(`Не удалось загрузить список опций. ${er}`));
-//}
 
 function updateTerrOptions(data) {
     setInputValue('forestDensity', data.forestDensity);
@@ -592,91 +577,5 @@ function addSelectOption(parent, value, text, boolDisabled = false) {
 
 
 
-
-//function insertText(id, text) {
-//    let unitsCount = document.getElementById(id);
-//    unitsCount.textContent = text;
-//};
-
-//function insertStatDataRows(id, object) {
-//    let container = document.getElementById(id);
-//    let newRows = [];
-
-//    for (x in object) {
-//        let row = document.createElement('div');
-//        row.className = 'simpleRowData';
-//        row.textContent = `${object[x].name} - ${object[x].usageCount}`
-
-//        newRows.push(row);
-//    };
-
-//    container.replaceChildren("", ...newRows);
-//};
-
-
-//function generateRndUnits() {
-//    let count = document.getElementById("count").value;
-//    let url = new URL('/api/UnitsGen/GenRndUnit', 'https://localhost:5001');
-//    url.searchParams.set('count', `${count}`);
-
-//    fetch(url, {
-//        method: "POST"
-//    })
-//        .then(() => getUnitsStat())
-//        .catch(er => console.log(`Не удалось сгенерировать юниты. ${er}`));
-//};
-
-//function deleteAllUnits() {
-
-//    fetch('/api/UnitsGen/ClearUnits', {
-//        method: 'DELETE'
-//    })
-//        .then(() => getUnitsStat())
-//        .catch(er => console.log(`Не удалось очистить базу. ${er}`));
-//};
-
-
-//function loadStatResult(data) {
-//    insertText('unitsCount', data.unitsCount);
-//    insertText('infantryCount', data.infantryCount);
-//    insertText('cavaleryCount', data.cavaleryCount);
-//    insertText('monsterCount', data.monsterCount);
-//    insertText('giantsCount', data.giantsCount);
-//    insertText('artilleryCount', data.artilleryCount);
-//    insertText('venicleCount', data.venicleCount);
-//    insertText('aviationCount', data.aviationCount);
-
-//    insertStatDataRows('defChars', data['defenceChars']);
-//    insertStatDataRows('endChars', data['enduranceChars']);
-//    insertStatDataRows('mentChars', data['mentalChars']);
-
-//    insertText('MWCount', data.meleeWeaponsCount);
-//    insertStatDataRows('MWTypes', data['meleeWeaponsTypes']);
-
-//    insertText('RWCount', data.rangeWeaponsCount);
-//    insertStatDataRows('RWTypes', data['rangeWeaponsTypes']);
-
-//    insertText('shieldsCount', data.shieldsCount);
-//};
-
-//function insertText(id, text) {
-//    let unitsCount = document.getElementById(id);
-//    unitsCount.textContent = text;
-//};
-
-//function insertStatDataRows(id, object) {
-//    let container = document.getElementById(id);
-//    let newRows = [];
-
-//    for (x in object) {
-//        let row = document.createElement('div');
-//        row.className = 'simpleRowData';
-//        row.textContent = `${object[x].name} - ${object[x].usageCount}`
-
-//        newRows.push(row);
-//    };
-
-//    container.replaceChildren("", ...newRows);
-//};
 
 

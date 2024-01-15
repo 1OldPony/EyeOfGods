@@ -48,16 +48,11 @@ namespace EyeOfGods.Models
             modelBuilder.Entity<Unit>().Navigation(u => u.Shield).AutoInclude();
             modelBuilder.Entity<Unit>().Navigation(u => u.UnitType).AutoInclude();
 
-
-
-
             modelBuilder.Entity<MapScheme>().OwnsMany(m => m.Points);
             modelBuilder.Entity<MapScheme>().HasData(seedData.mapSchemes);
 
             modelBuilder.Entity<Map>().OwnsMany(m => m.Terrains);
             modelBuilder.Entity<Map>().OwnsMany(m => m.InterestPoints);
-            //modelBuilder.Entity<Map>().Navigation(i=>i.InterestPoints).AutoInclude();
-            //modelBuilder.Entity<Map>().Navigation(t => t.Terrains).AutoInclude();
             modelBuilder.Entity<Map>().Navigation(to => to.TerrainOptions).AutoInclude();
             modelBuilder.Entity<Map>().Navigation(s => s.Scheme).AutoInclude();
 

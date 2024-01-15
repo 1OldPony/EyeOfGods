@@ -74,7 +74,6 @@ namespace NUnitTests.FakeDb
         {
             SeedData seedData = new();
             seedData.mapSchemes[0].Points=seedData.mapSchemePoints;
-            //seedData.mapSchemes[0].TerrainOptions = seedData.terrOptions;
             var data = seedData.mapSchemes.AsQueryable();
 
             var mapSchemes = new Mock<DbSet<MapScheme>>();

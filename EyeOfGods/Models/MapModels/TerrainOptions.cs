@@ -10,7 +10,6 @@ namespace EyeOfGods.Models.MapModels
         public int SwampDensity { get; set; }
         public int WaterDensity { get; set; }
 
-        //public List<MapScheme> Schemes { get; set; }
         public List<Map> Maps { get; set; }
     }
 }

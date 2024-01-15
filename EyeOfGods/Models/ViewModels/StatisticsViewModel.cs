@@ -25,7 +25,6 @@ namespace EyeOfGods.Models.ViewModels
         public List<RangeWeaponsStat> RangeWeaponsTypes { get; set; } = new();
 
         public int ShieldsCount { get; set; }
-        //List<ShieldsStat> Shieldes { get; set; }
 
     }
     public class DefenceChars

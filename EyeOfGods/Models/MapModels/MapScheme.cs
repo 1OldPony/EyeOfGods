@@ -22,8 +22,6 @@ namespace EyeOfGods.Models.MapModels
 
         public List<MapSchemePoint> Points { get; set; }
 
-        //public List<TerrainOptions> TerrainOptions { get; set; }
-
         public List<Map> Maps { get; set; } = new();
     }
 }

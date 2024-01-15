@@ -7,7 +7,6 @@ namespace EyeOfGods.Models.MapModels
     }
     public class God
     {
-        //public int Id { get; set; }
         [Key]
         public string GodName { get; set; }
         public string Description { get; set; }

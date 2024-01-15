@@ -15,7 +15,7 @@ namespace EyeOfGods.Controllers.API
     {
         private readonly MyWargameContext _context;
         private readonly IUnitGenerator _unitGen;
-        ILogger<UnitsGenController> _logger;
+        private readonly ILogger<UnitsGenController> _logger;
         public UnitsGenController(MyWargameContext context, IUnitGenerator unitGen, ILogger<UnitsGenController> logger)
         {
             _context = context;
@@ -26,8 +26,6 @@ namespace EyeOfGods.Controllers.API
         [HttpPost("GenRndUnit")]
         public async Task<IActionResult> GenerateRndUnits(int count)
         {
-            _logger.LogWarning("GenRndUnit запущен");
-
             List<UnitType> allTypes = await _context.UnitTypes.ToListAsync();
             List<RangeWeapon> allRangeWeapons = await _context.RangeWeapons.ToListAsync();
             List<MeleeWeapon> allMeleeWeapons = await _context.MeleeWeapons.ToListAsync();
@@ -48,7 +46,6 @@ namespace EyeOfGods.Controllers.API
         [HttpDelete("ClearUnits")]
         public async Task<IActionResult> DeleteAllUnits()
         {
-            _logger.LogWarning("GenRndUnit запущен");
             List<Unit> allUnits = await _context.Units.ToListAsync();
 
             _context.Units.RemoveRange(allUnits);

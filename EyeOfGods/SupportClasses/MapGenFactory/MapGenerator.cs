@@ -15,14 +15,10 @@ namespace EyeOfGods.SupportClasses.MapGenFactory
     public class MapGenerator : IMapGenerator
     {
         private readonly ILogger<MapGenerator> _logger;
-        //private List<Quest> _quests;
-        //private ILittleHelper _helper;
 
-        public MapGenerator(ILogger<MapGenerator> logger/*, List<Quest> quests, ILittleHelper helper*/)
+        public MapGenerator(ILogger<MapGenerator> logger)
         {
             _logger = logger;
-            //_quests = quests;
-            //_helper = helper;
         }
 
         public Map GenerateMap(MapScheme scheme, TerrainOptions options, TerrainDensity density, QuestLevel qLevel)
@@ -351,32 +347,6 @@ namespace EyeOfGods.SupportClasses.MapGenFactory
                 }
             }
 
-
-            //else if (godTokenCount <= godPresence && dontHaveToken.Count() < godPresence)
-            //{
-            //    if (godPresence - godTokenCount > 1 && group.Count() > 1)
-            //    {
-            //        int firstIndex = rnd.Next(0, group.Count());
-            //        int secondIndex = firstIndex;
-
-            //        while(secondIndex == firstIndex)
-            //            secondIndex = rnd.Next(0, group.Count());
-
-
-            //        group.ElementAt(firstIndex).HasGodToken = true;
-            //        group.ElementAt(secondIndex).HasGodToken = true;
-            //        godTokenCount+= 2;
-            //    }
-            //    else
-            //    {
-
-            //    }
-            //}
-            //else
-            //{
-            //    _logger.LogError("Ни одно из условий для размещения жетонов бога не выполнено. (PlaceGodTokens)");
-            //    throw new Exception("Ни одно из условий для размещения жетонов бога не выполнено. (PlaceGodTokens)");
-            //}
             return terrains;
         }
 
@@ -418,14 +388,14 @@ namespace EyeOfGods.SupportClasses.MapGenFactory
             return res;
         }
 
-        public InterestPoint CreateTreasury(MapSchemePoint point/*, List<Quest> quests, QuestLevel level*/)
+        public InterestPoint CreateTreasury(MapSchemePoint point)
         {
             IntPointCreator treasCr;
             InterestPoint treas;
 
             try
             {
-                treasCr = new TreasuryCreator(point/*, quests, level*/);
+                treasCr = new TreasuryCreator(point);
                 treas = treasCr.Create();
             }
             catch (Exception e)

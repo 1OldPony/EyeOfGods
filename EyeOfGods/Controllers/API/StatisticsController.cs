@@ -18,7 +18,7 @@ namespace EyeOfGods.Controllers.API
     {
         private readonly MyWargameContext _context;
         private readonly IStatistics _statistics;
-        ILogger<StatisticsController> _logger;
+        private readonly ILogger<StatisticsController> _logger;
         public StatisticsController(MyWargameContext context, IStatistics statistics, ILogger<StatisticsController> logger)
         {
             _context = context;

@@ -9,7 +9,6 @@
     }
     public class Terrain : MapSchemePoint
     {
-        //public int Id { get; set; }
         public TerrainTypes Type { get; set; }
         public string Description { get; set; }
         public bool GodFrendly { get; set; }

@@ -18,22 +18,10 @@ namespace EyeOfGods.SupportClasses.MapGenFactory.TerrPoint.Creators
 
             Forest forest = new(_point.PointNumber);
 
-            List<Rectangle> finPossPos = /*await вот тут может быть Task.Run?*/CalcPossiblePositions(forest);
+            List<Rectangle> finPossPos = CalcPossiblePositions(forest);
 
             if (finPossPos.Count != 0)
             {
-                //int index = rnd.Next(0, finPossPos.Count);
-
-                //List<bool> intersects = new();
-                //foreach (var item in _forbidPos)
-                //{
-                //    intersects.Add(finPossPos.ElementAt(index).IntersectsWith(item));
-                //}
-                //bool inter = intersects.Any(s=>s == true); // true - значит выбранный элемент пересекается с forbidPos, выборка не сработала
-
-
-                //Rectangle finalPos = finPossPos.ElementAt(index);
-
                 Rectangle finalPos = finPossPos.ElementAt(rnd.Next(0, finPossPos.Count));
                 forest.XCoordinate = finalPos.X;
                 forest.YCoordinate = finalPos.Y;

@@ -12,7 +12,6 @@ namespace EyeOfGods.Models
         public string OrderName { get; set; } = "Название приказа";
         public string OrderDescrption { get; set; } = "Описание приказа";
         public string SituationBonus { get; set; } = "Ситуативный бонус";
-        //Оборонительный/наступательный/универсальный
         public string OrderType { get; set; } = "Тип приказа";
 
         public string SpearBonus { get; set; } = "Бонус копья";
@@ -22,7 +21,6 @@ namespace EyeOfGods.Models
         public string GreatWeaponBonus { get; set; } = "Бонус двуручного оружия";
         public string HalberdBonus { get; set; } = "Бонус алебарды";
 
-        //Типы юнитов использующие приказ
         public List<UnitType> UnitTypes { get; set; } = new List<UnitType>();
     }
 }

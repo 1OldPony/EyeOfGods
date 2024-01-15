@@ -31,10 +31,19 @@ namespace EyeOfGods.Controllers.API
         public async Task<Map> GenMap(int schemeId, int optionsId, TerrainDensity terrDensity, QuestLevel qLevel)
         {
             var scheme = await _context.MapSchemes.FindAsync(schemeId);
+            if (scheme == null)
+            {
+                _logger.LogCritical("При генерации карты схема не найдена");
+                throw new Exception("При генерации карты схема не найдена");
+            }
             var terrOpt = await _context.TerrainOptions.FindAsync(optionsId);
+            if (terrOpt == null)
+            {
+                _logger.LogCritical("При генерации карты опции террейна не найдены");
+                throw new Exception("При генерации карты опции террейна не найдены");
+            }
 
             var map = _gen.GenerateMap(scheme, terrOpt, terrDensity, qLevel);
-
             return map;
         }
 
@@ -61,7 +70,7 @@ namespace EyeOfGods.Controllers.API
                 await _context.Maps.AddAsync(map);
                 await _context.SaveChangesAsync();
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 _logger.LogCritical(e, "Не удалось сохранить карту");
                 throw new System.Exception($"Не удалось сохранить карту, {e.Message}, {e.StackTrace}");

@@ -4,7 +4,7 @@ namespace EyeOfGods.SupportClasses.MapGenFactory.IntPoint.Products
 {
     public class Treasury : InterestPoint
     {
-        public Treasury(MapSchemePoint point/*, Quest quest*/)
+        public Treasury(MapSchemePoint point)
         {
             PointHeight = 2;
             PointWidth = 2;
@@ -15,7 +15,6 @@ namespace EyeOfGods.SupportClasses.MapGenFactory.IntPoint.Products
             YCoordinate = point.YCoordinate;
 
             Type = InterestPointsTypes.Сокровищница;
-            //Quest = quest;
             Description = $"Сокровищница, получи плюшку/очки или по шее";
         }
     }

@@ -57,7 +57,7 @@ namespace EyeOfGods.SupportClasses
                 }
             }
 
-            return results.ElementAt(random.Next(0, results.Count - 1));
+            return results.ElementAt(random.Next(0, results.Count));
         }
 
 

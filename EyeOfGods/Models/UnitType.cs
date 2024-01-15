@@ -40,8 +40,6 @@ namespace EyeOfGods.Models
         public string BarricadeForcedMove { get; set; } = "0";
         public string BarricadeAssault { get; set; } = "+0";
 
-        //Базовые приказы рода войск
-        //public int UnitOrderId { get; set; }
         public List<UnitOrder> UnitTypeOrders { get; set; } = new List<UnitOrder>();
     }
 }
